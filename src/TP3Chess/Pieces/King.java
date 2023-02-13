@@ -1,14 +1,15 @@
-package TP3Chess.Piece;
+package TP3Chess.Pieces;
 
 import TP3Chess.Cell;
+import TP3Chess.Piece;
 import TP3Chess.Position;
 
-public class King {
-    Position position;
-    Integer color;
+public class King extends Piece {
+    @Override
     public boolean isValidMove(Position newPosition, Cell[][] board){
         return false;
     }
+    @Override
     public String toString(){
         return "K";
     }

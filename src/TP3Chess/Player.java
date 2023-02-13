@@ -1,8 +1,8 @@
 package TP3Chess;
 
 public class Player {
-    String name;
-    Boolean color;
+    private String name;
+    private boolean color;
 
     public Player(String name, Boolean color) {
         this.name = name;

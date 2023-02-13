@@ -1,15 +1,16 @@
-package TP3Chess.Piece;
+package TP3Chess.Pieces;
 
 import TP3Chess.Cell;
+import TP3Chess.Piece;
 import TP3Chess.Position;
 
-public class Pawn {
-    Position position;
-    Integer color;
+public class Knight extends Piece {
+    @Override
     public boolean isValidMove(Position newPosition, Cell[][] board){
         return false;
     }
+    @Override
     public String toString(){
-        return "P";
+        return "N";
     }
 }

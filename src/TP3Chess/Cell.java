@@ -1,9 +1,9 @@
 package TP3Chess;
 
 public class Cell {
-    final Position position;
-    //if cell is empty true, else false
-    Boolean isEmpty;
+    private final Position position;
+    private boolean isEmpty;
+    private Piece currentPiece = null;
 
     public Cell(Position position) {
         this.position = position;
