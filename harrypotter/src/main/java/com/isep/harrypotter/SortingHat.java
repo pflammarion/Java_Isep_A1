@@ -8,13 +8,13 @@ public class SortingHat {
 
         // Assign a house based on the random number
         if (randomNum == 0) {
-            return new House("Gryffindor");
+            return House.GRYFFINDOR;
         } else if (randomNum == 1) {
-            return new House("Hufflepuff");
+            return House.RAVENCLAW;
         } else if (randomNum == 2) {
-            return new House("Ravenclaw");
+            return House.SLYTHERIN;
         } else {
-            return new House("Slytherin");
+            return House.HUFFLEPUFF;
         }
     }
 }

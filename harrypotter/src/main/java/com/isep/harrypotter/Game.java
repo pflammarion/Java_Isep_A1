@@ -30,6 +30,6 @@ public class Game extends Application {
         //wizard.setHouse();
         System.out.println("Hello " + firstname + " " + lastname);
         System.out.println("Welcome to Poudlard");
-        System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse().getName() + " house with your nice " + wizard.getWand().getCore() + " wand core");
+        System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
     }
 }
