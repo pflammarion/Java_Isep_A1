@@ -1,6 +1,7 @@
 package com.isep.harrypotter;
 
 import java.util.List;
+import java.util.Random;
 
 public class Wizard extends Character{
     private Pet pet;
@@ -8,7 +9,16 @@ public class Wizard extends Character{
     private House house;
     private List<Spell> knownSpells;
     private List<Potion> potions;
+    private String firstname;
+    private String lastname;
 
+    public Wizard(String firstname, String lastname, House house) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.wand = new Wand(Core.values()[(int) (Math.random() * Core.values().length)], (int) (Math.random() * 50));
+        this.pet = Pet.values()[new Random().nextInt(Pet.values().length)];
+        this.house = house;
+    }
     public void defend(){
 
     }
