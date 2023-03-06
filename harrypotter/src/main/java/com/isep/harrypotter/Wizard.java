@@ -1,10 +1,17 @@
 package com.isep.harrypotter;
 
+import lombok.*;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+@AllArgsConstructor
+@Getter
+@Setter
 public class Wizard extends Character{
+
+
     private Pet pet;
     private Wand wand;
     private House house;
@@ -26,52 +33,7 @@ public class Wizard extends Character{
 
     }
 
-    public House getHouse() {
-        return house;
-    }
-    public void setHouse(House house) {
-        this.house = house;
-    }
 
-    public void setPet(Pet pet){
-        this.pet = pet;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public List<Potion> getPotions() {
-        return potions;
-    }
-
-    public void setPotions(List<Potion> potions) {
-        this.potions = potions;
-    }
-
-    public List<Spell> getKnownSpells() {
-        return knownSpells;
-    }
-
-    public void setKnownSpells(List<Spell> knownSpells) {
-        this.knownSpells = knownSpells;
-    }
-
-    public void setWand(Wand wand) {
-        this.wand = wand;
-    }
-
-    public Wand getWand() {
-        return wand;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
     public void castSpell(String spellName) {
         Spell spell = null;
         for (Spell s : this.knownSpells) {
@@ -88,7 +50,7 @@ public class Wizard extends Character{
     }
 
     public void learnSpell() {
-        List<Spell> availableSpells = getAvailableSpells();
+        List<Spell> availableSpells = Spell.getAvailableSpells(this);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Available spells:");
         for (int i = 0; i < availableSpells.size(); i++) {
@@ -107,10 +69,6 @@ public class Wizard extends Character{
         }
     }
 
-    private List<Spell> getAvailableSpells() {
-        List<Spell> allSpells = SpellList.getAllSpells();
-        allSpells.removeAll(getKnownSpells());
-        return allSpells;
-    }
+
 
 }

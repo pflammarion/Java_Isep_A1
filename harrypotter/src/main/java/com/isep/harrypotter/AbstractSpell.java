@@ -1,21 +1,17 @@
 package com.isep.harrypotter;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public abstract class AbstractSpell {
     private String name;
     private int energyCost;
-
-    public AbstractSpell(String name, int energyCost) {
-        this.name = name;
-        this.energyCost = energyCost;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getEnergyCost() {
-        return energyCost;
-    }
+    private boolean isForbidden;
 
     public abstract void castSpell(Wizard wizard);
 
