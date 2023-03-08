@@ -13,6 +13,7 @@ public class Spell extends AbstractSpell {
         List<Spell> spells = new ArrayList<>();
 
         // Create spells and add them to the list
+        spells.add(new Spell("Wingardium Leviosa", 1));
         spells.add(new Spell("Lumos", 1));
         spells.add(new Spell("Alohomora", 2));
         spells.add(new Spell("Expecto Patronum", 3));
@@ -28,6 +29,23 @@ public class Spell extends AbstractSpell {
         allSpells.removeAll(wizard.getKnownSpells());
         return allSpells;
     }
+
+    public static Spell loopInSpell(String spellName, Wizard wizard, Boolean known) {
+        Spell spell = null;
+        List<Spell> wizz;
+        if (known){
+            wizz = wizard.getKnownSpells();
+        }
+        else wizz = getAvailableSpells(wizard);
+        for (Spell s : wizz) {
+            if (s.getName().equalsIgnoreCase(spellName)) {
+                spell = s;
+                break;
+            }
+        }
+        return spell;
+    }
+
     @Override
     public void castSpell(Wizard wizard) {
         // TODO: Implement the logic for casting a forbidden spell
