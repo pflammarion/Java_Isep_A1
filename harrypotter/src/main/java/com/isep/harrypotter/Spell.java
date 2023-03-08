@@ -28,6 +28,23 @@ public class Spell extends AbstractSpell {
         allSpells.removeAll(wizard.getKnownSpells());
         return allSpells;
     }
+
+    public static Spell loopInSpell(String spellName, Wizard wizard, Boolean known) {
+        Spell spell = null;
+        List<Spell> wizz;
+        if (known){
+            wizz = wizard.getKnownSpells();
+        }
+        else wizz = getAvailableSpells(wizard);
+        for (Spell s : wizz) {
+            if (s.getName().equalsIgnoreCase(spellName)) {
+                spell = s;
+                break;
+            }
+        }
+        return spell;
+    }
+
     @Override
     public void castSpell(Wizard wizard) {
         // TODO: Implement the logic for casting a forbidden spell

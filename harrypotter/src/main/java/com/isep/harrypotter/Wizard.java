@@ -2,6 +2,7 @@ package com.isep.harrypotter;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -15,8 +16,8 @@ public class Wizard extends Character{
     private Pet pet;
     private Wand wand;
     private House house;
-    private List<Spell> knownSpells;
-    private List<Potion> potions;
+    private List<Spell> knownSpells = new ArrayList<>();
+    private List<Potion> potions =  new ArrayList<>();
     private String firstname;
     private String lastname;
     private int totalHealth;
@@ -34,17 +35,12 @@ public class Wizard extends Character{
     }
 
 
-    public void castSpell(String spellName) {
-        Spell spell = null;
-        for (Spell s : this.knownSpells) {
-            if (s.getName().equalsIgnoreCase(spellName)) {
-                spell = s;
-                break;
-            }
-        }
-        if (spell == null) {
+
+    public void castSpell(String spellName){
+        Spell spell = Spell.loopInSpell(spellName, this, true);
+        if (spell == null){
             System.out.println("You don't know the spell " + spellName + "!");
-        } else {
+        }else {
             System.out.println("You cast the spell " + spell.getName());
         }
     }
@@ -56,19 +52,40 @@ public class Wizard extends Character{
         for (int i = 0; i < availableSpells.size(); i++) {
             System.out.println((i+1) + ". " + availableSpells.get(i).getName());
         }
-        System.out.print("Enter the number of the spell you want to learn: ");
-        int choice = scanner.nextInt();
-        if (choice >= 1 && choice <= availableSpells.size()) {
-            Spell chosenSpell = availableSpells.get(choice-1);
-            List<Spell> knownSpells = getKnownSpells();
-            knownSpells.add(chosenSpell);
-            setKnownSpells(knownSpells);
-            System.out.println("You have learned the " + chosenSpell.getName() + " spell!");
+        System.out.print("Enter the name of the spell you want to learn: ");
+        String choice = scanner.nextLine();
+        Spell spell = Spell.loopInSpell(choice, this, false);
+        if (spell != null) {
+            this.knownSpells.add(spell);
+            System.out.println("You have learned the " + spell.getName() + " spell!");
+            printKnownSpells();
         } else {
             System.out.println("Invalid choice.");
         }
     }
 
+    public void skippingSchool(){
+        Random random = new Random();
+        int random1 = random.nextInt(10);
+        int random2 = random.nextInt(10);
+        if (random1 == random2){
+            System.out.println("What a lucky day, you just found a new potion");
+            this.potions.add(new Potion("super potion", 20));
+            printAvailablePotions();
+        }
+    }
 
+    public void printAvailablePotions(){
+        System.out.println("You have those potions:");
+        for (int i = 0; i < this.potions.size(); i++) {
+            System.out.println((i+1) + ". " + potions.get(i).getName());
+        }
+    }
 
+    public void printKnownSpells(){
+        System.out.println("You know those spells:");
+        for (int i = 0; i < this.knownSpells.size(); i++) {
+            System.out.println((i+1) + ". " + knownSpells.get(i).getName());
+        }
+    }
 }

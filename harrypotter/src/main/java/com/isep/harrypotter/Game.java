@@ -22,8 +22,9 @@ public class Game extends Application {
 
     public static void main(String[] args) {
         //launch();
-        List<Spell> knownSpells = new ArrayList<>();
+        Chapter chapter = new Chapter();
         Scanner scanner = new Scanner(System.in);
+        boolean isGameFinished = false;
         System.out.println("Enter your wizard firstname");
         String firstname = scanner.nextLine();
         System.out.println("Enter your wizard lastname");
@@ -35,27 +36,26 @@ public class Game extends Application {
         System.out.println("Welcome to Poudlard");
         System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
 
-        System.out.println("  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
-                " |__   __| |          |  __ \\| |   (_) |                     | |                    / ____| |                  \n" +
-                "    | |  | |__   ___  | |__) | |__  _| | ___  ___  ___  _ __ | |__   ___ _ __ ___  | (___ | |_ ___  _ __   ___ \n" +
-                "    | |  | '_ \\ / _ \\ |  ___/| '_ \\| | |/ _ \\/ __|/ _ \\| '_ \\| '_ \\ / _ \\ '__/ __|  \\___ \\| __/ _ \\| '_ \\ / _ \\\n" +
-                "    | |  | | | |  __/ | |    | | | | | | (_) \\__ \\ (_) | |_) | | | |  __/ |  \\__ \\  ____) | || (_) | | | |  __/\n" +
-                "    |_|  |_| |_|\\___| |_|    |_| |_|_|_|\\___/|___/\\___/| .__/|_| |_|\\___|_|  |___/ |_____/ \\__\\___/|_| |_|\\___|\n" +
-                "                                                       | |                                                     \n" +
-                "                                                       |_|                                                     ");
-
-
+        while (!isGameFinished){
+            if (!chapter.isChapterInit()){
+                System.out.println(chapter.getName());
+            }
+            if (chapter.getNumber() > 8){
+                isGameFinished = true;
+            }
+            System.out.println("What a nice day, what are you going to do today ?");
+            String choice = scanner.nextLine();
+        }
+        /*
         knownSpells.add(new Spell("Wingardium Leviosa", 1));
         wizard.setKnownSpells(knownSpells);
+
 
         System.out.print("Enter the name of the spell to cast: ");
         String spellName = scanner.nextLine();
         wizard.castSpell(spellName);
 
         wizard.learnSpell();
+        */
     }
-
-
-
-
 }
