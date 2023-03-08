@@ -34,8 +34,6 @@ public class Wizard extends Character{
 
     }
 
-
-
     public void castSpell(String spellName){
         Spell spell = Spell.loopInSpell(spellName, this, true);
         if (spell == null){
@@ -65,6 +63,7 @@ public class Wizard extends Character{
     }
 
     public void skippingSchool(){
+        System.out.println("You decided to skip school.");
         Random random = new Random();
         int random1 = random.nextInt(10);
         int random2 = random.nextInt(10);

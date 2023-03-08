@@ -13,6 +13,7 @@ public class Spell extends AbstractSpell {
         List<Spell> spells = new ArrayList<>();
 
         // Create spells and add them to the list
+        spells.add(new Spell("Wingardium Leviosa", 1));
         spells.add(new Spell("Lumos", 1));
         spells.add(new Spell("Alohomora", 2));
         spells.add(new Spell("Expecto Patronum", 3));

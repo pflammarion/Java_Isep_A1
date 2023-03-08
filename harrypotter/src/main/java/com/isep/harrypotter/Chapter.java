@@ -4,6 +4,8 @@ package com.isep.harrypotter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Scanner;
+
 public class Chapter {
     @Setter
     private String name;
@@ -104,5 +106,13 @@ public class Chapter {
                     "\n");
         }
         return name;
+    }
+    public int menu(){
+        Scanner scanner =  new Scanner(System.in);
+        System.out.println("\nWhat a nice day, what are you going to do today ?");
+        System.out.println("1. Go to school");
+        System.out.println("2. Skipping school");
+        return scanner.nextInt();
+
     }
 }
