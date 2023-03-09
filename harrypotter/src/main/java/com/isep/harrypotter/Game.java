@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game extends Application {
@@ -23,7 +24,7 @@ public class Game extends Application {
         Chapter chapter = new Chapter();
         boolean isGameFinished = false;
         Wizard wizard = wizardInit();
-
+        Scanner sc = new Scanner(System.in);
 
         while (!isGameFinished){
             if (!chapter.isChapterInit()){
@@ -33,9 +34,19 @@ public class Game extends Application {
             if (chapter.getNumber() > 8){
                 isGameFinished = true;
             }
-            switch (chapter.menu()){
-                case 1 -> wizard.learnSpell();
-                case 2 -> wizard.skippingSchool();
+            if (wizard.getDrunk() > 0){
+               wizard.setDrunk(wizard.getDrunk() - 1);
+            }
+            if (wizard.isNowPet()){
+                System.out.println("lkjqnsdlkqldsjflqjsdflkjqlmdskfjlqmsjdfljqksfdmljlqksdf ?");
+                String choice = sc.nextLine();
+                //TODO jeu parallèle
+            }
+            else {
+                switch (chapter.menu()){
+                    case 1 -> wizard.learnSpell();
+                    case 2 -> wizard.skippingSchool();
+                }
             }
         }
     }
@@ -51,5 +62,21 @@ public class Game extends Application {
         System.out.println("Welcome to Poudlard");
         System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
         return wizard;
+    }
+    static void print(String input, Wizard wizard){
+        if (wizard.getDrunk() > 0){
+            Random random = new Random();
+            char[] characters = input.toCharArray();
+            int rand = random.nextInt(input.length());
+            for(int i = 0; i < rand; i++){
+                int randChar = random.nextInt(input.length());
+                characters[randChar] = java.lang.Character.toUpperCase(characters[randChar]);
+                input = new String(characters);
+            }
+            System.out.println(input);
+        }
+        else {
+            System.out.println(input);
+        }
     }
 }
