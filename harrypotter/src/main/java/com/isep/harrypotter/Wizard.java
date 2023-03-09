@@ -87,4 +87,11 @@ public class Wizard extends Character{
             System.out.println((i+1) + ". " + knownSpells.get(i).getName());
         }
     }
+
+    public boolean randomProbability(int chance){
+        Random random = new Random();
+        int random1 = random.nextInt(chance/10);
+        int random2 = random.nextInt(chance/10);
+        return random1 == random2;
+    }
 }
