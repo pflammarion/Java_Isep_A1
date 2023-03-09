@@ -11,8 +11,6 @@ import java.util.Scanner;
 @Getter
 @Setter
 public class Wizard extends Character{
-
-
     private Pet pet;
     private Wand wand;
     private House house;
@@ -22,6 +20,8 @@ public class Wizard extends Character{
     private String lastname;
     private int totalHealth;
     private int currentHealth;
+    private boolean isNowPet;
+    private int drunk;
 
     public Wizard(String firstname, String lastname, House house) {
         this.firstname = firstname;
@@ -29,6 +29,8 @@ public class Wizard extends Character{
         this.wand = new Wand(Core.values()[(int) (Math.random() * Core.values().length)], (int) (Math.random() * 50));
         this.pet = Pet.values()[new Random().nextInt(Pet.values().length)];
         this.house = house;
+        this.isNowPet = false;
+        this.drunk = 0;
     }
     public void defend(){
 
@@ -37,61 +39,63 @@ public class Wizard extends Character{
     public void castSpell(String spellName){
         Spell spell = Spell.loopInSpell(spellName, this, true);
         if (spell == null){
-            System.out.println("You don't know the spell " + spellName + "!");
+            Game.print("You don't know the spell " + spellName + "!", this);
         }else {
-            System.out.println("You cast the spell " + spell.getName());
+            Game.print("You cast the spell " + spell.getName(), this);
         }
     }
 
     public void learnSpell() {
         List<Spell> availableSpells = Spell.getAvailableSpells(this);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Available spells:");
+        Game.print("Available spells:", this);
         for (int i = 0; i < availableSpells.size(); i++) {
-            System.out.println((i+1) + ". " + availableSpells.get(i).getName());
+           Game.print((i+1) + ". " + availableSpells.get(i).getName(), this);
         }
-        System.out.print("Enter the name of the spell you want to learn: ");
+        Game.print("Enter the name of the spell you want to learn: ", this);
         String choice = scanner.nextLine();
         Spell spell = Spell.loopInSpell(choice, this, false);
         if (spell != null) {
             this.knownSpells.add(spell);
-            System.out.println("You have learned the " + spell.getName() + " spell!");
+            Game.print("You have learned the " + spell.getName() + " spell!", this);
             printKnownSpells();
         } else {
-            System.out.println("Invalid choice.");
+            Game.print("Invalid choice.", this);
         }
     }
 
     public void skippingSchool(){
-        System.out.println("You decided to skip school.");
-        Random random = new Random();
-        int random1 = random.nextInt(10);
-        int random2 = random.nextInt(10);
-        if (random1 == random2){
-            System.out.println("What a lucky day, you just found a new potion");
-            this.potions.add(new Potion("super potion", 20));
+        Game.print("You decided to skip school.", this);
+        if (randomProbability(10)){
+            Game.print("What a lucky day, you just found a new potion", this);
+            this.potions.add(new Potion("super potion", "Potion to get hp", 3, "health", 30));
             printAvailablePotions();
+        }
+        if (randomProbability(10)){
+            Game.print("What a lucky day, you just learned a new spell", this);
+            this.knownSpells.add(new Spell("super forbidden spell", 20));
+            printKnownSpells();
         }
     }
 
     public void printAvailablePotions(){
-        System.out.println("You have those potions:");
+        Game.print("You have those potions:", this);
         for (int i = 0; i < this.potions.size(); i++) {
-            System.out.println((i+1) + ". " + potions.get(i).getName());
+            Game.print((i+1) + ". " + potions.get(i).getName(), this);
         }
     }
 
     public void printKnownSpells(){
-        System.out.println("You know those spells:");
+        Game.print("You know those spells:", this);
         for (int i = 0; i < this.knownSpells.size(); i++) {
-            System.out.println((i+1) + ". " + knownSpells.get(i).getName());
+            Game.print((i+1) + ". " + knownSpells.get(i).getName(), this);
         }
     }
 
     public boolean randomProbability(int chance){
         Random random = new Random();
-        int random1 = random.nextInt(chance/10);
-        int random2 = random.nextInt(chance/10);
+        int random1 = random.nextInt(chance);
+        int random2 = random.nextInt(chance);
         return random1 == random2;
     }
 }
