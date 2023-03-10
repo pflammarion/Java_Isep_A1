@@ -13,6 +13,8 @@ public abstract class AbstractSpell {
     private int energyCost;
     private boolean isForbidden;
 
+    //TODO % de chance de réussite
+
     public abstract void castSpell(Wizard wizard);
 
 }

@@ -63,7 +63,7 @@ public class Game extends Application {
         System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
         return wizard;
     }
-    static void print(String input, Wizard wizard){
+    public static void print(String input, Wizard wizard){
         if (wizard.getDrunk() > 0){
             Random random = new Random();
             char[] characters = input.toCharArray();

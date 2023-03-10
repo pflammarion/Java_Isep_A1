@@ -27,9 +27,9 @@ public class Potion {
         int chance = 5;
         switch (this.type){
             case "health":
-                int health = wizard.getCurrentHealth() + this.point;
+                double health = wizard.getCurrentHealth() + (this.point * wizard.getPotionEfficiency());
                 int totalHealth = wizard.getTotalHealth();
-                int heal = Math.min(health, totalHealth);
+                double heal = Math.min(health, totalHealth);
                 if (wizard.randomProbability(10)){
                     wizard.setCurrentHealth(0);
                 }
