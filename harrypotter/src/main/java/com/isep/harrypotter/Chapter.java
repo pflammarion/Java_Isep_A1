@@ -12,7 +12,6 @@ public class Chapter {
     @Getter
     @Setter
     private int number = 1;
-
     @Getter
     @Setter
     private boolean isChapterInit = false;

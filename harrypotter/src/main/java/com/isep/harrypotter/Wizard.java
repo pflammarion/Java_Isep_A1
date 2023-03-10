@@ -21,9 +21,14 @@ public class Wizard extends Character{
     private String firstname;
     private String lastname;
     private int totalHealth;
-    private int currentHealth;
+    private double currentHealth;
+    private double powerFight;
+    private double potionEfficiency;
+    private double resistanceFight;
+    private double precision;
     private boolean isNowPet;
     private int drunk;
+
 
     public Wizard(String firstname, String lastname, House house) {
         this.firstname = firstname;
@@ -33,6 +38,11 @@ public class Wizard extends Character{
         this.house = house;
         this.isNowPet = false;
         this.drunk = 0;
+        //TODO en fonction de la maison
+        this.powerFight = 1;
+        this.potionEfficiency = 1;
+        this.resistanceFight = 1;
+        this.precision = 1;
     }
     public void defend(){
 
