@@ -1,5 +1,7 @@
 package com.isep.harrypotter;
 
+import com.isep.utils.ConsoleOutput;
+import com.isep.utils.ConsoleParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,9 +24,10 @@ public class Game extends Application {
     public static void main(String[] args) {
         //launch();
         Chapter chapter = new Chapter();
+        ConsoleParser consoleParser = new ConsoleParser();
+        ConsoleOutput consoleOutput = new ConsoleOutput();
         boolean isGameFinished = false;
-        Wizard wizard = wizardInit();
-        Scanner sc = new Scanner(System.in);
+        Wizard wizard = consoleParser.initWizard();
 
         while (!isGameFinished){
             if (!chapter.isChapterInit()){
@@ -38,45 +41,16 @@ public class Game extends Application {
                wizard.setDrunk(wizard.getDrunk() - 1);
             }
             if (wizard.isNowPet()){
-                System.out.println("lkjqnsdlkqldsjflqjsdflkjqlmdskfjlqmsjdfljqksfdmljlqksdf ?");
-                String choice = sc.nextLine();
+                consoleOutput.displayMessage("lkjqnsdlkqldsjflqjsdflkjqlmdskfjlqmsjdfljqksfdmljlqksdf ?", wizard);
+
                 //TODO jeu parallèle
             }
             else {
-                switch (chapter.menu()){
+                switch (consoleParser.displayMenu()){
                     case 1 -> wizard.learnSpell();
                     case 2 -> wizard.skippingSchool();
                 }
             }
-        }
-    }
-
-    private static Wizard wizardInit(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your wizard firstname");
-        String firstname = scanner.nextLine();
-        System.out.println("Enter your wizard lastname");
-        String lastname = scanner.nextLine();
-        Wizard wizard = new Wizard(firstname, lastname, SortingHat.assignHouse());
-        System.out.println("Hello " + firstname + " " + lastname);
-        System.out.println("Welcome to Poudlard");
-        System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
-        return wizard;
-    }
-    static void print(String input, Wizard wizard){
-        if (wizard.getDrunk() > 0){
-            Random random = new Random();
-            char[] characters = input.toCharArray();
-            int rand = random.nextInt(input.length());
-            for(int i = 0; i < rand; i++){
-                int randChar = random.nextInt(input.length());
-                characters[randChar] = java.lang.Character.toUpperCase(characters[randChar]);
-                input = new String(characters);
-            }
-            System.out.println(input);
-        }
-        else {
-            System.out.println(input);
         }
     }
 }
