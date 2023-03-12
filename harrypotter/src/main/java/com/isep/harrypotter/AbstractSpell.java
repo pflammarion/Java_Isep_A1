@@ -13,6 +13,6 @@ public abstract class AbstractSpell {
     private int energyCost;
     private boolean isForbidden;
 
-    public abstract void castSpell(Wizard wizard);
+    public abstract String castSpell(String spellName,Wizard wizard);
 
 }
