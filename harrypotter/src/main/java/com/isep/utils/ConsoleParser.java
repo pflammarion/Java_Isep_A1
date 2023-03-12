@@ -2,6 +2,7 @@ package com.isep.utils;
 
 
 import com.isep.harrypotter.SortingHat;
+import com.isep.harrypotter.Spell;
 import com.isep.harrypotter.Wizard;
 
 import java.util.InputMismatchException;
@@ -32,6 +33,10 @@ public class ConsoleParser implements InputParser {
         System.out.println("Welcome to Poudlard");
         System.out.println("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
         return wizard;
+    }
+
+    public Spell findSpellByName(Wizard wizard, boolean know){
+        return Spell.loopInSpell(getString(), wizard, know);
     }
 
     private int getInt(String messageWhenMismatch)

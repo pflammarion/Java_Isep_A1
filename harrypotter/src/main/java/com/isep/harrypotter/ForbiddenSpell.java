@@ -11,8 +11,7 @@ public class ForbiddenSpell extends AbstractSpell {
         this.effect = effect;
     }
 
-    @Override
-    public void castSpell(Wizard wizard) {
-        // TODO: Implement the logic for casting a forbidden spell
+    public String castSpell(String spellName, Wizard wizard){
+       return "";
     }
 }

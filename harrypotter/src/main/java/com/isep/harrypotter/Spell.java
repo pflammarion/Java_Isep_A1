@@ -9,7 +9,7 @@ public class Spell extends AbstractSpell {
     }
 
 
-    private static List<Spell> getAllSpells() {
+    public static List<Spell> getAllSpells() {
         List<Spell> spells = new ArrayList<>();
 
         // Create spells and add them to the list
@@ -46,9 +46,20 @@ public class Spell extends AbstractSpell {
         return spell;
     }
 
-    @Override
-    public void castSpell(Wizard wizard) {
-        // TODO: Implement the logic for casting a forbidden spell
+    public String castSpell(String spellName, Wizard wizard){
+        Spell spell = loopInSpell(spellName, wizard, true);
+        if (spell == null){
+            return "You don't know the spell " + spellName + "!";
+        }
+        else {
+            return "You cast the spell " + spell.getName();
+        }
     }
 
+    public String learnSpell(Wizard wizard){
+        List<Spell> knownSpells = wizard.getKnownSpells();
+        knownSpells.add(this);
+        wizard.setKnownSpells(knownSpells);
+        return "You have learned the " + this.getName() +" spell!\n";
+    }
 }

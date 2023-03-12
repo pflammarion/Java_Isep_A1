@@ -23,7 +23,8 @@ public class Potion {
         this.point = point;
     }
 
-    public void drinkPotion(Wizard wizard){
+    public String drinkPotion(Wizard wizard){
+        String message = "You drunk the potion";
         int chance = 5;
         switch (this.type){
             case "health":
@@ -46,12 +47,13 @@ public class Potion {
         }
 
         if (wizard.randomProbability(chance)){
-            System.out.println("HUHOOO there was super alcohol in your super potion, gloups....");
+            message = "HUHOOO there was super alcohol in your super potion, gloups....";
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
         if (wizard.randomProbability(chance * 3)){
             wizard.setNowPet(true);
-            System.out.println("Bahahhah you just became a pet lol and you are " + wizard.getPet());
+            message = "Bahahhah you just became a pet lol and you are " + wizard.getPet();
         }
+        return message;
     }
 }

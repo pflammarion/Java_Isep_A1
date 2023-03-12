@@ -1,7 +1,10 @@
 package com.isep.utils;
 
+import com.isep.harrypotter.Potion;
+import com.isep.harrypotter.Spell;
 import com.isep.harrypotter.Wizard;
 
+import java.util.List;
 import java.util.Random;
 
 public class ConsoleOutput implements OutputManager{
@@ -20,6 +23,31 @@ public class ConsoleOutput implements OutputManager{
         }
         else {
             System.out.println(input);
+        }
+    }
+
+    public void printAvailablePotions(Wizard wizard){
+        displayMessage("You have those potions:", wizard);
+        List<Potion> potions = wizard.getPotions();
+        for (int i = 0; i < potions.size(); i++) {
+            displayMessage((i+1) + ". " + potions.get(i).getName(), wizard);
+        }
+    }
+
+    public void printKnownSpells(Wizard wizard){
+        displayMessage("You know those spells:", wizard);
+        List<Spell> knownSpells = wizard.getKnownSpells();
+        for (int i = 0; i < knownSpells.size(); i++) {
+            displayMessage((i+1) + ". " + knownSpells.get(i).getName(), wizard);
+        }
+    }
+
+    public void getAvailableSpells(Wizard wizard) {
+        List<Spell> allSpells = Spell.getAllSpells();
+        allSpells.removeAll(wizard.getKnownSpells());
+        displayMessage("All available spells are:", wizard);
+        for (int i = 0; i <allSpells.size(); i++) {
+            displayMessage((i+1) + ". " + allSpells.get(i).getName(), wizard);
         }
     }
 }
