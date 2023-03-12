@@ -45,8 +45,10 @@ public class Game {
             }
             else if (!chapter.isBossPassed() && this.chapter.getDay() > 365){
                 playBoss();
+                chapter.setBossPassed(true);
                 if (chapter.isBossPassed()){
                     chapter.setNumber(chapter.getNumber() + 1);
+                    chapter.setChapterInit(false);
                 }
                 else {
                     outputManager.displayMessage("END GAME...", this.wizard);
@@ -59,8 +61,7 @@ public class Game {
                     case 2 -> skippingSchool();
                 }
             }
-            Random random = new Random();
-            chapter.setDay(chapter.getDay() + random.nextInt(20, 40));
+            this.chapter.setDay(chapter.getDay() + new Random().nextInt(21) + 20);
         }
     }
 
