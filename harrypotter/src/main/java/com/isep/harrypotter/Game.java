@@ -2,6 +2,8 @@ package com.isep.harrypotter;
 
 import com.isep.utils.InputParser;
 import com.isep.utils.OutputManager;
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Random;
 
@@ -23,22 +25,33 @@ public class Game {
     }
 
     public void play(){
+        this.chapter.setDay(0);
 
         while (!isGameFinished){
             if (!chapter.isChapterInit()){
                 System.out.println(chapter.getName());
                 chapter.setChapterInit(true);
             }
-            if (chapter.getNumber() > 8){
+            else if (chapter.getNumber() > 8){
                 isGameFinished = true;
             }
-            if (wizard.getDrunk() > 0){
+            else if (wizard.getDrunk() > 0){
                wizard.setDrunk(wizard.getDrunk() - 1);
             }
-            if (wizard.isNowPet()){
+            else if (wizard.isNowPet()){
                 outputManager.displayMessage("lkjqnsdlkqldsjflqjsdflkjqlmdskfjlqmsjdfljqksfdmljlqksdf ?", wizard);
 
                 //TODO jeu parallèle
+            }
+            else if (!chapter.isBossPassed() && this.chapter.getDay() > 365){
+                playBoss();
+                if (chapter.isBossPassed()){
+                    chapter.setNumber(chapter.getNumber() + 1);
+                }
+                else {
+                    outputManager.displayMessage("END GAME...", this.wizard);
+                    isGameFinished = true;
+                }
             }
             else {
                 switch (inputParser.displayMenu()){
@@ -46,6 +59,8 @@ public class Game {
                     case 2 -> skippingSchool();
                 }
             }
+            Random random = new Random();
+            chapter.setDay(chapter.getDay() + random.nextInt(20, 40));
         }
     }
 
@@ -80,5 +95,10 @@ public class Game {
         int random1 = random.nextInt(chance);
         int random2 = random.nextInt(chance);
         return random1 == random2;
+    }
+
+    private void playBoss(){
+        //TODO create boss mechanic
+        outputManager.displayMessage("This is the time to boss", this.wizard);
     }
 }

@@ -19,6 +19,10 @@ public class Chapter {
     @Setter
     private boolean isBossPassed = false;
 
+    @Getter
+    @Setter
+    private int day;
+
     public String getName() {
         switch (this.number){
             case 1 ->
