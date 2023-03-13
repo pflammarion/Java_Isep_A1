@@ -3,7 +3,7 @@ package com.isep.utils;
 
 import com.isep.harrypotter.SortingHat;
 import com.isep.harrypotter.Spell;
-import com.isep.harrypotter.Wizard;
+import com.isep.harrypotter.characters.Wizard;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

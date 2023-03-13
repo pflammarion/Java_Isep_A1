@@ -1,5 +1,7 @@
 package com.isep.harrypotter;
 
+import com.isep.harrypotter.characters.Wizard;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.isep.harrypotter;
 
 
+import com.isep.harrypotter.characters.Wizard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,6 @@ public abstract class AbstractSpell {
 
     //TODO % de chance de réussite
 
-    public abstract String castSpell(String spellName,Wizard wizard);
+    public abstract String castSpell(String spellName, Wizard wizard);
 
 }

@@ -2,7 +2,7 @@ package com.isep.utils;
 
 import com.isep.harrypotter.Potion;
 import com.isep.harrypotter.Spell;
-import com.isep.harrypotter.Wizard;
+import com.isep.harrypotter.characters.Wizard;
 
 import java.util.List;
 import java.util.Random;

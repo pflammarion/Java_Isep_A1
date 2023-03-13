@@ -6,4 +6,6 @@ module com.isep.harrypotter {
 
     opens com.isep.harrypotter to javafx.fxml;
     exports com.isep.harrypotter;
+    exports com.isep.harrypotter.characters;
+    opens com.isep.harrypotter.characters to javafx.fxml;
 }

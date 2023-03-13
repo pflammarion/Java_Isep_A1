@@ -1,5 +1,6 @@
 package com.isep.harrypotter;
 
+import com.isep.harrypotter.characters.Wizard;
 import lombok.Getter;
 
 @Getter

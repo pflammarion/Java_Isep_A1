@@ -1,6 +1,6 @@
 package com.isep.harrypotter;
 
-import lombok.AllArgsConstructor;
+import com.isep.harrypotter.characters.Wizard;
 import lombok.Getter;
 import lombok.Setter;
 

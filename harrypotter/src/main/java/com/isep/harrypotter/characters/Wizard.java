@@ -1,18 +1,16 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.characters;
 
-import com.isep.utils.ConsoleOutput;
-import com.isep.utils.OutputManager;
+import com.isep.harrypotter.*;
+import com.isep.harrypotter.characters.Character;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
-@AllArgsConstructor
 @Getter
 @Setter
-public class Wizard extends Character{
+public class Wizard extends Character {
     private Pet pet;
     private Wand wand;
     private House house;
@@ -20,15 +18,11 @@ public class Wizard extends Character{
     private List<Potion> potions =  new ArrayList<>();
     private String firstname;
     private String lastname;
-    private int totalHealth;
-    private double currentHealth;
-    private double powerFight;
     private double potionEfficiency;
-    private double resistanceFight;
     private double precision;
     private boolean isNowPet;
     private int drunk;
-
+    private double accuracy;
 
     public Wizard(String firstname, String lastname, House house) {
         this.firstname = firstname;
@@ -39,9 +33,11 @@ public class Wizard extends Character{
         this.isNowPet = false;
         this.drunk = 0;
         //TODO en fonction de la maison
-        this.powerFight = 1;
+        setTotalHealth(100);
+        setCurrentHealth(100);
+        setDefence(1);
+        setDamage(1);
         this.potionEfficiency = 1;
-        this.resistanceFight = 1;
         this.precision = 1;
     }
     public void defend(){

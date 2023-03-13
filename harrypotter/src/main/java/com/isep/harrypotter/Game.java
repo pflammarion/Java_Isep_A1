@@ -1,8 +1,8 @@
 package com.isep.harrypotter;
 
+import com.isep.harrypotter.characters.Wizard;
 import com.isep.utils.InputParser;
 import com.isep.utils.OutputManager;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Random;
@@ -101,5 +101,6 @@ public class Game {
     private void playBoss(){
         //TODO create boss mechanic
         outputManager.displayMessage("This is the time to boss", this.wizard);
+
     }
 }
