@@ -12,13 +12,16 @@ public class Chapter {
     @Getter
     @Setter
     private int number = 1;
-
     @Getter
     @Setter
     private boolean isChapterInit = false;
     @Getter
     @Setter
     private boolean isBossPassed = false;
+
+    @Getter
+    @Setter
+    private int day;
 
     public String getName() {
         switch (this.number){
