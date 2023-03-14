@@ -1,4 +1,4 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.spells;
 
 import com.isep.harrypotter.characters.Wizard;
 
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Spell extends AbstractSpell {
-    public Spell(String name, int energyCost) {
-        super(name, energyCost, true);
+    public Spell(String name, int energyCost, int damage) {
+        super(name, energyCost, damage);
     }
 
 
@@ -15,13 +15,13 @@ public class Spell extends AbstractSpell {
         List<Spell> spells = new ArrayList<>();
 
         // Create spells and add them to the list
-        spells.add(new Spell("Wingardium Leviosa", 1));
-        spells.add(new Spell("Lumos", 1));
-        spells.add(new Spell("Alohomora", 2));
-        spells.add(new Spell("Expecto Patronum", 3));
-        spells.add(new Spell("Expelliarmus", 4));
-        spells.add(new Spell("Wingardium Leviosa", 5));
-        spells.add(new Spell("Avada Kedavra", 6));
+        spells.add(new Spell("Wingardium Leviosa", 1, 1));
+        spells.add(new Spell("Lumos", 1, 1));
+        spells.add(new Spell("Alohomora", 2, 1));
+        spells.add(new Spell("Expecto Patronum", 3, 1));
+        spells.add(new Spell("Expelliarmus", 4, 1));
+        spells.add(new Spell("Wingardium Leviosa", 5, 1));
+        spells.add(new Spell("Avada Kedavra", 6, 1));
 
         return spells;
     }
@@ -57,7 +57,6 @@ public class Spell extends AbstractSpell {
             return "You cast the spell " + spell.getName();
         }
     }
-
     public String learnSpell(Wizard wizard){
         List<Spell> knownSpells = wizard.getKnownSpells();
         knownSpells.add(this);

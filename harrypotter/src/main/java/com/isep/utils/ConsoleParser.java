@@ -1,8 +1,9 @@
 package com.isep.utils;
 
 
+import com.isep.harrypotter.Potion;
 import com.isep.harrypotter.SortingHat;
-import com.isep.harrypotter.Spell;
+import com.isep.harrypotter.spells.Spell;
 import com.isep.harrypotter.characters.Wizard;
 
 import java.util.InputMismatchException;
@@ -37,6 +38,21 @@ public class ConsoleParser implements InputParser {
 
     public Spell findSpellByName(Wizard wizard, boolean know){
         return Spell.loopInSpell(getString(), wizard, know);
+    }
+
+    public Object battleChoice(Wizard wizard){
+        String input = getString();
+        Spell spell = Spell.loopInSpell(input, wizard, true);
+        Potion potion = Potion.loopInPotions(input, wizard);
+        if (null != spell){
+            return spell;
+        }
+        else if (null != potion){
+            return potion;
+        }
+        else{
+            return null;
+        }
     }
 
     private int getInt(String messageWhenMismatch)

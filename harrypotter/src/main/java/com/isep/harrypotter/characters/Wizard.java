@@ -1,7 +1,7 @@
 package com.isep.harrypotter.characters;
 
 import com.isep.harrypotter.*;
-import com.isep.harrypotter.characters.Character;
+import com.isep.harrypotter.spells.Spell;
 import lombok.*;
 
 import java.util.ArrayList;
