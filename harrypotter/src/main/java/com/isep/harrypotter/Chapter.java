@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.Scanner;
 
 public class Chapter {
-    @Setter
+    @Getter
     private String name;
     @Getter
     @Setter
@@ -24,11 +24,13 @@ public class Chapter {
     @Setter
     private int day;
 
+    @Getter
     private Boss boss;
 
     public Chapter(int number) {
-        switch (this.number){
+        switch (number){
             case 1: {
+                this.number = number;
                 this.name = "  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
                         " |__   __| |          |  __ \\| |   (_) |                     | |                    / ____| |                  \n" +
                         "    | |  | |__   ___  | |__) | |__  _| | ___  ___  ___  _ __ | |__   ___ _ __ ___  | (___ | |_ ___  _ __   ___ \n" +
@@ -41,6 +43,7 @@ public class Chapter {
                 break;
             }
             case 2 : {
+                this.number = number;
                 this.name ="\n" +
                             "\n" +
                             "  _______ _             _____ _                     _                        __    _____                    _       \n" +
@@ -57,6 +60,7 @@ public class Chapter {
             }
 
             case 3 : {
+                this.number = number;
                 this.name ="\n" +
                     "\n" +
                     "  _______ _            _____      _                                          __                 _         _                 \n" +
@@ -72,7 +76,8 @@ public class Chapter {
                 break;
             }
 
-            case 5 : {
+            case 4 : {
+                this.number = number;
                 this.name ="\n" +
                     "\n" +
                     "  _______ _             _____       _     _      _            __   ______ _          \n" +
@@ -88,7 +93,8 @@ public class Chapter {
                 break;
             }
 
-            case 6 : {
+            case 5 : {
+                this.number = number;
                 this.name ="\n" +
                     "\n" +
                     "  _______ _             ____          _                    __   _   _            _____  _                _      \n" +
@@ -104,7 +110,8 @@ public class Chapter {
                 break;
             }
 
-            case 7 : {
+            case 6 : {
+                this.number = number;
                 this.name ="\n" +
                     "\n" +
                     "  _______ _            _    _       _  __        ____  _                 _   _____      _                \n" +
@@ -120,7 +127,8 @@ public class Chapter {
                 break;
             }
 
-            case 8 : {
+            case 7 : {
+                this.number = number;
                 this.name = "\n" +
                     "\n" +
                     "  _______ _            _____             _   _     _         _    _       _ _                   \n" +
