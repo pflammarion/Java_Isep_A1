@@ -57,6 +57,7 @@ public class Potion {
             wizard.setNowPet(true);
             message = "Bahahhah you just became a pet lol and you are " + wizard.getPet();
         }
+        message += "\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth();
         return message;
     }
 

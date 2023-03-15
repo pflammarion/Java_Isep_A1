@@ -1,6 +1,7 @@
 package com.isep.harrypotter;
 
 
+import com.isep.harrypotter.characters.Boss;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ public class Chapter {
     private String name;
     @Getter
     @Setter
-    private int number = 1;
+    private int number;
     @Getter
     @Setter
     private boolean isChapterInit = false;
@@ -23,20 +24,24 @@ public class Chapter {
     @Setter
     private int day;
 
-    public String getName() {
-        switch (this.number){
-            case 1 ->
-                    setName("  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
-                            " |__   __| |          |  __ \\| |   (_) |                     | |                    / ____| |                  \n" +
-                            "    | |  | |__   ___  | |__) | |__  _| | ___  ___  ___  _ __ | |__   ___ _ __ ___  | (___ | |_ ___  _ __   ___ \n" +
-                            "    | |  | '_ \\ / _ \\ |  ___/| '_ \\| | |/ _ \\/ __|/ _ \\| '_ \\| '_ \\ / _ \\ '__/ __|  \\___ \\| __/ _ \\| '_ \\ / _ \\\n" +
-                            "    | |  | | | |  __/ | |    | | | | | | (_) \\__ \\ (_) | |_) | | | |  __/ |  \\__ \\  ____) | || (_) | | | |  __/\n" +
-                            "    |_|  |_| |_|\\___| |_|    |_| |_|_|_|\\___/|___/\\___/| .__/|_| |_|\\___|_|  |___/ |_____/ \\__\\___/|_| |_|\\___|\n" +
-                            "                                                       | |                                                     \n" +
-                            "                                                       |_|                                                     ");
+    private Boss boss;
 
-            case 2 ->
-                    setName("\n" +
+    public Chapter(int number) {
+        switch (this.number){
+            case 1: {
+                this.name = "  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
+                        " |__   __| |          |  __ \\| |   (_) |                     | |                    / ____| |                  \n" +
+                        "    | |  | |__   ___  | |__) | |__  _| | ___  ___  ___  _ __ | |__   ___ _ __ ___  | (___ | |_ ___  _ __   ___ \n" +
+                        "    | |  | '_ \\ / _ \\ |  ___/| '_ \\| | |/ _ \\/ __|/ _ \\| '_ \\| '_ \\ / _ \\ '__/ __|  \\___ \\| __/ _ \\| '_ \\ / _ \\\n" +
+                        "    | |  | | | |  __/ | |    | | | | | | (_) \\__ \\ (_) | |_) | | | |  __/ |  \\__ \\  ____) | || (_) | | | |  __/\n" +
+                        "    |_|  |_| |_|\\___| |_|    |_| |_|_|_|\\___/|___/\\___/| .__/|_| |_|\\___|_|  |___/ |_____/ \\__\\___/|_| |_|\\___|\n" +
+                        "                                                       | |                                                     \n" +
+                        "                                                       |_|                                                     ";
+                this.boss = new Boss(100, 100, 1, 1, "Troll", null, "Wingardium Leviosa");
+                break;
+            }
+            case 2 : {
+                this.name ="\n" +
                             "\n" +
                             "  _______ _             _____ _                     _                        __    _____                    _       \n" +
                             " |__   __| |           / ____| |                   | |                      / _|  / ____|                  | |      \n" +
@@ -46,9 +51,13 @@ public class Chapter {
                             "    |_|  |_| |_|\\___|  \\_____|_| |_|\\__,_|_| |_| |_|_.__/ \\___|_|     \\___/|_|   |_____/ \\___|\\___|_|  \\___|\\__|___/\n" +
                             "                                                                                                                    \n" +
                             "                                                                                                                    \n" +
-                            "\n");
+                            "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Basilic", "Sword", "Accio");
+                break;
+            }
 
-            case 3 -> setName("\n" +
+            case 3 : {
+                this.name ="\n" +
                     "\n" +
                     "  _______ _            _____      _                                          __                 _         _                 \n" +
                     " |__   __| |          |  __ \\    (_)                                        / _|     /\\        | |       | |                \n" +
@@ -58,9 +67,13 @@ public class Chapter {
                     "    |_|  |_| |_|\\___| |_|   |_|  |_|___/\\___/|_| |_|_| |_|\\___|_|     \\___/|_|   /_/    \\_\\/___|_|\\_\\__,_|_.__/ \\__,_|_| |_|\n" +
                     "                                                                                                                            \n" +
                     "                                                                                                                            \n" +
-                    "\n");
+                    "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Détraqueurs", null, "Expecto Patronum");
+                break;
+            }
 
-            case 5 -> setName("\n" +
+            case 5 : {
+                this.name ="\n" +
                     "\n" +
                     "  _______ _             _____       _     _      _            __   ______ _          \n" +
                     " |__   __| |           / ____|     | |   | |    | |          / _| |  ____(_)         \n" +
@@ -70,9 +83,13 @@ public class Chapter {
                     "    |_|  |_| |_|\\___|  \\_____|\\___/|_.__/|_|\\___|\\__|  \\___/|_|   |_|    |_|_|  \\___|\n" +
                     "                                                                                     \n" +
                     "                                                                                     \n" +
-                    "\n");
+                    "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Voldemort and Peter Pettigrow", null, "Accio");
+                break;
+            }
 
-            case 6 -> setName("\n" +
+            case 6 : {
+                this.name ="\n" +
                     "\n" +
                     "  _______ _             ____          _                    __   _   _            _____  _                _      \n" +
                     " |__   __| |           / __ \\        | |                  / _| | | | |          |  __ \\| |              (_)     \n" +
@@ -82,9 +99,13 @@ public class Chapter {
                     "    |_|  |_| |_|\\___|  \\____/|_|  \\__,_|\\___|_|     \\___/|_|    \\__|_| |_|\\___| |_|    |_| |_|\\___|_| |_|_/_/\\_\\\n" +
                     "                                                                                                                \n" +
                     "                                                                                                                \n" +
-                    "\n");
+                    "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Dolores Ombrage", "Fireworks", null);
+                break;
+            }
 
-            case 7 -> setName("\n" +
+            case 7 : {
+                this.name ="\n" +
                     "\n" +
                     "  _______ _            _    _       _  __        ____  _                 _   _____      _                \n" +
                     " |__   __| |          | |  | |     | |/ _|      |  _ \\| |               | | |  __ \\    (_)               \n" +
@@ -94,9 +115,13 @@ public class Chapter {
                     "    |_|  |_| |_|\\___| |_|  |_|\\__,_|_|_|        |____/|_|\\___/ \\___/ \\__,_| |_|   |_|  |_|_| |_|\\___\\___|\n" +
                     "                                                                                                         \n" +
                     "                                                                                                         \n" +
-                    "\n");
+                    "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Mangemorts", null, "Sectumsempra");
+                break;
+            }
 
-            case 8 -> setName("\n" +
+            case 8 : {
+                this.name = "\n" +
                     "\n" +
                     "  _______ _            _____             _   _     _         _    _       _ _                   \n" +
                     " |__   __| |          |  __ \\           | | | |   | |       | |  | |     | | |                  \n" +
@@ -106,8 +131,10 @@ public class Chapter {
                     "    |_|  |_| |_|\\___| |_____/ \\___|\\__,_|\\__|_| |_|_|\\__, | |_|  |_|\\__,_|_|_|\\___/ \\_/\\_/ |___/\n" +
                     "                                                      __/ |                                     \n" +
                     "                                                     |___/                                      \n" +
-                    "\n");
+                    "\n";
+                this.boss = new Boss(100, 100, 1, 1, "Voldemort et Bellatrix Lestrange", null, "Expelliarmus");
+                break;
+            }
         }
-        return name;
     }
 }

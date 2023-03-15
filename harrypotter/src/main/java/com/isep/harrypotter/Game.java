@@ -8,6 +8,7 @@ import com.isep.harrypotter.spells.Spell;
 import com.isep.utils.InputParser;
 import com.isep.utils.OutputManager;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 
@@ -23,14 +24,14 @@ public class Game {
     public Game(InputParser inputParser, OutputManager outputManager){
         this.inputParser = inputParser;
         this.outputManager = outputManager;
-        this.chapter = new Chapter();
+        this.chapter = new Chapter(1);
         this.isGameFinished = false;
         this.wizard = this.inputParser.initWizard();
     }
 
     public void play(){
         this.chapter.setDay(0);
-        AbstractEnemy enemy = new Enemy(100, 100, 1, 1);
+        AbstractEnemy enemy = new Enemy(100, 100, 1, 1, "Cha");
 
         while (!isGameFinished){
             if (!chapter.isChapterInit()){
@@ -52,8 +53,7 @@ public class Game {
                 playBoss();
                 chapter.setBossPassed(true);
                 if (chapter.isBossPassed()){
-                    chapter.setNumber(chapter.getNumber() + 1);
-                    chapter.setChapterInit(false);
+                    chapter = new Chapter(this.chapter.getNumber() + 1);
                 }
                 else {
                     outputManager.displayMessage("END GAME...", this.wizard);
@@ -116,37 +116,48 @@ public class Game {
         List<Potion> potionList = wizard.getPotions();
         List<Spell> knownSpell = wizard.getKnownSpells();
         String message;
-        if (potionList.size() > 0 && knownSpell.size() > 0){
-            message = "You can use " + potionList.size() + " potions and " + knownSpell.size() + " spells";
-        }
-        else {
-            if (potionList.size() > 0){
-                message = "You can use " + potionList.size() + " potions";
-            } else if (knownSpell.size() > 0) {
-                message = "You can use " + knownSpell.size() + " spells";
+        int enemyAttack;
+        // Looping until an integer is provided
+        do {
+            if (potionList.size() > 0 && knownSpell.size() > 0){
+                message = "You can use " + potionList.size() + " potions and " + knownSpell.size() + " spells";
             }
             else {
-                message = "You don't have any potion or spell...";
+                if (potionList.size() > 0){
+                    message = "You can use " + potionList.size() + " potions";
+                } else if (knownSpell.size() > 0) {
+                    message = "You can use " + knownSpell.size() + " spells";
+                }
+                else {
+                    message = "You don't have any potion or spell...";
+                }
             }
-        }
-        if (potionList.size() > 0 || knownSpell.size() > 0){
-            outputManager.displayMessage(message, wizard);
-            outputManager.displayMessage("Type the name of what you want to use", wizard);
-            Object choice = inputParser.battleChoice(wizard);
-            if (choice instanceof AbstractSpell spell){
-                //TODO cast a spell
-                enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
-                System.out.println("je suis ici pour cast un spell" + enemy.getCurrentHealth());
+            if (potionList.size() > 0 || knownSpell.size() > 0){
+                outputManager.displayMessage(message, wizard);
+                outputManager.displayMessage("Type the name of what you want to use", wizard);
+                Object choice = inputParser.battleChoice(wizard);
+                if (choice instanceof AbstractSpell spell){
+                    //TODO cast a spell
+                    enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
+                }
+                else if (choice instanceof Potion potion){
+                    //TODO drink a potion
+                    outputManager.displayMessage(potion.drinkPotion(wizard), wizard);
+                }
+                else {
+                    outputManager.displayMessage("Huoohh... it seems to not exist", wizard);
+                }
+                //TODO random damage
+                enemyAttack = enemy.getDamage();
+                wizard.setCurrentHealth(wizard.getCurrentHealth() - enemyAttack);
+                outputManager.displayMessage(enemy.getName() + " just attacked you, and you lost " + enemyAttack + "HP", wizard);
             }
-            else if (choice instanceof Potion potion){
-                potion.drinkPotion(wizard);
-                System.out.println("je suis ici pour drink une potion");
-                //TODO drink a potion
-            }
-            else {
-                outputManager.displayMessage("Huoohh... it seems to not exist", wizard);
-            }
-        }
+            outputManager.displayMessage("Your life : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth() + " and enemy : " + enemy.getCurrentHealth() + "/" + enemy.getTotalHealth(), wizard );
+
+        } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
+        //TODO checklife
+
+        System.out.println("\n\nYOU WIN !!! \n\n");
 
     }
 }

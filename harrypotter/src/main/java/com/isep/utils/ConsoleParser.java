@@ -7,6 +7,8 @@ import com.isep.harrypotter.spells.Spell;
 import com.isep.harrypotter.characters.Wizard;
 
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleParser implements InputParser {
@@ -26,9 +28,9 @@ public class ConsoleParser implements InputParser {
     }
     public Wizard initWizard(){
         System.out.println("Enter your wizard firstname");
-        String firstname = getString();
+        String firstname = getString(null);
         System.out.println("Enter your wizard lastname");
-        String lastname = getString();
+        String lastname = getString(null);
         Wizard wizard = new Wizard(firstname, lastname, SortingHat.assignHouse());
         System.out.println("Hello " + firstname + " " + lastname);
         System.out.println("Welcome to Poudlard");
@@ -37,11 +39,11 @@ public class ConsoleParser implements InputParser {
     }
 
     public Spell findSpellByName(Wizard wizard, boolean know){
-        return Spell.loopInSpell(getString(), wizard, know);
+        return Spell.loopInSpell(getString(wizard), wizard, know);
     }
 
     public Object battleChoice(Wizard wizard){
-        String input = getString();
+        String input = getString(wizard);
         Spell spell = Spell.loopInSpell(input, wizard, true);
         Potion potion = Potion.loopInPotions(input, wizard);
         if (null != spell){
@@ -60,18 +62,15 @@ public class ConsoleParser implements InputParser {
         boolean validInput = false;
         int value = 0;
 
-        // Looping until an integer is provided
         do {
             try
             {
                 value = this.scanner.nextInt();
-                // Consuming the \n char so it doesn't break the next call for nextLine()
                 this.scanner.nextLine();
                 validInput = true;
             }
             catch (InputMismatchException e)
             {
-                //System.out.print("/!\\ Invalid value (not a number).\nPlease provide a number: ");
                 System.out.printf("/!\\ Invalid value (not a number)%n%s: ", messageWhenMismatch);
                 scanner.nextLine();
             }
@@ -81,26 +80,64 @@ public class ConsoleParser implements InputParser {
     }
 
 
-    private String getString()
-    {
+    private String getString(Wizard wizard) {
         boolean validInput = false;
-        String s = null;
+        String userInput = null;
 
-        // Looping until a string is provided
         do {
-            try
-            {
-                s = this.scanner.nextLine();
-                validInput = true;
-            }
-            catch (InputMismatchException e)
-            {
+            try {
+                userInput = this.scanner.nextLine();
+                if(userInput.startsWith("s") || userInput.startsWith("show")){
+                    int firstSpaceIndex = userInput.indexOf(" ");
+                    userInput = userInput.substring(firstSpaceIndex + 1);
+                    switch (userInput) {
+                        case "potions" -> displayPotions(wizard);
+                        case "spells" -> displaySpells(wizard);
+                        default -> System.out.println("Nothing to see there");
+                    }
+                }
+                else validInput = true;
+
+            } catch (InputMismatchException e) {
                 System.out.print("/!\\ Invalid value (not a string).\nPlease provide a string: ");
                 scanner.nextLine();
             }
         } while(!validInput);
 
-        return s;
+        return userInput;
     }
+
+
+    // TODO put it back into output parser
+    private void displayPotions(Wizard wizard) {
+        System.out.println("\nYou have those potions:");
+        List<Potion> potions = wizard.getPotions();
+        if(potions.size() == 0){
+            System.out.println("You don't have have any potion");
+        }
+        else {
+            for (int i = 0; i < potions.size(); i++) {
+                System.out.println((i+1) + ". " + potions.get(i).getName());
+            }
+
+        }
+        System.out.println("\nYou can continue the previous action\n\n");
+    }
+
+    private void displaySpells(Wizard wizard) {
+        System.out.println("\nYou know those spells:");
+        List<Spell> knownSpells = wizard.getKnownSpells();
+        if(knownSpells.size() == 0){
+            System.out.println("You don't know any spell");
+        }
+        else {
+            for (int i = 0; i < knownSpells.size(); i++) {
+                System.out.println((i+1) + ". " + knownSpells.get(i).getName());
+            }
+        }
+
+        System.out.println("\nYou can continue the previous action\n\n");
+    }
+
 
 }
