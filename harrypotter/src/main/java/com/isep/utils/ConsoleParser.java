@@ -87,14 +87,19 @@ public class ConsoleParser implements InputParser {
         do {
             try {
                 userInput = this.scanner.nextLine();
-                if(userInput.startsWith("s") || userInput.startsWith("show")){
-                    int firstSpaceIndex = userInput.indexOf(" ");
-                    userInput = userInput.substring(firstSpaceIndex + 1);
-                    switch (userInput) {
-                        case "potions" -> displayPotions(wizard);
-                        case "spells" -> displaySpells(wizard);
-                        default -> System.out.println("Nothing to see there");
+                //TODO fix super forbidden spell
+                int firstSpaceIndex = userInput.indexOf(" ");
+                if (firstSpaceIndex != -1) {
+                    String firstWord = userInput.substring(0, firstSpaceIndex);
+                    if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
+                        userInput = userInput.substring(firstSpaceIndex + 1);
+                        switch (userInput) {
+                            case "potions" -> displayPotions(wizard);
+                            case "spells" -> displaySpells(wizard);
+                            default -> System.out.println("Nothing to see there");
+                        }
                     }
+                    else validInput = true;
                 }
                 else validInput = true;
 

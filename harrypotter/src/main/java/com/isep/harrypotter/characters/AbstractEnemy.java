@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractEnemy extends Character {
     private String name;
-    public AbstractEnemy(int totalHealth, double currentHealth, int defence, int damage, String name) {
-        super(totalHealth, currentHealth, defence, damage);
+    public AbstractEnemy(int totalHealth, double currentHealth, int defence, int damage, double accuracy, String name) {
+        super(totalHealth, currentHealth, defence, damage, accuracy);
         this.name = name;
     }
 }

@@ -31,7 +31,8 @@ public class Chapter {
         switch (number){
             case 1: {
                 this.number = number;
-                this.name = "  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
+                this.name =
+                        "  _______ _            _____  _     _ _                       _                      _____ _                   \n" +
                         " |__   __| |          |  __ \\| |   (_) |                     | |                    / ____| |                  \n" +
                         "    | |  | |__   ___  | |__) | |__  _| | ___  ___  ___  _ __ | |__   ___ _ __ ___  | (___ | |_ ___  _ __   ___ \n" +
                         "    | |  | '_ \\ / _ \\ |  ___/| '_ \\| | |/ _ \\/ __|/ _ \\| '_ \\| '_ \\ / _ \\ '__/ __|  \\___ \\| __/ _ \\| '_ \\ / _ \\\n" +
@@ -39,7 +40,7 @@ public class Chapter {
                         "    |_|  |_| |_|\\___| |_|    |_| |_|_|_|\\___/|___/\\___/| .__/|_| |_|\\___|_|  |___/ |_____/ \\__\\___/|_| |_|\\___|\n" +
                         "                                                       | |                                                     \n" +
                         "                                                       |_|                                                     ";
-                this.boss = new Boss(100, 100, 1, 1, "Troll", null, "Wingardium Leviosa");
+                this.boss = new Boss(100, 100, 1, 50, 0.1,"Troll", null, "Wingardium Leviosa");
                 break;
             }
             case 2 : {
@@ -55,7 +56,7 @@ public class Chapter {
                             "                                                                                                                    \n" +
                             "                                                                                                                    \n" +
                             "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Basilic", "Sword", "Accio");
+                this.boss = new Boss(100, 100, 1, 30, 0.2,"Basilic", "Sword", "Accio");
                 break;
             }
 
@@ -72,7 +73,7 @@ public class Chapter {
                     "                                                                                                                            \n" +
                     "                                                                                                                            \n" +
                     "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Détraqueurs", null, "Expecto Patronum");
+                this.boss = new Boss(100, 100, 1, 10, 0.3,"Détraqueurs", null, "Expecto Patronum");
                 break;
             }
 
@@ -89,7 +90,7 @@ public class Chapter {
                     "                                                                                     \n" +
                     "                                                                                     \n" +
                     "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Voldemort and Peter Pettigrow", null, "Accio");
+                this.boss = new Boss(100, 100, 1, 70, 0.4,"Voldemort and Peter Pettigrow", null, "Accio");
                 break;
             }
 
@@ -106,7 +107,7 @@ public class Chapter {
                     "                                                                                                                \n" +
                     "                                                                                                                \n" +
                     "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Dolores Ombrage", "Fireworks", null);
+                this.boss = new Boss(100, 100, 1, 60, 0.5,"Dolores Ombrage", "Fireworks", null);
                 break;
             }
 
@@ -123,7 +124,7 @@ public class Chapter {
                     "                                                                                                         \n" +
                     "                                                                                                         \n" +
                     "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Mangemorts", null, "Sectumsempra");
+                this.boss = new Boss(100, 100, 1, 40, 0.7,"Mangemorts", null, "Sectumsempra");
                 break;
             }
 
@@ -140,7 +141,7 @@ public class Chapter {
                     "                                                      __/ |                                     \n" +
                     "                                                     |___/                                      \n" +
                     "\n";
-                this.boss = new Boss(100, 100, 1, 1, "Voldemort et Bellatrix Lestrange", null, "Expelliarmus");
+                this.boss = new Boss(100, 100, 1, 100, 0.9,"Voldemort et Bellatrix Lestrange", null, "Expelliarmus");
                 break;
             }
         }

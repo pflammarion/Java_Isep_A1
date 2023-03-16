@@ -31,7 +31,7 @@ public class Game {
 
     public void play(){
         this.chapter.setDay(0);
-        AbstractEnemy enemy = new Enemy(100, 100, 1, 1, "Cha");
+        //AbstractEnemy enemy = new Enemy(100, 100, 1, 1, "Cha");
 
         while (!isGameFinished){
             if (!chapter.isChapterInit()){
@@ -48,11 +48,12 @@ public class Game {
                 outputManager.displayMessage("lkjqnsdlkqldsjflqjsdflkjqlmdskfjlqmsjdfljqksfdmljlqksdf ?", wizard);
 
                 //TODO jeu parallèle
+                System.out.println("je six pas pas ce que tu peux prednre tu fais comme tu veux LILLA");
             }
-            else if (!chapter.isBossPassed() && this.chapter.getDay() > 365){
-                playBoss();
-                chapter.setBossPassed(true);
-                if (chapter.isBossPassed()){
+            else if (!chapter.isBossPassed() && this.chapter.getDay() > 365.25){
+                boolean bool = battleEnemy(wizard, chapter.getBoss());
+                chapter.setBossPassed(bool);
+                if (bool){
                     chapter = new Chapter(this.chapter.getNumber() + 1);
                 }
                 else {
@@ -64,7 +65,7 @@ public class Game {
                 switch (inputParser.displayMenu()){
                     case 1 -> goToSchool();
                     case 2 -> skippingSchool();
-                    case 3 -> battleEnemy(wizard, enemy);
+                    case 3 -> battleEnemy(wizard, chapter.getBoss());
                 }
             }
             this.chapter.setDay(chapter.getDay() + new Random().nextInt(21) + 20);
@@ -104,20 +105,11 @@ public class Game {
         return random1 == random2;
     }
 
-    private void playBoss(){
-        //TODO create boss mechanic
-        outputManager.displayMessage("This is the time to boss", this.wizard);
-
-    }
-
-    private void battleEnemy(Wizard wizard, AbstractEnemy enemy) {
+    private boolean battleEnemy(Wizard wizard, AbstractEnemy enemy) {
         //TODO parse a summary
-        Battle battle = new Battle(wizard, enemy);
         List<Potion> potionList = wizard.getPotions();
         List<Spell> knownSpell = wizard.getKnownSpells();
         String message;
-        int enemyAttack;
-        // Looping until an integer is provided
         do {
             if (potionList.size() > 0 && knownSpell.size() > 0){
                 message = "You can use " + potionList.size() + " potions and " + knownSpell.size() + " spells";
@@ -137,27 +129,30 @@ public class Game {
                 outputManager.displayMessage("Type the name of what you want to use", wizard);
                 Object choice = inputParser.battleChoice(wizard);
                 if (choice instanceof AbstractSpell spell){
-                    //TODO cast a spell
                     enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
+                    if (enemy.getCurrentHealth()<0)enemy.setCurrentHealth(0);
                 }
                 else if (choice instanceof Potion potion){
-                    //TODO drink a potion
                     outputManager.displayMessage(potion.drinkPotion(wizard), wizard);
                 }
                 else {
                     outputManager.displayMessage("Huoohh... it seems to not exist", wizard);
                 }
-                //TODO random damage
-                enemyAttack = enemy.getDamage();
-                wizard.setCurrentHealth(wizard.getCurrentHealth() - enemyAttack);
-                outputManager.displayMessage(enemy.getName() + " just attacked you, and you lost " + enemyAttack + "HP", wizard);
+                outputManager.displayMessage(wizard.takeTurn(enemy), wizard);
+                if (wizard.getCurrentHealth()<0) wizard.setCurrentHealth(0);
             }
             outputManager.displayMessage("Your life : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth() + " and enemy : " + enemy.getCurrentHealth() + "/" + enemy.getTotalHealth(), wizard );
 
         } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
-        //TODO checklife
-
-        System.out.println("\n\nYOU WIN !!! \n\n");
+        //TODO end of the battle
+        if (wizard.getCurrentHealth() > 0){
+            System.out.println("\n\nYOU WIN !!! \n\n");
+            return true;
+        }
+        else {
+            System.out.println("\n\nPaul Nuls\n\n");
+            return false;
+        }
 
     }
 }
