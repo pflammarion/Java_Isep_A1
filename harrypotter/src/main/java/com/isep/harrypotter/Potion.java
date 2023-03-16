@@ -1,8 +1,11 @@
 package com.isep.harrypotter;
 
-import lombok.AllArgsConstructor;
+import com.isep.harrypotter.characters.Wizard;
+import com.isep.harrypotter.spells.Spell;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -54,6 +57,19 @@ public class Potion {
             wizard.setNowPet(true);
             message = "Bahahhah you just became a pet lol and you are " + wizard.getPet();
         }
+        message += "\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth();
         return message;
+    }
+
+    public static Potion loopInPotions(String potionName, Wizard wizard) {
+        Potion potion = null;
+        List<Potion> wizz = wizard.getPotions();
+        for (Potion p : wizz) {
+            if (p.getName().equalsIgnoreCase(potionName)) {
+                potion = p;
+                break;
+            }
+        }
+        return potion;
     }
 }
