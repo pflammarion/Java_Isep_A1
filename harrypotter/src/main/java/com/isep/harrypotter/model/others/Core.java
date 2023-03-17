@@ -1,4 +1,4 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.model.others;
 
 public enum Core {
     PHOENIX_FEATHER,

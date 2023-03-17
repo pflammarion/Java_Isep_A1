@@ -1,7 +1,10 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.model.others;
+
 
 public class SortingHat {
-    public static House assignHouse() {
+
+    public SortingHat(){}
+    public House assignHouse() {
 
         // Generate a random number between 0 and 3
         int randomNum = (int) (Math.random() * 4);

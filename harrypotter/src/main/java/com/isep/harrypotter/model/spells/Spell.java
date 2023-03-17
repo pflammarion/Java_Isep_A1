@@ -1,10 +1,12 @@
-package com.isep.harrypotter.spells;
+package com.isep.harrypotter.model.spells;
 
-import com.isep.harrypotter.characters.Wizard;
+import com.isep.harrypotter.model.characters.Wizard;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class Spell extends AbstractSpell {
     public Spell(String name, int energyCost, int damage) {
         super(name, energyCost, damage);
@@ -46,21 +48,5 @@ public class Spell extends AbstractSpell {
             }
         }
         return spell;
-    }
-
-    public String castSpell(String spellName, Wizard wizard){
-        Spell spell = loopInSpell(spellName, wizard, true);
-        if (spell == null){
-            return "You don't know the spell " + spellName + "!";
-        }
-        else {
-            return "You cast the spell " + spell.getName();
-        }
-    }
-    public String learnSpell(Wizard wizard){
-        List<Spell> knownSpells = wizard.getKnownSpells();
-        knownSpells.add(this);
-        wizard.setKnownSpells(knownSpells);
-        return "You have learned the " + this.getName() +" spell!\n";
     }
 }

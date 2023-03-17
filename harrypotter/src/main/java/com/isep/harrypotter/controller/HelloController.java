@@ -1,4 +1,4 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,6 +1,5 @@
-package com.isep.harrypotter.characters;
+package com.isep.harrypotter.model.characters;
 
-import com.isep.harrypotter.characters.Character;
 import lombok.Getter;
 import lombok.Setter;
 

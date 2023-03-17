@@ -1,7 +1,8 @@
 package com.isep.harrypotter;
 
-import com.isep.utils.ConsoleOutput;
-import com.isep.utils.ConsoleParser;
+import com.isep.harrypotter.controller.Game;
+import com.isep.harrypotter.view.ConsoleOutput;
+import com.isep.harrypotter.view.ConsoleParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
