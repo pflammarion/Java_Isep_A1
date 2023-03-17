@@ -1,7 +1,11 @@
-package com.isep.harrypotter.characters;
+package com.isep.harrypotter.model.characters;
 
-import com.isep.harrypotter.*;
-import com.isep.harrypotter.spells.Spell;
+import com.isep.harrypotter.model.*;
+import com.isep.harrypotter.model.others.Core;
+import com.isep.harrypotter.model.others.House;
+import com.isep.harrypotter.model.others.Pet;
+import com.isep.harrypotter.model.others.Wand;
+import com.isep.harrypotter.model.spells.Spell;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -23,12 +27,9 @@ public class Wizard extends Character {
     private int drunk;
     private Random random = new Random();
 
-    public Wizard(String firstname, String lastname, House house) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Wizard() {
         this.wand = new Wand(Core.values()[(int) (Math.random() * Core.values().length)], (int) (Math.random() * 50));
         this.pet = Pet.values()[new Random().nextInt(Pet.values().length)];
-        this.house = house;
         this.isNowPet = false;
         this.drunk = 0;
         this.potionEfficiency = 1;
@@ -36,23 +37,9 @@ public class Wizard extends Character {
         setDamage(1);
         setAccuracy(1);
         setDefence(1);
-        switch (house){
-            case HUFFLEPUFF ->{
-                this.potionEfficiency = 10;
-            }
-            case SLYTHERIN -> {
-                setDamage(10);
-            }
-            case GRYFFINDOR -> {
-                setDefence(10);
-            }
-            case RAVENCLAW -> {
-                setAccuracy(0.5);
-            }
-        }
+
         setTotalHealth(100);
         setCurrentHealth(100);
-
     }
 
     public boolean randomProbability(int chance){
@@ -62,6 +49,7 @@ public class Wizard extends Character {
         return random1 == random2;
     }
 
+    //TODO put in controller
     public String takeTurn(AbstractEnemy enemy) {
         if (random.nextDouble() < enemy.getAccuracy()) {
             // boss attack succeeds

@@ -1,4 +1,4 @@
-package com.isep.harrypotter.characters;
+package com.isep.harrypotter.model.characters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

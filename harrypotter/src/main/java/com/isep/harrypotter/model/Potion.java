@@ -1,7 +1,6 @@
-package com.isep.harrypotter;
+package com.isep.harrypotter.model;
 
-import com.isep.harrypotter.characters.Wizard;
-import com.isep.harrypotter.spells.Spell;
+import com.isep.harrypotter.model.characters.Wizard;
 import lombok.Getter;
 import lombok.Setter;
 

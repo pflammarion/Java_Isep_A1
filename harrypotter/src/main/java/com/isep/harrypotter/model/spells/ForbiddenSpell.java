@@ -1,7 +1,6 @@
-package com.isep.harrypotter.spells;
+package com.isep.harrypotter.model.spells;
 
-import com.isep.harrypotter.characters.Wizard;
-import com.isep.harrypotter.spells.AbstractSpell;
+import com.isep.harrypotter.model.characters.Wizard;
 import lombok.Getter;
 
 @Getter
@@ -13,7 +12,4 @@ public class ForbiddenSpell extends AbstractSpell {
         this.effect = effect;
     }
 
-    public String castSpell(String spellName, Wizard wizard){
-       return "";
-    }
 }

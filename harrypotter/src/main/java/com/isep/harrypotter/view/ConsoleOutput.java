@@ -1,8 +1,8 @@
-package com.isep.utils;
+package com.isep.harrypotter.view;
 
-import com.isep.harrypotter.Potion;
-import com.isep.harrypotter.spells.Spell;
-import com.isep.harrypotter.characters.Wizard;
+import com.isep.harrypotter.model.Potion;
+import com.isep.harrypotter.model.spells.Spell;
+import com.isep.harrypotter.model.characters.Wizard;
 
 import java.util.List;
 import java.util.Random;
@@ -23,6 +23,19 @@ public class ConsoleOutput implements OutputManager{
         }
         else {
             System.out.println(input);
+        }
+    }
+
+    public void print(String input){
+        System.out.println(input);
+    }
+
+    public void showListElements(String introducer, List<Object> list, Wizard wizard) {
+        displayMessage(introducer, wizard);
+        int index = 1;
+        for (Object element : list) {
+            displayMessage(index + ". " + element.toString(), wizard);
+            index++;
         }
     }
 

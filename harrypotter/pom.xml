@@ -66,7 +66,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.isep.harrypotter/com.isep.harrypotter.Game</mainClass>
+                            <mainClass>com.isep.harrypotter/com.isep.harrypotter.controller.Game</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

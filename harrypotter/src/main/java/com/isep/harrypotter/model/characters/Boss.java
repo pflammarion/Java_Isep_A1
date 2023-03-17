@@ -1,7 +1,4 @@
-package com.isep.harrypotter.characters;
-
-import com.isep.harrypotter.Inventory;
-import com.isep.harrypotter.spells.Spell;
+package com.isep.harrypotter.model.characters;
 
 public class Boss extends AbstractEnemy {
 
