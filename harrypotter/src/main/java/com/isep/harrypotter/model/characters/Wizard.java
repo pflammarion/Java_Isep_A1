@@ -36,7 +36,7 @@ public class Wizard extends Character {
         //TODO en fonction de la maison
         setDamage(1);
         setAccuracy(1);
-        setDefence(1);
+        setDefense(1);
 
         setTotalHealth(100);
         setCurrentHealth(100);
@@ -49,6 +49,5 @@ public class Wizard extends Character {
         return random1 == random2;
     }
 
-    //TODO put in controller
 
 }
