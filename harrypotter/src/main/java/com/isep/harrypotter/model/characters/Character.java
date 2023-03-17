@@ -13,7 +13,7 @@ public abstract class Character {
 
     private int totalHealth;
     private double currentHealth;
-    private int defence;
+    private int defense;
     private int damage;
     private double accuracy;
     public void attack(Character character){}

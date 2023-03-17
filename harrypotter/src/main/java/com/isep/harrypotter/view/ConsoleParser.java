@@ -1,13 +1,9 @@
 package com.isep.harrypotter.view;
 
 
-import com.isep.harrypotter.model.Potion;
-import com.isep.harrypotter.model.others.SortingHat;
-import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.model.characters.Wizard;
 
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleParser implements InputParser {
@@ -55,6 +51,7 @@ public class ConsoleParser implements InputParser {
                     if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
                         userInput = userInput.substring(firstSpaceIndex + 1);
                         switch (userInput) {
+                            //TODO reimplement it
                             /*
                             case "potions" -> wizardController.displayPotions(wizard);
                             case "spells" -> wizardController.displaySpells(wizard);
