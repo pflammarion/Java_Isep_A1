@@ -1,6 +1,5 @@
 package com.isep.harrypotter.controller;
 
-import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
@@ -25,7 +24,7 @@ public class SpellController {
     }
 
     public void castSpell(String spellName, Wizard wizard){
-        Spell spell = Spell.loopInSpell(spellName, wizard, true);
+        Spell spell = Spell.getSpellByName(spellName, wizard, true);
         if (spell == null){
             outputManager.displayMessage("You don't know the spell " + spellName + "!", wizard.getDrunk());
         }
@@ -41,7 +40,7 @@ public class SpellController {
     }
 
     public Spell getSpellByName(Wizard wizard, boolean know){
-        return Spell.loopInSpell(inputParser.getString(wizard), wizard, know);
+        return Spell.getSpellByName(inputParser.getString(wizard), wizard, know);
     }
 
     private void displaySpells(Wizard wizard) {

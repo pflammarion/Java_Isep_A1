@@ -24,7 +24,7 @@ public class Game {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.isGameFinished = false;
-        this.characterController = new CharacterController(inputParser, outputManager, new Wizard());
+        this.characterController = new CharacterController(inputParser, outputManager, new Wizard(), new Random());
         this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
         this.spellController = new SpellController(inputParser, outputManager);
     }

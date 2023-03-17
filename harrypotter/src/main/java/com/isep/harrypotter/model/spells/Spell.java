@@ -34,7 +34,7 @@ public class Spell extends AbstractSpell {
         return allSpells;
     }
 
-    public static Spell loopInSpell(String spellName, Wizard wizard, Boolean known) {
+    public static Spell getSpellByName(String spellName, Wizard wizard, Boolean known) {
         Spell spell = null;
         List<Spell> wizz;
         if (known){

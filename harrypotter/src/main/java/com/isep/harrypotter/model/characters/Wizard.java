@@ -50,22 +50,5 @@ public class Wizard extends Character {
     }
 
     //TODO put in controller
-    public String takeTurn(AbstractEnemy enemy) {
-        if (random.nextDouble() < enemy.getAccuracy()) {
-            // boss attack succeeds
-            double actualDamage = enemy.getDamage() - getDefence();
-            if (actualDamage <= 0) {
-                actualDamage = 0; // ensure at least 1 damage is dealt
-            }
-            takeDamage(actualDamage);
-            return enemy.getName() + " attacks you for " + enemy.getDamage() + " damage! But you have " + getDefence();
-        } else {
-            // boss attack fails, deal linear damage
-            double attack = enemy.getDamage() * enemy.getAccuracy() *  random.nextDouble();
-            double actualDamage = Math.max(attack, enemy.getAccuracy());
-            actualDamage = (double) Math.round(actualDamage * 100) / 100;
-            takeDamage(actualDamage);
-            return enemy.getName() + " misses, but deals " + actualDamage + " damage due to the backlash!";
-        }
-    }
+
 }
