@@ -130,7 +130,6 @@ public class CharacterController {
         this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
-            //TODO learn new potions
             Potion potion = potionController.getAvailablePotionByName("Felix Felicis");
             potionController.learnPotion(potion, wizard);
             this.outputManager.showListElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
