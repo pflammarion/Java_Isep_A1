@@ -5,6 +5,7 @@ import com.isep.harrypotter.model.others.Core;
 import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.others.Pet;
 import com.isep.harrypotter.model.others.Wand;
+import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class Wizard extends Character {
     private Pet pet;
     private Wand wand;
     private House house;
-    private List<Spell> knownSpells = new ArrayList<>();
+    private List<AbstractSpell> knownSpells = new ArrayList<>();
     private List<Potion> potions =  new ArrayList<>();
     private String firstname;
     private String lastname;
@@ -33,11 +34,10 @@ public class Wizard extends Character {
         this.isNowPet = false;
         this.drunk = 0;
         this.potionEfficiency = 1;
-        //TODO en fonction de la maison
+        //Default depends on house
         setDamage(1);
         setAccuracy(1);
-        setDefence(1);
-
+        setDefense(1);
         setTotalHealth(100);
         setCurrentHealth(100);
     }
@@ -49,23 +49,4 @@ public class Wizard extends Character {
         return random1 == random2;
     }
 
-    //TODO put in controller
-    public String takeTurn(AbstractEnemy enemy) {
-        if (random.nextDouble() < enemy.getAccuracy()) {
-            // boss attack succeeds
-            double actualDamage = enemy.getDamage() - getDefence();
-            if (actualDamage <= 0) {
-                actualDamage = 0; // ensure at least 1 damage is dealt
-            }
-            takeDamage(actualDamage);
-            return enemy.getName() + " attacks you for " + enemy.getDamage() + " damage! But you have " + getDefence();
-        } else {
-            // boss attack fails, deal linear damage
-            double attack = enemy.getDamage() * enemy.getAccuracy() *  random.nextDouble();
-            double actualDamage = Math.max(attack, enemy.getAccuracy());
-            actualDamage = (double) Math.round(actualDamage * 100) / 100;
-            takeDamage(actualDamage);
-            return enemy.getName() + " misses, but deals " + actualDamage + " damage due to the backlash!";
-        }
-    }
 }

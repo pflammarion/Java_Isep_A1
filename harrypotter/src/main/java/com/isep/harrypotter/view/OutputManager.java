@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface OutputManager {
     void displayMessage(String message, int drunkDays);
-    void showListElements(String introducer, List<Object> list, int drunkDays);
-    void printAvailablePotions(List<Potion> potions, int drunkDays);
-    void printKnownSpells(List<Spell> knownSpells, int drunkDays);
-    void getAvailableSpells(List<Spell> knownSpells, int drunkDays);
+    void showListElements(String introducer, List<?> list, int drunkDays);
     void print(String input);
 }

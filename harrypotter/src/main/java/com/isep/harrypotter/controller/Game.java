@@ -24,15 +24,14 @@ public class Game {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.isGameFinished = false;
-        this.characterController = new CharacterController(inputParser, outputManager, new Wizard());
-        this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
         this.spellController = new SpellController(inputParser, outputManager);
+        this.characterController = new CharacterController(inputParser, outputManager,spellController, new Wizard(), new Random());
+        this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
     }
 
     public void play(){
         characterController.initWizard();
         chapterController.initChapter();
-        //AbstractEnemy enemy = new Enemy(100, 100, 1, 1, "Cha");
 
         while (!isGameFinished){
             isGameFinished = chapterController.newDay();
@@ -56,19 +55,22 @@ public class Game {
     }
 
 
-
-    public void goToSchool(){
+    private void goToSchool(){
         Wizard wizard = characterController.getWizard();
-        this.outputManager.getAvailableSpells(wizard.getKnownSpells(), wizard.getDrunk());
+        this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
-        Spell spell = spellController.getSpellByName(wizard, false);
-        spellController.setSpell(spell);
-        spellController.learnSpell(wizard);
-        this.outputManager.printKnownSpells(wizard.getKnownSpells(), wizard.getDrunk());
+        Spell spell = spellController.getAvailableSpellByName(inputParser.getString(wizard), wizard);
+        if (null != spell){
+            spellController.learnSpell(spell, wizard);
+            this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+        }
     }
 
 
-    public int displayMenu(){
+    private int displayMenu(){
         System.out.println("\nWhat a nice day, what are you going to do today ?");
         System.out.println("1. Go to school");
         System.out.println("2. Skipping school");
