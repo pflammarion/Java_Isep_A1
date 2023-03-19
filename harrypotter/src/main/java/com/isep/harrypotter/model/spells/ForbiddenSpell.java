@@ -4,8 +4,10 @@ import com.isep.harrypotter.model.characters.Wizard;
 import lombok.Getter;
 
 public class ForbiddenSpell extends AbstractSpell {
-    public ForbiddenSpell(String name, int energyCost, int damage,  String effect) {
-        super(name, energyCost, damage);
-    }
+    private String effect;
 
+    public ForbiddenSpell(String name, String description, int energyCost, int damage,  String effect) {
+        super(name, description, energyCost, damage);
+        this.effect = effect;
+    }
 }

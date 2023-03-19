@@ -34,10 +34,7 @@ public class ChapterController {
         return false;
     }
     public boolean isChapterFinish(){
-        if (!chapter.isBossPassed() && this.chapter.getDay() > 365.25){
-            return true;
-        }
-        return false;
+        return !chapter.isBossPassed() && this.chapter.getDay() > 365.25;
     }
 
     public boolean nextChapter(boolean victory){

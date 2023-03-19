@@ -5,6 +5,7 @@ import com.isep.harrypotter.model.others.Core;
 import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.others.Pet;
 import com.isep.harrypotter.model.others.Wand;
+import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class Wizard extends Character {
     private Pet pet;
     private Wand wand;
     private House house;
-    private List<Spell> knownSpells = new ArrayList<>();
+    private List<AbstractSpell> knownSpells = new ArrayList<>();
     private List<Potion> potions =  new ArrayList<>();
     private String firstname;
     private String lastname;
@@ -48,9 +49,4 @@ public class Wizard extends Character {
         return random1 == random2;
     }
 
-    public List<Spell> getAvailableSpell(){
-        List<Spell> allSpells = Spell.getAllSpells();
-        allSpells.removeAll(this.knownSpells);
-        return allSpells;
-    }
 }

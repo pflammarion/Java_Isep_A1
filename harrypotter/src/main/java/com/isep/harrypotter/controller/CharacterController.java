@@ -6,6 +6,7 @@ import com.isep.harrypotter.model.characters.Enemy;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.spells.AbstractSpell;
+import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
@@ -23,6 +24,7 @@ import java.util.Random;
 public class CharacterController {
     private InputParser inputParser;
     private OutputManager outputManager;
+    private SpellController spellController;
     private Wizard wizard;
     private Random random;
     public void initWizard(){
@@ -58,7 +60,7 @@ public class CharacterController {
 
     public Object battleChoice(){
         String input = inputParser.getString(this.wizard);
-        Spell spell = Spell.getSpellByName(input, this.wizard, true);
+        Spell spell = spellController.getKnownSpellByName(input, this.wizard);
         Potion potion = Potion.getPotionByName(input, this.wizard);
         if (null != spell){
             return spell;
@@ -74,7 +76,7 @@ public class CharacterController {
     public boolean battleEnemy(AbstractEnemy enemy) {
         //TODO parse a summary
         List<Potion> potionList = wizard.getPotions();
-        List<Spell> knownSpell = wizard.getKnownSpells();
+        List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         String message;
         do {
             if (potionList.size() > 0 && knownSpell.size() > 0){
@@ -95,8 +97,7 @@ public class CharacterController {
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell){
-                    enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
-                    if (enemy.getCurrentHealth()<0)enemy.setCurrentHealth(0);
+                    castSpell(spell, enemy);
                 }
                 else if (choice instanceof Potion potion){
                     drinkPotion(potion);
@@ -105,7 +106,6 @@ public class CharacterController {
                     outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
                 }
             }
-            outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
 
             if (wizard.getCurrentHealth() < 0){
@@ -136,9 +136,7 @@ public class CharacterController {
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
-            List<Spell> knownSpells = this.wizard.getKnownSpells();
-            knownSpells.add(new Spell("super forbidden spell", 20, 100));
-            this.wizard.setKnownSpells(knownSpells);
+            spellController.learnSpell(new ForbiddenSpell("super forbidden spell","forbid desc", 20, 100, "Explose"), wizard);
             this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
     }
@@ -195,6 +193,19 @@ public class CharacterController {
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
         outputManager.displayMessage("\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth(),wizard.getDrunk());
+    }
+
+    private void castSpell(AbstractSpell spell, AbstractEnemy enemy){
+        List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
+        if (knownSpell.contains(spell)){
+            outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
+            outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
+            enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
+            if (enemy.getCurrentHealth()<0) enemy.setCurrentHealth(0);
+        }
+        else {
+            outputManager.displayMessage("You don't know the spell " + spell.getName() + "!", wizard.getDrunk());
+        }
     }
 
     public void soberUp(){

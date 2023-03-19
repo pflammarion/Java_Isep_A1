@@ -24,9 +24,9 @@ public class Game {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.isGameFinished = false;
-        this.characterController = new CharacterController(inputParser, outputManager, new Wizard(), new Random());
-        this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
         this.spellController = new SpellController(inputParser, outputManager);
+        this.characterController = new CharacterController(inputParser, outputManager,spellController, new Wizard(), new Random());
+        this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
     }
 
     public void play(){
@@ -57,12 +57,16 @@ public class Game {
 
     private void goToSchool(){
         Wizard wizard = characterController.getWizard();
-        this.outputManager.showListElements("All available spells are:", wizard.getAvailableSpell(), wizard.getDrunk());
+        this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
-        Spell spell = spellController.getSpellByName(characterController.getWizard(), false);
-        spellController.setSpell(spell);
-        spellController.learnSpell(wizard);
-        this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+        Spell spell = spellController.getAvailableSpellByName(inputParser.getString(wizard), wizard);
+        if (null != spell){
+            spellController.learnSpell(spell, wizard);
+            this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+        }
     }
 
 
