@@ -128,7 +128,7 @@ public class CharacterController {
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard);
             List<Potion> potions = this.wizard.getPotions();
-            potions.add(new Potion("super potion", "Potion to get hp", 3, "health", 30));
+            potions.add(new Potion("super potion", "Potion to get hp", 3, 30, 30, "health"));
             this.wizard.setPotions(potions);
             this.outputManager.printAvailablePotions(this.wizard);
         }

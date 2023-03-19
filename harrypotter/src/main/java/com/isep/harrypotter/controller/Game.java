@@ -32,7 +32,6 @@ public class Game {
     public void play(){
         characterController.initWizard();
         chapterController.initChapter();
-        //AbstractEnemy enemy = new Enemy(100, 100, 1, 1, "Cha");
 
         while (!isGameFinished){
             isGameFinished = chapterController.newDay();
@@ -56,8 +55,7 @@ public class Game {
     }
 
 
-
-    public void goToSchool(){
+    private void goToSchool(){
         this.outputManager.getAvailableSpells(characterController.getWizard());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn", characterController.getWizard());
         Spell spell = spellController.getSpellByName(characterController.getWizard(), false);
@@ -67,7 +65,7 @@ public class Game {
     }
 
 
-    public int displayMenu(){
+    private int displayMenu(){
         System.out.println("\nWhat a nice day, what are you going to do today ?");
         System.out.println("1. Go to school");
         System.out.println("2. Skipping school");

@@ -10,13 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 public abstract class AbstractSpell {
     private String name;
     private int energyCost;
     private int damage;
-
-    //TODO % de chance de réussite
-
 
 }
