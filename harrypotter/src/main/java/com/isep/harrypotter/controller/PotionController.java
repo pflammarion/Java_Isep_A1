@@ -24,12 +24,12 @@ public class PotionController {
         this.outputManager = outputManager;
 
         potions = new ArrayList<>();
-        potions.add(new Potion("Polyjuice Potion", "Allows the drinker to assume the form of someone else", 100, 1));
-        potions.add(new Potion("Felix Felicis", "Brings good luck to the drinker", 50, 2));
-        potions.add(new Potion("Veritaserum", "Forces the drinker to tell the truth", 30, 0));
-        potions.add(new Potion("Draught of Living Death", "Puts the drinker into a deep sleep that mimics death", 10, 0));
-        potions.add(new Potion("Wolfsbane Potion", "Allows a werewolf to keep their human mind during the full moon", 3, 1));
-        potions.add(new Potion("Amortentia", "The most powerful love potion in the world", 4, 1));
+        potions.add(new Potion("Polyjuice Potion", "Allows the drinker to assume the form of someone else", "Transformation", 100, 1, 3));
+        potions.add(new Potion("Felix Felicis", "Brings good luck to the drinker", "Luck", 50, 2, 5));
+        potions.add(new Potion("Veritaserum", "Forces the drinker to tell the truth", "Truth", 30, 0, 2));
+        potions.add(new Potion("Draught of Living Death", "Puts the drinker into a deep sleep that mimics death", "Sleep", 10, 0, 4));
+        potions.add(new Potion("Wolfsbane Potion", "Allows a werewolf to keep their human mind during the full moon", "Werewolf", 3, 1, 3));
+        potions.add(new Potion("Amortentia", "The most powerful love potion in the world", "Love", 4, 1, 2));
     }
 
     public List<Potion> getAllPotions() {
@@ -55,9 +55,9 @@ public class PotionController {
         return null;
     }
 
-    public Potion getAvailablePotionByName(String potionName, Wizard wizard) {
+    public Potion getAvailablePotionByName(String potionName) {
         for (Potion potion : potions) {
-            if (potion.getName().equalsIgnoreCase(potionName) && !wizard.getPotions().contains(potion)) {
+            if (potion.getName().equalsIgnoreCase(potionName)) {
                 return potion;
             }
         }
@@ -65,9 +65,14 @@ public class PotionController {
     }
 
     public void learnPotion(Potion potion, Wizard wizard){
-        List<Potion> knownPotions = getKnownPotions(wizard);
-        knownPotions.add(potion);
-        wizard.setPotions(knownPotions);
-        outputManager.displayMessage("You have learned the " + potion.getName() +" potion!\n", wizard.getDrunk());
+        if (null != potion){
+            List<Potion> knownPotions = getKnownPotions(wizard);
+            knownPotions.add(potion);
+            wizard.setPotions(knownPotions);
+            outputManager.displayMessage("You have learned the " + potion.getName() +" potion!\n", wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You loose.... idk what", wizard.getDrunk());
+        }
     }
 }

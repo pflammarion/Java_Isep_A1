@@ -10,17 +10,17 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class Potion {
     private String name;
     private String description;
+    private String type;
+    private int point;
     private int price;
     private int minimumChapter;
 
-    public Potion(String name, String description, int price, int requiredLevel){
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.minimumChapter = requiredLevel;
+    @Override
+    public String toString() {
+        return getName();
     }
 }
