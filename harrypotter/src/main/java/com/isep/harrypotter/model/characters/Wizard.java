@@ -33,11 +33,10 @@ public class Wizard extends Character {
         this.isNowPet = false;
         this.drunk = 0;
         this.potionEfficiency = 1;
-        //TODO en fonction de la maison
+        //Default depends on house
         setDamage(1);
         setAccuracy(1);
         setDefense(1);
-
         setTotalHealth(100);
         setCurrentHealth(100);
     }

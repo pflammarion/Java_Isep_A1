@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
 public class Spell extends AbstractSpell {
     public Spell(String name, int energyCost, int damage) {
         super(name, energyCost, damage);
