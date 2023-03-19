@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class ConsoleOutput implements OutputManager{
 
-    public void displayMessage(String input, Wizard wizard){
-        if (wizard.getDrunk() > 0){
+    public void displayMessage(String input, int drunkDays){
+        if (drunkDays > 0){
             Random random = new Random();
             char[] characters = input.toCharArray();
             int rand = random.nextInt(input.length());
@@ -30,37 +30,35 @@ public class ConsoleOutput implements OutputManager{
         System.out.println(input);
     }
 
-    public void showListElements(String introducer, List<Object> list, Wizard wizard) {
-        displayMessage(introducer, wizard);
+    public void showListElements(String introducer, List<Object> list, int drunkDays) {
+        displayMessage(introducer, drunkDays);
         int index = 1;
         for (Object element : list) {
-            displayMessage(index + ". " + element.toString(), wizard);
+            displayMessage(index + ". " + element.toString(), drunkDays);
             index++;
         }
     }
 
-    public void printAvailablePotions(Wizard wizard){
-        displayMessage("You have those potions:", wizard);
-        List<Potion> potions = wizard.getPotions();
+    public void printAvailablePotions(List<Potion> potions, int drunkDays){
+        displayMessage("You have those potions:", drunkDays);
         for (int i = 0; i < potions.size(); i++) {
-            displayMessage((i+1) + ". " + potions.get(i).getName(), wizard);
+            displayMessage((i+1) + ". " + potions.get(i).getName(), drunkDays);
         }
     }
 
-    public void printKnownSpells(Wizard wizard){
-        displayMessage("You know those spells:", wizard);
-        List<Spell> knownSpells = wizard.getKnownSpells();
+    public void printKnownSpells(List<Spell> knownSpells, int drunkDays){
+        displayMessage("You know those spells:", drunkDays);
         for (int i = 0; i < knownSpells.size(); i++) {
-            displayMessage((i+1) + ". " + knownSpells.get(i).getName(), wizard);
+            displayMessage((i+1) + ". " + knownSpells.get(i).getName(), drunkDays);
         }
     }
 
-    public void getAvailableSpells(Wizard wizard) {
+    public void getAvailableSpells(List<Spell> knownSpells, int drunkDays) {
         List<Spell> allSpells = Spell.getAllSpells();
-        allSpells.removeAll(wizard.getKnownSpells());
-        displayMessage("All available spells are:", wizard);
+        allSpells.removeAll(knownSpells);
+        displayMessage("All available spells are:", drunkDays);
         for (int i = 0; i <allSpells.size(); i++) {
-            displayMessage((i+1) + ". " + allSpells.get(i).getName(), wizard);
+            displayMessage((i+1) + ". " + allSpells.get(i).getName(), drunkDays);
         }
     }
 }
