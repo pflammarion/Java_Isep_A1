@@ -99,14 +99,13 @@ public class CharacterController {
                 }
                 else if (choice instanceof Potion potion){
                     drinkPotion(potion);
-                    outputManager.displayMessage(potion.drinkPotion(wizard), wizard.getDrunk());
                 }
                 else {
                     outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
                 }
             }
-            outputManager.displayMessage(takeTurn(enemy), wizard);
-            outputManager.displayMessage(wizard.takeTurn(enemy), wizard.getDrunk());
+            outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
+            outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
 
             if (wizard.getCurrentHealth() < 0){
                 wizard.setCurrentHealth(0);
@@ -164,7 +163,7 @@ public class CharacterController {
 
 
     private void drinkPotion(Potion potion){
-        outputManager.displayMessage("You drunk the potion", wizard);
+        outputManager.displayMessage("You drunk the potion", wizard.getDrunk());
         int chance = 5;
         switch (potion.getType()){
             case "health":
@@ -187,14 +186,14 @@ public class CharacterController {
         }
 
         if (wizard.randomProbability(chance)){
-            outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard);
+            outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard.getDrunk());
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
         if (wizard.randomProbability(chance * 3)){
             wizard.setNowPet(true);
-            outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard);
+            outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
-        outputManager.displayMessage("\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth(),wizard);
+        outputManager.displayMessage("\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth(),wizard.getDrunk());
     }
 
     public void soberUp(){
