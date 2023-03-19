@@ -19,13 +19,15 @@ public class Game {
     private final CharacterController characterController;
     private final ChapterController chapterController;
     private final SpellController spellController;
+    private final PotionController potionController;
 
     public Game(InputParser inputParser, OutputManager outputManager){
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.isGameFinished = false;
         this.spellController = new SpellController(inputParser, outputManager);
-        this.characterController = new CharacterController(inputParser, outputManager,spellController, new Wizard(), new Random());
+        this.potionController= new PotionController(inputParser, outputManager);
+        this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController, new Wizard(), new Random());
         this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
     }
 

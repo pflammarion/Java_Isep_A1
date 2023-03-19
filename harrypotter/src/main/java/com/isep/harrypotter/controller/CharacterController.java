@@ -25,6 +25,7 @@ public class CharacterController {
     private InputParser inputParser;
     private OutputManager outputManager;
     private SpellController spellController;
+    private PotionController potionController;
     private Wizard wizard;
     private Random random;
     public void initWizard(){
@@ -61,7 +62,7 @@ public class CharacterController {
     public Object battleChoice(){
         String input = inputParser.getString(this.wizard);
         Spell spell = spellController.getKnownSpellByName(input, this.wizard);
-        Potion potion = Potion.getPotionByName(input, this.wizard);
+        Potion potion = potionController.getKnownPotionByName(input, this.wizard);
         if (null != spell){
             return spell;
         }
@@ -129,9 +130,8 @@ public class CharacterController {
         this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
-            List<Potion> potions = this.wizard.getPotions();
-            potions.add(new Potion("super potion", "Potion to get hp", 3, 30, 30, "health"));
-            this.wizard.setPotions(potions);
+            Potion potion = potionController.getAvailablePotionByName("Felix Felicis");
+            potionController.learnPotion(potion, wizard);
             this.outputManager.showListElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
         }
         if (randomProbability(10)){

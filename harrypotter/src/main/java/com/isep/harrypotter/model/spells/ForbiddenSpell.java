@@ -10,4 +10,9 @@ public class ForbiddenSpell extends AbstractSpell {
         super(name, description, energyCost, damage);
         this.effect = effect;
     }
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

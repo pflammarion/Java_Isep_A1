@@ -3,6 +3,7 @@ package com.isep.harrypotter.model;
 import com.isep.harrypotter.model.characters.Wizard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -13,24 +14,13 @@ import java.util.List;
 public class Potion {
     private String name;
     private String description;
-    private int price;
-    private int duration;
-    private int point;
     private String type;
+    private int point;
+    private int price;
+    private int minimumChapter;
+
     @Override
     public String toString() {
-        return this.name;
-    }
-
-    public static Potion getPotionByName(String potionName, Wizard wizard) {
-        Potion potion = null;
-        List<Potion> wizz = wizard.getPotions();
-        for (Potion p : wizz) {
-            if (p.getName().equalsIgnoreCase(potionName)) {
-                potion = p;
-                break;
-            }
-        }
-        return potion;
+        return getName();
     }
 }
