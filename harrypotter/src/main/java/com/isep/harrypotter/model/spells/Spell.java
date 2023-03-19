@@ -1,7 +1,9 @@
 package com.isep.harrypotter.model.spells;
 
 import com.isep.harrypotter.model.characters.Wizard;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,10 @@ public class Spell extends AbstractSpell {
         return spells;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
     public static List<Spell> getAvailableSpells(Wizard wizard) {
         List<Spell> allSpells = getAllSpells();
         allSpells.removeAll(wizard.getKnownSpells());

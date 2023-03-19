@@ -57,12 +57,12 @@ public class Game {
 
     private void goToSchool(){
         Wizard wizard = characterController.getWizard();
-        this.outputManager.getAvailableSpells(wizard.getKnownSpells(), wizard.getDrunk());
+        this.outputManager.showListElements("All available spells are:", wizard.getAvailableSpell(), wizard.getDrunk());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
         Spell spell = spellController.getSpellByName(characterController.getWizard(), false);
         spellController.setSpell(spell);
         spellController.learnSpell(wizard);
-        this.outputManager.printKnownSpells(wizard.getKnownSpells(), wizard.getDrunk());
+        this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
     }
 
 

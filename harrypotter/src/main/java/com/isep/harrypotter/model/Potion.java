@@ -17,6 +17,10 @@ public class Potion {
     private int duration;
     private int point;
     private String type;
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
     public static Potion getPotionByName(String potionName, Wizard wizard) {
         Potion potion = null;

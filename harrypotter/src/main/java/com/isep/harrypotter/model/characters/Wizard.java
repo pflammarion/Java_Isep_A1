@@ -48,5 +48,9 @@ public class Wizard extends Character {
         return random1 == random2;
     }
 
-
+    public List<Spell> getAvailableSpell(){
+        List<Spell> allSpells = Spell.getAllSpells();
+        allSpells.removeAll(this.knownSpells);
+        return allSpells;
+    }
 }

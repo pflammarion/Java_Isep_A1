@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -131,14 +132,14 @@ public class CharacterController {
             List<Potion> potions = this.wizard.getPotions();
             potions.add(new Potion("super potion", "Potion to get hp", 3, 30, 30, "health"));
             this.wizard.setPotions(potions);
-            this.outputManager.printAvailablePotions(this.wizard.getPotions(), this.wizard.getDrunk());
+            this.outputManager.showListElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
             List<Spell> knownSpells = this.wizard.getKnownSpells();
             knownSpells.add(new Spell("super forbidden spell", 20, 100));
             this.wizard.setKnownSpells(knownSpells);
-            this.outputManager.printKnownSpells(this.wizard.getKnownSpells(), this.wizard.getDrunk());
+            this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
     }
 
