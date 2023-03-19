@@ -51,19 +51,20 @@ public class Game {
                 }
             }
         }
-        outputManager.displayMessage("C'est fini sort de chez toi pour voir le dehors.", characterController.getWizard());
+        outputManager.displayMessage("C'est fini sort de chez toi pour voir le dehors.", characterController.getWizard().getDrunk());
         System.exit(1);
     }
 
 
 
     public void goToSchool(){
-        this.outputManager.getAvailableSpells(characterController.getWizard());
-        this.outputManager.displayMessage("Enter the name of the spell you want to learn", characterController.getWizard());
-        Spell spell = spellController.getSpellByName(characterController.getWizard(), false);
+        Wizard wizard = characterController.getWizard();
+        this.outputManager.getAvailableSpells(wizard.getKnownSpells(), wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
+        Spell spell = spellController.getSpellByName(wizard, false);
         spellController.setSpell(spell);
-        spellController.learnSpell(characterController.getWizard());
-        this.outputManager.printKnownSpells(characterController.getWizard());
+        spellController.learnSpell(wizard);
+        this.outputManager.printKnownSpells(wizard.getKnownSpells(), wizard.getDrunk());
     }
 
 

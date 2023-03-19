@@ -27,17 +27,17 @@ public class SpellController {
     public void castSpell(String spellName, Wizard wizard){
         Spell spell = Spell.loopInSpell(spellName, wizard, true);
         if (spell == null){
-            outputManager.displayMessage("You don't know the spell " + spellName + "!", wizard);
+            outputManager.displayMessage("You don't know the spell " + spellName + "!", wizard.getDrunk());
         }
         else {
-            outputManager.displayMessage("You cast the spell " + spell.getName(), wizard);
+            outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
         }
     }
     public void learnSpell(Wizard wizard){
         List<Spell> knownSpells = wizard.getKnownSpells();
         knownSpells.add(this.spell);
         wizard.setKnownSpells(knownSpells);
-        outputManager.displayMessage("You have learned the " + this.spell.getName() +" spell!\n", wizard);
+        outputManager.displayMessage("You have learned the " + this.spell.getName() +" spell!\n", wizard.getDrunk());
     }
 
     public Spell getSpellByName(Wizard wizard, boolean know){

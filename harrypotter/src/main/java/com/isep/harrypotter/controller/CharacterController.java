@@ -92,26 +92,26 @@ public class CharacterController {
                 }
             }
             if (potionList.size() > 0 || knownSpell.size() > 0){
-                outputManager.displayMessage(message, wizard);
-                outputManager.displayMessage("Type the name of what you want to use", wizard);
+                outputManager.displayMessage(message, wizard.getDrunk());
+                outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell){
                     enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
                     if (enemy.getCurrentHealth()<0)enemy.setCurrentHealth(0);
                 }
                 else if (choice instanceof Potion potion){
-                    outputManager.displayMessage(potion.drinkPotion(wizard), wizard);
+                    outputManager.displayMessage(potion.drinkPotion(wizard), wizard.getDrunk());
                 }
                 else {
-                    outputManager.displayMessage("Huoohh... it seems to not exist", wizard);
+                    outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
                 }
             }
-            outputManager.displayMessage(wizard.takeTurn(enemy), wizard);
+            outputManager.displayMessage(wizard.takeTurn(enemy), wizard.getDrunk());
 
             if (wizard.getCurrentHealth() < 0){
                 wizard.setCurrentHealth(0);
             }
-            outputManager.displayMessage("Your life : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth() + " and enemy : " + enemy.getCurrentHealth() + "/" + enemy.getTotalHealth(), wizard );
+            outputManager.displayMessage("Your life : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth() + " and enemy : " + enemy.getCurrentHealth() + "/" + enemy.getTotalHealth(), wizard.getDrunk() );
 
         } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
         //TODO end of the battle
@@ -126,20 +126,20 @@ public class CharacterController {
     }
 
     public void skippingSchool(){
-        this.outputManager.displayMessage("You decided to skip school.", this.wizard);
+        this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
         if (randomProbability(10)){
-            this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard);
+            this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
             List<Potion> potions = this.wizard.getPotions();
             potions.add(new Potion("super potion", "Potion to get hp", 3, "health", 30));
             this.wizard.setPotions(potions);
-            this.outputManager.printAvailablePotions(this.wizard);
+            this.outputManager.printAvailablePotions(this.wizard.getPotions(), this.wizard.getDrunk());
         }
         if (randomProbability(10)){
-            this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard);
+            this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
             List<Spell> knownSpells = this.wizard.getKnownSpells();
             knownSpells.add(new Spell("super forbidden spell", 20, 100));
             this.wizard.setKnownSpells(knownSpells);
-            this.outputManager.printKnownSpells(this.wizard);
+            this.outputManager.printKnownSpells(this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
     }
 
