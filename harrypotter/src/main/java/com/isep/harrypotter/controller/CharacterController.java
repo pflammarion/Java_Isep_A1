@@ -2,6 +2,7 @@ package com.isep.harrypotter.controller;
 
 import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.AbstractEnemy;
+import com.isep.harrypotter.model.characters.Boss;
 import com.isep.harrypotter.model.characters.Enemy;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.others.House;
@@ -14,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -118,6 +118,17 @@ public class CharacterController {
         //TODO end of the battle
         if (wizard.getCurrentHealth() > 0){
             System.out.println("\n\nYOU WIN !!! \n\n");
+            if (enemy instanceof Boss){
+                wizard.setTotalHealth(wizard.getTotalHealth() + 50);
+                wizard.setCurrentHealth(wizard.getTotalHealth());
+                outputManager.displayMessage("You just became stronger, you now have " + wizard.getCurrentHealth() + " HP, congratulation !", wizard.getDrunk());
+            }
+            if (enemy instanceof Enemy){
+                wizard.setDamage(wizard.getDamage() + random.nextInt(10) + 1);
+                wizard.setAccuracy(wizard.getAccuracy() + random.nextInt(10) + 1);
+                wizard.setDefense(wizard.getDefense() + random.nextInt(10) + 1);
+                outputManager.displayMessage("You just became stronger, you have " + wizard.getDamage() + " points of damage and " + wizard.getAccuracy() + " points of accuracy and " + wizard.getDefense() + " points of defense.", wizard.getDrunk());
+            }
             return true;
         }
         else {

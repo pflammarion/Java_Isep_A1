@@ -3,6 +3,7 @@ package com.isep.harrypotter.controller;
 import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.AbstractEnemy;
+import com.isep.harrypotter.model.characters.Enemy;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.Spell;
@@ -48,7 +49,7 @@ public class Game {
                 switch (displayMenu()){
                     case 1 -> goToSchool();
                     case 2 -> characterController.skippingSchool();
-                    case 3 -> isGameFinished = !characterController.battleEnemy(chapterController.initBoss());
+                    case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
                 }
             }
         }
