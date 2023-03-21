@@ -60,7 +60,7 @@ public class CharacterController {
     }
 
     public Object battleChoice(){
-        String input = inputParser.getString(this.wizard);
+        String input = this.getString(this.wizard);
         Spell spell = spellController.getKnownSpellByName(input, this.wizard);
         Potion potion = potionController.getKnownPotionByName(input, this.wizard);
         if (null != spell){
@@ -249,10 +249,55 @@ public class CharacterController {
         return random1 == random2;
     }
     private void printWizardPotions(){
-        outputManager.showListElements("You know those potions:\n", this.potionController.getKnownPotions(wizard), wizard.getDrunk());
+        List<Potion> potionList = this.potionController.getKnownPotions(wizard);
+        if (potionList.size() > 0) {
+            outputManager.showListElements("You know those potions:\n", potionList, wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You don't have any potion", wizard.getDrunk());
+        }
     }
 
     private void printWizardSpells(){
-        outputManager.showListElements("You know those spells:\n", this.spellController.getKnownSpells(wizard), wizard.getDrunk());
+        List<Spell> spellList = this.spellController.getKnownSpells(wizard);
+        if (spellList.size() > 0){
+            outputManager.showListElements("You know those spells:\n", spellList, wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You don't know any spell", wizard.getDrunk());
+        }
+    }
+
+    public String getString(Wizard wizard){
+        String userInput;
+        boolean isHelp;
+        do {
+            userInput =  inputParser.getString(wizard);
+            isHelp = helperHandler(userInput);
+        } while (isHelp);
+        return userInput;
+    }
+
+    private boolean helperHandler(String userInput){
+        int firstSpaceIndex = userInput.indexOf(" ");
+        if (firstSpaceIndex != -1) {
+            String firstWord = userInput.substring(0, firstSpaceIndex);
+            if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
+                userInput = userInput.substring(firstSpaceIndex + 1);
+                switch (userInput) {
+                    //TODO add helper
+                    case "potions" -> {
+                        printWizardPotions();
+                    }
+                    case "spells" -> {
+                        printWizardSpells();
+                    }
+                    default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
+                }
+                outputManager.displayMessage("\nYou can continue your previous action", wizard.getDrunk());
+            }
+            return true;
+        }
+        return false;
     }
 }
