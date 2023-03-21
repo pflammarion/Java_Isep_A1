@@ -45,25 +45,7 @@ public class ConsoleParser implements InputParser {
         do {
             try {
                 userInput = this.scanner.nextLine();
-                int firstSpaceIndex = userInput.indexOf(" ");
-                if (firstSpaceIndex != -1) {
-                    String firstWord = userInput.substring(0, firstSpaceIndex);
-                    if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
-                        userInput = userInput.substring(firstSpaceIndex + 1);
-                        switch (userInput) {
-                            //TODO reimplement it
-                            case "potions" -> {
-                                return "potions";
-                            }
-                            case "spells" -> {
-                                return "spells";
-                            }
-                            default -> System.out.println("Nothing to see there");
-                        }
-                    }
-                    else validInput = true;
-                }
-                else validInput = true;
+                validInput = true;
 
             } catch (InputMismatchException e) {
                 System.out.print("/!\\ Invalid value (not a string).\nPlease provide a string: ");
