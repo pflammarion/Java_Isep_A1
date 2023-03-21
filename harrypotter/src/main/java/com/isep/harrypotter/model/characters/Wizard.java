@@ -42,11 +42,4 @@ public class Wizard extends Character {
         setCurrentHealth(100);
     }
 
-    public boolean randomProbability(int chance){
-        Random random = new Random();
-        int random1 = random.nextInt(chance);
-        int random2 = random.nextInt(chance);
-        return random1 == random2;
-    }
-
 }

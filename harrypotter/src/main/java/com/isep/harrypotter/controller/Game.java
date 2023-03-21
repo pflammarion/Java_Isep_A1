@@ -74,9 +74,9 @@ public class Game {
 
 
     private int displayMenu(){
-        System.out.println("\nWhat a nice day, what are you going to do today ?");
-        System.out.println("1. Go to school");
-        System.out.println("2. Skipping school");
+        outputManager.print("\nWhat a nice day, what are you going to do today ?");
+        outputManager.print("1. Go to school");
+        outputManager.print("2. Skipping school");
         return inputParser.getInt("Please enter an available proposition");
     }
 }
