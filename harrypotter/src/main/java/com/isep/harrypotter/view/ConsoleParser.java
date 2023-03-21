@@ -52,12 +52,13 @@ public class ConsoleParser implements InputParser {
                         userInput = userInput.substring(firstSpaceIndex + 1);
                         switch (userInput) {
                             //TODO reimplement it
-                            /*
-                            case "potions" -> wizardController.displayPotions(wizard);
-                            case "spells" -> wizardController.displaySpells(wizard);
+                            case "potions" -> {
+                                return "potions";
+                            }
+                            case "spells" -> {
+                                return "spells";
+                            }
                             default -> System.out.println("Nothing to see there");
-
-                             */
                         }
                     }
                     else validInput = true;

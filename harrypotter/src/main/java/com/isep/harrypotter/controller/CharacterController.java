@@ -118,7 +118,7 @@ public class CharacterController {
         } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
         //TODO end of the battle
         if (wizard.getCurrentHealth() > 0){
-            System.out.println("\n\nYOU WIN !!! \n\n");
+            outputManager.print("\n\nYOU WIN !!! \n\n");
             if (enemy instanceof Boss){
                 wizard.setTotalHealth(wizard.getTotalHealth() + 50);
                 wizard.setCurrentHealth(wizard.getTotalHealth());
@@ -133,7 +133,7 @@ public class CharacterController {
             return true;
         }
         else {
-            System.out.println("\n\nPaul Nuls\n\n");
+            outputManager.print("\n\nPaul Nuls\n\n");
             return false;
         }
     }
@@ -181,7 +181,7 @@ public class CharacterController {
                 double health = wizard.getCurrentHealth() + (potion.getPoint() * wizard.getPotionEfficiency());
                 int totalHealth = wizard.getTotalHealth();
                 double heal = Math.min(health, totalHealth);
-                if (wizard.randomProbability(10)){
+                if (randomProbability(10)){
                     wizard.setCurrentHealth(0);
                 }
                 else wizard.setCurrentHealth(heal);
@@ -196,11 +196,11 @@ public class CharacterController {
                 chance = 2;
         }
 
-        if (wizard.randomProbability(chance)){
+        if (randomProbability(chance)){
             outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard.getDrunk());
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
-        if (wizard.randomProbability(chance * 3)){
+        if (randomProbability(chance * 3)){
             wizard.setNowPet(true);
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
@@ -249,6 +249,11 @@ public class CharacterController {
         int random2 = random.nextInt(chance);
         return random1 == random2;
     }
+    private void printWizardPotions(){
+        outputManager.showListElements("You know those potions:\n", this.potionController.getKnownPotions(wizard), wizard.getDrunk());
+    }
 
-
+    private void printWizardSpells(){
+        outputManager.showListElements("You know those spells:\n", this.spellController.getKnownSpells(wizard), wizard.getDrunk());
+    }
 }
