@@ -1,8 +1,6 @@
 package com.isep.harrypotter.view;
 
-import com.isep.harrypotter.model.Potion;
-import com.isep.harrypotter.model.spells.Spell;
-
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -36,5 +34,33 @@ public class ConsoleOutput implements OutputManager{
             displayMessage(index + ". " + element.toString(), drunkDays);
             index++;
         }
+    }
+
+    public void progressPercentage(int current, int total) {
+        spacer();
+        System.out.println("\nYour year progress: \n");
+        int percent = (int)((double)current / total * 100);
+        int length = 25;
+        int progress = (int)((double)length * current / total);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < length; i++) {
+            if (i < progress) {
+                sb.append("=");
+            } else {
+                sb.append(" ");
+            }
+        }
+        sb.append("]");
+        sb.append(String.format(" %d%%", percent));
+        System.out.print(sb + "\r");
+        if (current == total) {
+            System.out.println();
+        }
+        spacer();
+    }
+
+    private void spacer(){
+        System.out.println("\n\n\n\n\n\n");
     }
 }
