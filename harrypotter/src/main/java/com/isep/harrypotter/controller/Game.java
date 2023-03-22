@@ -42,6 +42,7 @@ public class Game {
             //TODO pet wizard
 
             if (chapterController.isChapterFinish()){
+                outputManager.displayMessage("Oh, what is happenning ...? A BOSS ???\n", characterController.getWizard().getDrunk());
                 boolean victory = characterController.battleEnemy(chapterController.initBoss());
                 isGameFinished = chapterController.nextChapter(victory);
             }
@@ -51,6 +52,7 @@ public class Game {
                     case 2 -> characterController.skippingSchool();
                     case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
                 }
+                outputManager.progressPercentage(chapterController.getChapter().getDay(), 365);
             }
         }
         outputManager.displayMessage("C'est fini sort de chez toi pour voir le dehors.", characterController.getWizard().getDrunk());
