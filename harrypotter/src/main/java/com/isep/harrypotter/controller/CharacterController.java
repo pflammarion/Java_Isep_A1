@@ -112,7 +112,8 @@ public class CharacterController {
             if (wizard.getCurrentHealth() < 0){
                 wizard.setCurrentHealth(0);
             }
-            outputManager.displayMessage("Your life : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth() + " and enemy : " + enemy.getCurrentHealth() + "/" + enemy.getTotalHealth(), wizard.getDrunk() );
+            outputManager.progressPercentage(wizard.getCurrentHealth(), wizard.getTotalHealth(), "fightWizard");
+            outputManager.progressPercentage(enemy.getCurrentHealth(), enemy.getTotalHealth(), "fightEnemy");
 
         } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
         //TODO end of the battle

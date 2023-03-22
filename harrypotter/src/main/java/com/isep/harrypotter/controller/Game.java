@@ -52,7 +52,7 @@ public class Game {
                     case 2 -> characterController.skippingSchool();
                     case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
                 }
-                outputManager.progressPercentage(chapterController.getChapter().getDay(), 365);
+                outputManager.progressPercentage(chapterController.getChapter().getDay(), 365, "day");
             }
         }
         outputManager.displayMessage("C'est fini sort de chez toi pour voir le dehors.", characterController.getWizard().getDrunk());
