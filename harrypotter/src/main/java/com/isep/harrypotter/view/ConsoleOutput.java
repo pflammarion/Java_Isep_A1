@@ -36,10 +36,21 @@ public class ConsoleOutput implements OutputManager{
         }
     }
 
-    public void progressPercentage(int current, int total) {
-        spacer();
-        System.out.println("\nYour year progress: \n");
-        int percent = (int)((double)current / total * 100);
+    public void progressPercentage(double current, int total, String choice) {
+        switch (choice){
+            case "day"-> {
+                spacer(5);
+                System.out.println("\nYour year progress: \n");
+            }
+            case "fightWizard"->{
+                System.out.println("\nYour life:\n");
+            }
+            case "fightEnemy"->{
+                System.out.println("\nEnemy's life:\n");
+            }
+        }
+
+        int percent = (int)(current / total * 100);
         int length = 25;
         int progress = (int)((double)length * current / total);
         StringBuilder sb = new StringBuilder();
@@ -57,10 +68,13 @@ public class ConsoleOutput implements OutputManager{
         if (current == total) {
             System.out.println();
         }
-        spacer();
+        if (choice.equals("days")){
+            spacer(2);
+        }
+        else spacer(1);
     }
 
-    private void spacer(){
-        System.out.println("\n\n\n\n\n\n");
+    private void spacer(int n){
+        System.out.println("\n".repeat(Math.max(0, n)));
     }
 }
