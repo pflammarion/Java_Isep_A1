@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Random;
 
@@ -269,7 +271,7 @@ public class CharacterController {
         }
     }
 
-    public String getString(Wizard wizard){
+    public String getString(Wizard wizard) {
         String userInput;
         boolean isHelp;
         do {
@@ -279,14 +281,16 @@ public class CharacterController {
         return userInput;
     }
 
-    private boolean helperHandler(String userInput){
+    private boolean helperHandler(String userInput) {
         int firstSpaceIndex = userInput.indexOf(" ");
         if (firstSpaceIndex != -1) {
             String firstWord = userInput.substring(0, firstSpaceIndex);
             if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
                 userInput = userInput.substring(firstSpaceIndex + 1);
                 switch (userInput) {
-                    //TODO add helper
+                    case "help" -> {
+                        outputManager.readHelperFile();
+                    }
                     case "potions" -> {
                         printWizardPotions();
                     }
