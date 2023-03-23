@@ -17,12 +17,12 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class CharacterController {
     private InputParser inputParser;
     private OutputManager outputManager;
@@ -30,6 +30,39 @@ public class CharacterController {
     private PotionController potionController;
     private Wizard wizard;
     private Random random;
+
+    private List<Enemy> enemyList;
+
+    public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController, PotionController potionController){
+        this.inputParser = inputParser;
+        this.outputManager = outputManager;
+        this.spellController = spellController;
+        this.potionController = potionController;
+        this.wizard = new Wizard();
+        this.random = new Random();
+        this.enemyList = new ArrayList<>();
+
+        enemyList.add(new Enemy(100, 100, 10, 10, 0.2, "The Insatiable Spider"));
+        enemyList.add(new Enemy(120, 120, 15, 12, 0.3, "The Fiery Salamander"));
+        enemyList.add(new Enemy(80, 80, 5, 18, 0.4, "The Sneaky Niffler"));
+        enemyList.add(new Enemy(150, 150, 20, 8, 0.1, "The Ice-Cold Yeti"));
+        enemyList.add(new Enemy(200, 200, 25, 20, 0.5, "The Fearsome Dragon"));
+        enemyList.add(new Enemy(80, 80, 5, 18, 0.4, "The Cunning Sphinx"));
+        enemyList.add(new Enemy(130, 130, 18, 14, 0.2, "The Venomous Basilisk"));
+        enemyList.add(new Enemy(90, 90, 8, 16, 0.3, "The Agile Monkey"));
+        enemyList.add(new Enemy(180, 180, 22, 10, 0.1, "The Thunderous Giant"));
+        enemyList.add(new Enemy(110, 110, 12, 12, 0.2, "The Tricky Changeling"));
+        enemyList.add(new Enemy(140, 140, 18, 14, 0.3, "The Ferocious Werewolf"));
+        enemyList.add(new Enemy(70, 70, 5, 20, 0.5, "The Deadly Vampire"));
+        enemyList.add(new Enemy(160, 160, 20, 16, 0.2, "The Wise Phoenix"));
+        enemyList.add(new Enemy(120, 120, 14, 14, 0.3, "The Devious Imp"));
+        enemyList.add(new Enemy(90, 90, 7, 16, 0.4, "The Crafty Pixie"));
+        enemyList.add(new Enemy(200, 200, 25, 18, 0.1, "The Colossal Golem"));
+        enemyList.add(new Enemy(150, 150, 18, 14, 0.2, "The Elusive Ghost"));
+        enemyList.add(new Enemy(110, 110, 12, 10, 0.3, "The Venomous Scorpion"));
+        enemyList.add(new Enemy(70, 70, 5, 20, 0.5, "The Destructive Cyclops"));
+        enemyList.add(new Enemy(180, 180, 20, 16, 0.2, "The Savage Minotaur"));
+    }
     public void initWizard(){
         outputManager.print("Enter your wizard firstname");
         String firstname = inputParser.getString(null);
@@ -140,7 +173,7 @@ public class CharacterController {
         }
     }
 
-    public void skippingSchool(){
+    public boolean skippingSchool(){
         this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
@@ -153,6 +186,12 @@ public class CharacterController {
             spellController.learnSpell(new ForbiddenSpell("super forbidden spell","forbid desc", 20, 100, "Explose"), wizard);
             this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
+        if (randomProbability(5) && wizard.getKnownSpells().size() > 0){
+            Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
+            this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
+            return battleEnemy(enemy);
+        }
+        return true;
     }
 
     private String takeTurn(AbstractEnemy enemy) {

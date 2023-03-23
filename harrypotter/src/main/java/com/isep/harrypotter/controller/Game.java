@@ -28,7 +28,7 @@ public class Game {
         this.isGameFinished = false;
         this.spellController = new SpellController(inputParser, outputManager);
         this.potionController= new PotionController(inputParser, outputManager);
-        this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController, new Wizard(), new Random());
+        this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController);
         this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
     }
 
@@ -49,8 +49,8 @@ public class Game {
             else {
                 switch (displayMenu()){
                     case 1 -> goToSchool();
-                    case 2 -> characterController.skippingSchool();
-                    case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
+                    case 2 -> isGameFinished = !characterController.skippingSchool();
+                    //case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
                 }
                 outputManager.progressPercentage(chapterController.getChapter().getDay(), 365, "day");
             }
@@ -62,17 +62,39 @@ public class Game {
 
     private void goToSchool(){
         Wizard wizard = characterController.getWizard();
-        this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
-        String input = characterController.getString(wizard);
-        Spell spell = spellController.getAvailableSpellByName(input, wizard);
-        if (null != spell){
-            spellController.learnSpell(spell, wizard);
-            this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+        outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?", wizard.getDrunk());
+        String choice = characterController.getString(wizard);
+        if (choice.equals("potion") || choice.equals("p") || choice.equals("potions")){
+            this.outputManager.showListElements("All available potions are:", potionController.getPotions(), wizard.getDrunk());
+            this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
+            String input = characterController.getString(wizard);
+            Potion potion = potionController.getAvailablePotionByName(input);
+            if (null != potion){
+                potionController.learnPotion(potion, wizard);
+                this.outputManager.showListElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+            }
+            else {
+                outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+            }
+        }
+        else if (choice.equals("s") || choice.equals("spell") || choice.equals("spells")){
+            this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
+            this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
+            String input = characterController.getString(wizard);
+            Spell spell = spellController.getAvailableSpellByName(input, wizard);
+            if (null != spell){
+                spellController.learnSpell(spell, wizard);
+                this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+            }
+            else {
+                outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+            }
         }
         else {
-            outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+            outputManager.displayMessage("You haven't find any book today... Let's go to sleep then....", wizard.getDrunk());
+
         }
+
     }
 
 
