@@ -1,8 +1,6 @@
 package com.isep.harrypotter.view;
 
-import com.isep.harrypotter.model.Potion;
-import com.isep.harrypotter.model.spells.Spell;
-
+import java.io.*;
 import java.util.List;
 import java.util.Random;
 
@@ -35,6 +33,25 @@ public class ConsoleOutput implements OutputManager{
         for (Object element : list) {
             displayMessage(index + ". " + element.toString(), drunkDays);
             index++;
+        }
+    }
+
+    public void readHelperFile() {
+        try {
+            InputStream inputStream = getClass().getResourceAsStream("/com/isep/harrypotter/helper.txt");
+            if (inputStream == null) {
+                throw new IllegalArgumentException("file not found!");
+            } else {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line = reader.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = reader.readLine();
+                }
+                reader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

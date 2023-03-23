@@ -1,0 +1,29 @@
+
+
+
+                                         _    _      _
+                                        | |  | |    | |
+                                        | |__| | ___| |_ __   ___ _ __
+                                        |  __  |/ _ \ | '_ \ / _ \ '__|
+                                        | |  | |  __/ | |_) |  __/ |
+                                        |_|  |_|\___|_| .__/ \___|_|
+                                                      | |
+                                                      |_|
+
+
+        You can create a Wizard by firstname and lastname at the beginning of the game.
+
+        Wizards have those skills : damage, defense and accuracy. They depend on the house chosen by the SortingHat.
+
+        During a day the wizard can go to school or skip it.
+
+        At school the wizard can learn spells and potions.
+
+        If he skips school, he can fight enemies and get some rewards as spell or potions.
+
+        At the end of the year, you can fight the boss. If you win you can go to the next one, if not you lose.
+
+            ############################################################################################
+            ############################################################################################
+            ############################################################################################
+
