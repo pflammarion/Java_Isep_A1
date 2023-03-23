@@ -64,7 +64,8 @@ public class Game {
         Wizard wizard = characterController.getWizard();
         this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
-        Spell spell = spellController.getAvailableSpellByName(inputParser.getString(wizard), wizard);
+        String input = characterController.getString(wizard);
+        Spell spell = spellController.getAvailableSpellByName(input, wizard);
         if (null != spell){
             spellController.learnSpell(spell, wizard);
             this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());

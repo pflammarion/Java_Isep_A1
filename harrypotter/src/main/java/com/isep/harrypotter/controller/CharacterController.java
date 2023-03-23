@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Random;
 
@@ -60,7 +62,7 @@ public class CharacterController {
     }
 
     public Object battleChoice(){
-        String input = inputParser.getString(this.wizard);
+        String input = this.getString(this.wizard);
         Spell spell = spellController.getKnownSpellByName(input, this.wizard);
         Potion potion = potionController.getKnownPotionByName(input, this.wizard);
         if (null != spell){
@@ -118,7 +120,7 @@ public class CharacterController {
         } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
         //TODO end of the battle
         if (wizard.getCurrentHealth() > 0){
-            System.out.println("\n\nYOU WIN !!! \n\n");
+            outputManager.print("\n\nYOU WIN !!! \n\n");
             if (enemy instanceof Boss){
                 wizard.setTotalHealth(wizard.getTotalHealth() + 50);
                 wizard.setCurrentHealth(wizard.getTotalHealth());
@@ -133,7 +135,7 @@ public class CharacterController {
             return true;
         }
         else {
-            System.out.println("\n\nPaul Nuls\n\n");
+            outputManager.print("\n\nPaul Nuls\n\n");
             return false;
         }
     }
@@ -181,7 +183,7 @@ public class CharacterController {
                 double health = wizard.getCurrentHealth() + (potion.getPoint() * wizard.getPotionEfficiency());
                 int totalHealth = wizard.getTotalHealth();
                 double heal = Math.min(health, totalHealth);
-                if (wizard.randomProbability(10)){
+                if (randomProbability(10)){
                     wizard.setCurrentHealth(0);
                 }
                 else wizard.setCurrentHealth(heal);
@@ -196,11 +198,11 @@ public class CharacterController {
                 chance = 2;
         }
 
-        if (wizard.randomProbability(chance)){
+        if (randomProbability(chance)){
             outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard.getDrunk());
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
-        if (wizard.randomProbability(chance * 3)){
+        if (randomProbability(chance * 3)){
             wizard.setNowPet(true);
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
@@ -249,6 +251,58 @@ public class CharacterController {
         int random2 = random.nextInt(chance);
         return random1 == random2;
     }
+    private void printWizardPotions(){
+        List<Potion> potionList = this.potionController.getKnownPotions(wizard);
+        if (potionList.size() > 0) {
+            outputManager.showListElements("You know those potions:\n", potionList, wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You don't have any potion", wizard.getDrunk());
+        }
+    }
 
+    private void printWizardSpells(){
+        List<Spell> spellList = this.spellController.getKnownSpells(wizard);
+        if (spellList.size() > 0){
+            outputManager.showListElements("You know those spells:\n", spellList, wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You don't know any spell", wizard.getDrunk());
+        }
+    }
 
+    public String getString(Wizard wizard) {
+        String userInput;
+        boolean isHelp;
+        do {
+            userInput =  inputParser.getString(wizard);
+            isHelp = helperHandler(userInput);
+        } while (isHelp);
+        return userInput;
+    }
+
+    private boolean helperHandler(String userInput) {
+        int firstSpaceIndex = userInput.indexOf(" ");
+        if (firstSpaceIndex != -1) {
+            String firstWord = userInput.substring(0, firstSpaceIndex);
+            if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
+                userInput = userInput.substring(firstSpaceIndex + 1);
+                switch (userInput) {
+                    case "help" -> {
+                        outputManager.readHelperFile();
+                    }
+                    case "potions" -> {
+                        printWizardPotions();
+                    }
+                    case "spells" -> {
+                        printWizardSpells();
+                    }
+                    default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
+                }
+                outputManager.displayMessage("\nYou can continue your previous action", wizard.getDrunk());
+            }
+            return true;
+        }
+        return false;
+    }
 }
