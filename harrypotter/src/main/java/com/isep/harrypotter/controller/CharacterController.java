@@ -217,24 +217,25 @@ public class CharacterController {
     private void drinkPotion(Potion potion){
         outputManager.displayMessage("You drunk the potion", wizard.getDrunk());
         int chance = 5;
-        switch (potion.getType()){
-            case "health":
+        switch (potion.getType()) {
+            case "health" -> {
                 double health = wizard.getCurrentHealth() + (potion.getPoint() * wizard.getPotionEfficiency());
                 int totalHealth = wizard.getTotalHealth();
                 double heal = Math.min(health, totalHealth);
-                if (randomProbability(10)){
+                if (randomProbability(10)) {
                     wizard.setCurrentHealth(0);
-                }
-                else wizard.setCurrentHealth(heal);
-                break;
-            case "damage":
-                //TODO damage
-                break;
-            case "precision":
-                //TODO precision
-                break;
-            default:
-                chance = 2;
+                } else wizard.setCurrentHealth(heal);
+                outputManager.displayMessage("You healed up, you have " + wizard.getCurrentHealth() + " HP", wizard.getDrunk());
+            }
+            case "damage" -> {
+                wizard.setDamage((int) (wizard.getDamage() + (potion.getPoint() * wizard.getPotionEfficiency())));
+                outputManager.displayMessage("You are now stronger, you have " + wizard.getDamage() + " points of damage", wizard.getDrunk());
+            }
+            case "accuracy" -> {
+                wizard.setAccuracy(wizard.getAccuracy() + potion.getPoint() * wizard.getPotionEfficiency());
+                outputManager.displayMessage("You are now more accurate, you have " + wizard.getAccuracy() + " points of Accuracy", wizard.getDrunk());
+            }
+            default -> chance = 2;
         }
 
         if (randomProbability(chance)){
@@ -339,8 +340,8 @@ public class CharacterController {
                     default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
                 }
                 outputManager.displayMessage("\nYou can continue your previous action", wizard.getDrunk());
+                return true;
             }
-            return true;
         }
         return false;
     }
