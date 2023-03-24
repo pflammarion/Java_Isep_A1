@@ -11,12 +11,9 @@ import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -88,10 +85,6 @@ public class CharacterController {
         outputManager.print("Hello " + firstname + " " + lastname);
         outputManager.print("Welcome to Poudlard");
         outputManager.print("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
-    }
-
-    public Enemy initEnemy(){
-        return new Enemy(100, 100, 10, 10, 0.2, "Cha");
     }
 
     public Object battleChoice(){
@@ -177,7 +170,7 @@ public class CharacterController {
         this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
-            Potion potion = potionController.getAvailablePotionByName("Felix Felicis");
+            Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
             potionController.learnPotion(potion, wizard);
             this.outputManager.showListElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
         }

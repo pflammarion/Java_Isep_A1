@@ -65,10 +65,10 @@ public class Game {
         outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?", wizard.getDrunk());
         String choice = characterController.getString(wizard);
         if (choice.equals("potion") || choice.equals("p") || choice.equals("potions")){
-            this.outputManager.showListElements("All available potions are:", potionController.getPotions(), wizard.getDrunk());
+            this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
             this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
             String input = characterController.getString(wizard);
-            Potion potion = potionController.getAvailablePotionByName(input);
+            Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
             if (null != potion){
                 potionController.learnPotion(potion, wizard);
                 this.outputManager.showListElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());

@@ -35,8 +35,14 @@ public class PotionController {
         potions.add(new Potion("Shadow Essence", "Grants the drinker temporary invisibility, making them harder to hit", "accuracy", 0.2, 7, 3));
     }
 
-    public List<Potion> getAllPotions() {
-        return potions;
+    public List<Potion> getAllAvailablePotions(int chapter) {
+        List<Potion> availablePotions = new ArrayList<>();
+        for (Potion potion : potions) {
+            if (chapter >= potion.getMinimumChapter()) {
+                availablePotions.add(potion);
+            }
+        }
+        return availablePotions;
     }
 
     public List<Potion> getKnownPotions(Wizard wizard) {
@@ -58,9 +64,9 @@ public class PotionController {
         return null;
     }
 
-    public Potion getAvailablePotionByName(String potionName) {
+    public Potion getAvailablePotionByName(String potionName, int chapter) {
         for (Potion potion : potions) {
-            if (potion.getName().equalsIgnoreCase(potionName)) {
+            if (potion.getName().equalsIgnoreCase(potionName) && potion.getMinimumChapter() >= chapter) {
                 return potion;
             }
         }
