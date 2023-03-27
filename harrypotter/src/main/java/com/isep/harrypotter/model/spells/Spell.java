@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Spell extends AbstractSpell {
-    public Spell(String name, String description, int energyCost, int damage) {
-        super(name, description, energyCost, damage);
+    public Spell(String name, String description, int energyCost, int damage, int minimumChapter) {
+        super(name, description, energyCost, damage, minimumChapter);
     }
 
     @Override

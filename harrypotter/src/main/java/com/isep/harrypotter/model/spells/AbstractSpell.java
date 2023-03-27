@@ -19,6 +19,7 @@ public abstract class AbstractSpell {
     private String description;
     private int energyCost;
     private int damage;
+    private int minimumChapter;
 
     @Override
     public boolean equals(Object o) {

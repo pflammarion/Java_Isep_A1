@@ -103,6 +103,7 @@ public class CharacterController {
     }
 
     public boolean battleEnemy(AbstractEnemy enemy) {
+        boolean isActionPassed = !(enemy instanceof Boss);
         //TODO parse a summary
         List<Potion> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
@@ -125,6 +126,9 @@ public class CharacterController {
                 outputManager.displayMessage(message, wizard.getDrunk());
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
+                if (enemy instanceof Boss && (choice.equals(((Boss) enemy).getSpecialSpell()) || choice.equals(((Boss) enemy).getSpecialObject()))){
+                    isActionPassed = true;
+                }
                 if (choice instanceof AbstractSpell spell){
                     castSpell(spell, enemy);
                 }
@@ -143,7 +147,7 @@ public class CharacterController {
             outputManager.progressPercentage(wizard.getCurrentHealth(), wizard.getTotalHealth(), "fightWizard");
             outputManager.progressPercentage(enemy.getCurrentHealth(), enemy.getTotalHealth(), "fightEnemy");
 
-        } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0);
+        } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0 && isActionPassed);
         //TODO end of the battle
         if (wizard.getCurrentHealth() > 0){
             outputManager.print("\n\nYOU WIN !!! \n\n");
@@ -176,7 +180,8 @@ public class CharacterController {
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
-            spellController.learnSpell(new ForbiddenSpell("super forbidden spell","forbid desc", 20, 100, "Explose"), wizard);
+            //TODO random spell
+            spellController.learnSpell(new ForbiddenSpell("super forbidden spell","forbid desc", 20, 100, "Explose", 7), wizard);
             this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
         if (randomProbability(5) && wizard.getKnownSpells().size() > 0){
@@ -246,7 +251,7 @@ public class CharacterController {
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         if (knownSpell.contains(spell)){
             outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
-            outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
+            outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " points of damage to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
             enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
             if (enemy.getCurrentHealth()<0) enemy.setCurrentHealth(0);
         }

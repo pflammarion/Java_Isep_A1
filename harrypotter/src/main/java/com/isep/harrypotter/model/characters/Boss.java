@@ -1,5 +1,10 @@
 package com.isep.harrypotter.model.characters;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Boss extends AbstractEnemy {
 
     private String specialObject;

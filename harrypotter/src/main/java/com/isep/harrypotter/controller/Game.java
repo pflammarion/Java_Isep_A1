@@ -78,10 +78,10 @@ public class Game {
             }
         }
         else if (choice.equals("s") || choice.equals("spell") || choice.equals("spells")){
-            this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
+            this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
             this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
             String input = characterController.getString(wizard);
-            Spell spell = spellController.getAvailableSpellByName(input, wizard);
+            Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
             if (null != spell){
                 spellController.learnSpell(spell, wizard);
                 this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
