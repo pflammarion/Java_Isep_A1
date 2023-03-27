@@ -15,7 +15,7 @@ public class Potion {
     private String name;
     private String description;
     private String type;
-    private int point;
+    private double point;
     private int price;
     private int minimumChapter;
 

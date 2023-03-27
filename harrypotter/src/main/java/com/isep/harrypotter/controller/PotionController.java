@@ -24,16 +24,25 @@ public class PotionController {
         this.outputManager = outputManager;
 
         potions = new ArrayList<>();
-        potions.add(new Potion("Polyjuice Potion", "Allows the drinker to assume the form of someone else", "Transformation", 100, 1, 3));
-        potions.add(new Potion("Felix Felicis", "Brings good luck to the drinker", "Luck", 50, 2, 5));
-        potions.add(new Potion("Veritaserum", "Forces the drinker to tell the truth", "Truth", 30, 0, 2));
-        potions.add(new Potion("Draught of Living Death", "Puts the drinker into a deep sleep that mimics death", "Sleep", 10, 0, 4));
-        potions.add(new Potion("Wolfsbane Potion", "Allows a werewolf to keep their human mind during the full moon", "Werewolf", 3, 1, 3));
-        potions.add(new Potion("Amortentia", "The most powerful love potion in the world", "Love", 4, 1, 2));
+        potions.add(new Potion("Elixir of Life", "Doubles the drinker's current health", "health", 0, 10, 2));
+        potions.add(new Potion("Healing Salve", "Restores a moderate amount of the drinker's health", "health", 50, 2, 1));
+        potions.add(new Potion("Rejuvenation Tonic", "Gradually restores the drinker's health over time", "health", 20, 3, 3));
+        potions.add(new Potion("Berserker Brew", "Increases the drinker's damage output, but at the cost of reduced accuracy", "damage", 10, 4, 2));
+        potions.add(new Potion("Venomous Draught", "Poisons the drinker's weapon, causing additional damage over time", "damage", 5, 3, 1));
+        potions.add(new Potion("Thunderbolt Tincture", "Electrifies the drinker's weapon, causing additional lightning damage", "damage", 8, 6, 3));
+        potions.add(new Potion("Eagle Eye Elixir", "Increases the drinker's accuracy and critical hit chance", "accuracy", 0.3, 5, 2));
+        potions.add(new Potion("Liquid Light", "Illuminates the drinker's target, making it easier to hit", "accuracy", 0.2, 2, 1));
+        potions.add(new Potion("Shadow Essence", "Grants the drinker temporary invisibility, making them harder to hit", "accuracy", 0.2, 7, 3));
     }
 
-    public List<Potion> getAllPotions() {
-        return potions;
+    public List<Potion> getAllAvailablePotions(int chapter) {
+        List<Potion> availablePotions = new ArrayList<>();
+        for (Potion potion : potions) {
+            if (chapter >= potion.getMinimumChapter()) {
+                availablePotions.add(potion);
+            }
+        }
+        return availablePotions;
     }
 
     public List<Potion> getKnownPotions(Wizard wizard) {
@@ -55,9 +64,9 @@ public class PotionController {
         return null;
     }
 
-    public Potion getAvailablePotionByName(String potionName) {
+    public Potion getAvailablePotionByName(String potionName, int chapter) {
         for (Potion potion : potions) {
-            if (potion.getName().equalsIgnoreCase(potionName)) {
+            if (potion.getName().equalsIgnoreCase(potionName) && potion.getMinimumChapter() >= chapter) {
                 return potion;
             }
         }
