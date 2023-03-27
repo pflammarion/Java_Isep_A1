@@ -103,51 +103,58 @@ public class CharacterController {
     }
 
     public boolean battleEnemy(AbstractEnemy enemy) {
-        boolean isActionPassed = !(enemy instanceof Boss);
+        boolean isActionPassed = false;
+        boolean exit = false;
         //TODO parse a summary
         List<Potion> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         String message;
         do {
-            if (potionList.size() > 0 && knownSpell.size() > 0){
+            if (potionList.size() > 0 && knownSpell.size() > 0) {
                 message = "You can use " + potionList.size() + " potions and " + knownSpell.size() + " spells";
-            }
-            else {
-                if (potionList.size() > 0){
+            } else {
+                if (potionList.size() > 0) {
                     message = "You can use " + potionList.size() + " potions";
                 } else if (knownSpell.size() > 0) {
                     message = "You can use " + knownSpell.size() + " spells";
-                }
-                else {
+                } else {
                     message = "You don't have any potion or spell...";
                 }
             }
-            if (potionList.size() > 0 || knownSpell.size() > 0){
+            if (potionList.size() > 0 || knownSpell.size() > 0) {
                 outputManager.displayMessage(message, wizard.getDrunk());
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
-                if (enemy instanceof Boss && (choice.equals(((Boss) enemy).getSpecialSpell()) || choice.equals(((Boss) enemy).getSpecialObject()))){
+                if (enemy instanceof Boss && (choice.equals(((Boss) enemy).getSpecialSpell()) || choice.equals(((Boss) enemy).getSpecialObject()))) {
                     isActionPassed = true;
                 }
-                if (choice instanceof AbstractSpell spell){
+                if (choice instanceof AbstractSpell spell) {
                     castSpell(spell, enemy);
-                }
-                else if (choice instanceof Potion potion){
+                } else if (choice instanceof Potion potion) {
                     drinkPotion(potion);
-                }
-                else {
+                } else {
                     outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
                 }
             }
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
 
-            if (wizard.getCurrentHealth() < 0){
+            if (wizard.getCurrentHealth() < 0) {
                 wizard.setCurrentHealth(0);
             }
             outputManager.progressPercentage(wizard.getCurrentHealth(), wizard.getTotalHealth(), "fightWizard");
             outputManager.progressPercentage(enemy.getCurrentHealth(), enemy.getTotalHealth(), "fightEnemy");
+            if (enemy.getCurrentHealth() <= 0) {
+                if (enemy instanceof Boss) {
+                    exit = isActionPassed;
+                } else {
+                    exit = true;
+                }
+            }
+            if (wizard.getCurrentHealth() <= 0) {
+                exit = true;
+            }
 
-        } while(wizard.getCurrentHealth() > 0 && enemy.getCurrentHealth() > 0 && isActionPassed);
+        } while(!exit);
         //TODO end of the battle
         if (wizard.getCurrentHealth() > 0){
             outputManager.print("\n\nYOU WIN !!! \n\n");

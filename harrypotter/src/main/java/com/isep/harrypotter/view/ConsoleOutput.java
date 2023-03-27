@@ -2,7 +2,6 @@ package com.isep.harrypotter.view;
 
 import java.io.*;
 import java.io.IOException;
-import java.io.*;
 import java.util.List;
 import java.util.Random;
 
