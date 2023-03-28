@@ -397,13 +397,6 @@ public class CharacterController {
         return false;
     }
 
-    private boolean useStuff(Stuff stuff, Boss enemy){
-        if (enemy.getSpecialObject().equals(stuff)){
-            return true;
-        }
-
-    }
-
     private boolean checkSpecialSpellBoss(Boss boss, AbstractSpell wizardSpell) {
         String bossSpell = boss.getSpecialSpell();
         if (null == bossSpell){
