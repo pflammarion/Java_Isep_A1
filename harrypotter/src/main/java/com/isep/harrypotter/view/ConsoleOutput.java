@@ -2,8 +2,8 @@ package com.isep.harrypotter.view;
 
 import java.io.*;
 import java.io.IOException;
-import java.io.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class ConsoleOutput implements OutputManager{
@@ -37,6 +37,14 @@ public class ConsoleOutput implements OutputManager{
             index++;
         }
     }
+
+    public void showMapElements(String introducer, Map<?, Integer> map, int drunkDays) {
+        displayMessage(introducer, drunkDays);
+        for (Map.Entry<?, Integer> entry : map.entrySet()) {
+            displayMessage(entry.getValue().toString() + "* " + entry.getKey().toString(), drunkDays);
+        }
+    }
+
 
     public void readHelperFile() {
         try {

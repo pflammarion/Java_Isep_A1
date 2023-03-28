@@ -1,6 +1,7 @@
 package com.isep.harrypotter.view;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OutputManager {
     void displayMessage(String message, int drunkDays);
@@ -8,4 +9,5 @@ public interface OutputManager {
     void print(String input);
     void progressPercentage(double current, int total, String choice);
     void readHelperFile();
+    void showMapElements(String introducer, Map<?, Integer> map, int drunkDays);
 }

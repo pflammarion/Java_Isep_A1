@@ -6,12 +6,9 @@ import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.others.Pet;
 import com.isep.harrypotter.model.others.Wand;
 import com.isep.harrypotter.model.spells.AbstractSpell;
-import com.isep.harrypotter.model.spells.Spell;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,7 +17,7 @@ public class Wizard extends Character {
     private Wand wand;
     private House house;
     private List<AbstractSpell> knownSpells = new ArrayList<>();
-    private List<Potion> potions =  new ArrayList<>();
+    private Map<Potion, Integer> potions =  new HashMap<>();
     private String firstname;
     private String lastname;
     private double potionEfficiency;

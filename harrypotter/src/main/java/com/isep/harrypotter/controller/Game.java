@@ -2,10 +2,7 @@ package com.isep.harrypotter.controller;
 
 import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.Potion;
-import com.isep.harrypotter.model.characters.AbstractEnemy;
-import com.isep.harrypotter.model.characters.Enemy;
 import com.isep.harrypotter.model.characters.Wizard;
-import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
@@ -71,17 +68,17 @@ public class Game {
             Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
             if (null != potion){
                 potionController.learnPotion(potion, wizard);
-                this.outputManager.showListElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+                this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
             }
             else {
                 outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
             }
         }
         else if (choice.equals("s") || choice.equals("spell") || choice.equals("spells")){
-            this.outputManager.showListElements("All available spells are:", spellController.getSpells(), wizard.getDrunk());
+            this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
             this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
             String input = characterController.getString(wizard);
-            Spell spell = spellController.getAvailableSpellByName(input, wizard);
+            Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
             if (null != spell){
                 spellController.learnSpell(spell, wizard);
                 this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
