@@ -127,7 +127,7 @@ public class CharacterController {
                     message = "You don't have any potion, spell or objects...";
                 }
             }
-            if (potionList.size() > 0 || knownSpell.size() > 0) {
+            if (potionList.size() > 0 || knownSpell.size() > 0 || inventory.size() > 0) {
                 outputManager.displayMessage(message, wizard.getDrunk());
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
@@ -138,7 +138,14 @@ public class CharacterController {
                     }
                 } else if (choice instanceof Potion potion) {
                     drinkPotion(potion);
-                } else {
+                }
+                else if (choice instanceof Stuff stuff){
+                    if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equals(stuff.getName())) {
+                        exit = true;
+                        outputManager.displayMessage("You used the " + stuff.getName() + " and it defeat the " + enemy.getName(), wizard.getDrunk());
+                    }
+                }
+                else {
                     outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
                 }
             }
@@ -386,6 +393,13 @@ public class CharacterController {
             }
         }
         return false;
+    }
+
+    private boolean useStuff(Stuff stuff, Boss enemy){
+        if (enemy.getSpecialObject().equals(stuff)){
+            return true;
+        }
+
     }
 
     private boolean checkSpecialSpellBoss(Boss boss, AbstractSpell wizardSpell) {
