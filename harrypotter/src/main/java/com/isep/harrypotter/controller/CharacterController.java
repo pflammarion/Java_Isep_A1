@@ -143,6 +143,8 @@ public class CharacterController {
                     if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equals(stuff.getName())) {
                         exit = true;
                         outputManager.displayMessage("You used the " + stuff.getName() + " and it defeat the " + enemy.getName(), wizard.getDrunk());
+                    } else {
+                        outputManager.displayMessage("You used the " + stuff.getName() + " but it does nothing...", wizard.getDrunk());
                     }
                 }
                 else {
