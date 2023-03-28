@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Inventory {
+public class Stuff {
     private String name;
     private String description;
 }

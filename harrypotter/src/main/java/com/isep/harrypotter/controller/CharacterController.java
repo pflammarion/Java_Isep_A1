@@ -1,7 +1,7 @@
 package com.isep.harrypotter.controller;
 
-import com.isep.harrypotter.model.Inventory;
 import com.isep.harrypotter.model.Potion;
+import com.isep.harrypotter.model.Stuff;
 import com.isep.harrypotter.model.characters.AbstractEnemy;
 import com.isep.harrypotter.model.characters.Boss;
 import com.isep.harrypotter.model.characters.Enemy;
@@ -27,7 +27,6 @@ public class CharacterController {
     private PotionController potionController;
     private Wizard wizard;
     private Random random;
-
     private List<Enemy> enemyList;
 
     public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController, PotionController potionController){
@@ -77,6 +76,9 @@ public class CharacterController {
             }
             case GRYFFINDOR -> {
                 wizard.setDefense(10);
+                List<Stuff> inventory = this.wizard.getInventory();
+                inventory.add(new Stuff("Sword", "The Gryffindor sword"));
+                this.wizard.setInventory(inventory);
             }
             case RAVENCLAW -> {
                 wizard.setAccuracy(0.5);
@@ -199,6 +201,17 @@ public class CharacterController {
             Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
             this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
             return battleEnemy(enemy);
+        }
+        if (randomProbability(10)){
+            List<Stuff> inventory = wizard.getInventory();
+            for (Stuff stuff : inventory) {
+                if (!stuff.getName().equalsIgnoreCase("Fireworks")) {
+                    Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
+                   inventory.add(fireworks);
+                   wizard.setInventory(inventory);
+                   outputManager.displayMessage("Ho you juste found Fireworks. " + fireworks.getDescription(), wizard.getDrunk());
+                }
+            }
         }
         return true;
     }

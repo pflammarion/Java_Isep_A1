@@ -24,6 +24,7 @@ public class Wizard extends Character {
     private boolean isNowPet;
     private int drunk;
     private Random random = new Random();
+    private List<Stuff> inventory = new ArrayList<>();
 
     public Wizard() {
         this.wand = new Wand(Core.values()[(int) (Math.random() * Core.values().length)], (int) (Math.random() * 50));
