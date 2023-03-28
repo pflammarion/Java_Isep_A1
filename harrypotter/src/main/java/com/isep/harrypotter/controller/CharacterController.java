@@ -110,6 +110,7 @@ public class CharacterController {
         //TODO parse a summary
         Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
+        List<Stuff> inventory = wizard.getInventory();
         String message;
         do {
             if (potionList.size() > 0 && knownSpell.size() > 0) {
@@ -119,8 +120,11 @@ public class CharacterController {
                     message = "You can use " + potionList.size() + " potions";
                 } else if (knownSpell.size() > 0) {
                     message = "You can use " + knownSpell.size() + " spells";
-                } else {
-                    message = "You don't have any potion or spell...";
+                } else if (inventory.size() > 0){
+                    message = "You can use " + inventory.size() + " objects";
+                }
+                else {
+                    message = "You don't have any potion, spell or objects...";
                 }
             }
             if (potionList.size() > 0 || knownSpell.size() > 0) {
@@ -373,7 +377,7 @@ public class CharacterController {
                         printWizardSpells();
                     }
                     case "inventory" -> {
-                       printWizardInventory();
+                        printWizardInventory();
                     }
                     default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
                 }
