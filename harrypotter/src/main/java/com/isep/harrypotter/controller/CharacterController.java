@@ -89,7 +89,7 @@ public class CharacterController {
         outputManager.print("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
     }
 
-    public Object battleChoice(){
+    private Object battleChoice(){
         String input = this.getString(this.wizard);
         Spell spell = spellController.getKnownSpellByName(input, this.wizard);
         Potion potion = potionController.getKnownPotionByName(input, this.wizard);
@@ -100,7 +100,7 @@ public class CharacterController {
             return potion;
         }
         else{
-            return null;
+            return input;
         }
     }
 
@@ -111,24 +111,9 @@ public class CharacterController {
         Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         List<Stuff> inventory = wizard.getInventory();
-        String message;
         do {
-            if (potionList.size() > 0 && knownSpell.size() > 0) {
-                message = "You can use " + potionList.size() + " potions and " + knownSpell.size() + " spells";
-            } else {
-                if (potionList.size() > 0) {
-                    message = "You can use " + potionList.size() + " potions";
-                } else if (knownSpell.size() > 0) {
-                    message = "You can use " + knownSpell.size() + " spells";
-                } else if (inventory.size() > 0){
-                    message = "You can use " + inventory.size() + " objects";
-                }
-                else {
-                    message = "You don't have any potion, spell or objects...";
-                }
-            }
+            showWizardStuff(potionList.size(), knownSpell.size(), inventory.size());
             if (potionList.size() > 0 || knownSpell.size() > 0 || inventory.size() > 0) {
-                outputManager.displayMessage(message, wizard.getDrunk());
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell) {
@@ -139,12 +124,18 @@ public class CharacterController {
                 } else if (choice instanceof Potion potion) {
                     drinkPotion(potion);
                 }
-                else if (choice instanceof Stuff stuff){
-                    if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equals(stuff.getName())) {
-                        exit = true;
-                        outputManager.displayMessage("You used the " + stuff.getName() + " and it defeat the " + enemy.getName(), wizard.getDrunk());
-                    } else {
-                        outputManager.displayMessage("You used the " + stuff.getName() + " but it does nothing...", wizard.getDrunk());
+                else if (choice instanceof String stuff){
+                    Optional<Stuff> optionalStuff = inventory.stream()
+                            .filter(obj -> obj.getName().equalsIgnoreCase(stuff))
+                            .findFirst();
+
+                    if (optionalStuff.isPresent()) {
+                        if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equalsIgnoreCase(stuff)) {
+                            exit = true;
+                            outputManager.displayMessage("You used the " + stuff + " and it defeated the " + enemy.getName(), wizard.getDrunk());
+                        } else {
+                            outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
+                        }
                     }
                 }
                 else {
@@ -223,6 +214,7 @@ public class CharacterController {
                    inventory.add(fireworks);
                    wizard.setInventory(inventory);
                    outputManager.displayMessage("Ho you juste found Fireworks. " + fireworks.getDescription(), wizard.getDrunk());
+                   break;
                 }
             }
         }
@@ -395,6 +387,53 @@ public class CharacterController {
             }
         }
         return false;
+    }
+
+    private void showWizardStuff(int numPotions, int numSpells, int numObjects){
+        String message;
+
+        if (numPotions == 0 && numSpells == 0 && numObjects == 0) {
+            message = "You don't have any potions, spells, or objects...";
+        } else if (numPotions > 0 && numSpells == 0 && numObjects == 0) {
+            message = "You can use " + numPotions + " potion" + (numPotions > 1 ? "s" : "");
+        } else if (numPotions == 0 && numSpells > 0 && numObjects == 0) {
+            message = "You can use " + numSpells + " spell" + (numSpells > 1 ? "s" : "");
+        } else if (numPotions == 0 && numSpells == 0 && numObjects > 0) {
+            message = "You can use " + numObjects + " object" + (numObjects > 1 ? "s" : "");
+        } else {
+            StringBuilder sb = new StringBuilder("You can use ");
+            boolean hasPotions = false;
+            boolean hasSpells = false;
+            boolean hasObjects = false;
+
+            if (numPotions > 0) {
+                sb.append(numPotions).append(" potion").append(numPotions > 1 ? "s" : "");
+                hasPotions = true;
+            }
+
+            if (numSpells > 0) {
+                if (hasPotions) {
+                    sb.append(" and ");
+                }
+                sb.append(numSpells).append(" spell").append(numSpells > 1 ? "s" : "");
+                hasSpells = true;
+            }
+
+            if (numObjects > 0) {
+                if (hasPotions || hasSpells) {
+                    sb.append(" and ");
+                }
+                sb.append(numObjects).append(" object").append(numObjects > 1 ? "s" : "").append(" from your inventory");
+                hasObjects = true;
+            }
+
+            if (!hasObjects) {
+                sb.append(" from your ").append(hasPotions && hasSpells ? "potions and spells" : "inventory");
+            }
+
+            message = sb.toString();
+        }
+        outputManager.displayMessage(message, wizard.getDrunk());
     }
 
     private boolean checkSpecialSpellBoss(Boss boss, AbstractSpell wizardSpell) {
