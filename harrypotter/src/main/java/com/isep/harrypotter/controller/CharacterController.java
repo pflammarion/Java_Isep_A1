@@ -336,6 +336,16 @@ public class CharacterController {
         }
     }
 
+    private void printWizardInventory(){
+        List<Stuff> inventory = wizard.getInventory();
+        if (inventory.size() > 0){
+            outputManager.showListElements("Here is your inventory:\n", inventory, wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You don't have anything in your inventory", wizard.getDrunk());
+        }
+    }
+
     public String getString(Wizard wizard) {
         String userInput;
         boolean isHelp;
@@ -361,6 +371,9 @@ public class CharacterController {
                     }
                     case "spells" -> {
                         printWizardSpells();
+                    }
+                    case "inventory" -> {
+                       printWizardInventory();
                     }
                     default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
                 }
