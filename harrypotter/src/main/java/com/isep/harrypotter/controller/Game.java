@@ -68,7 +68,7 @@ public class Game {
             Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
             if (null != potion){
                 potionController.learnPotion(potion, wizard);
-                this.outputManager.showListElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+                this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
             }
             else {
                 outputManager.displayMessage("You learned useless things today", wizard.getDrunk());

@@ -8,8 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -45,12 +44,11 @@ public class PotionController {
         return availablePotions;
     }
 
-    public List<Potion> getKnownPotions(Wizard wizard) {
-        List<Potion> knownPotions = new ArrayList<>();
-        //TODO put number of potions known
+    public Map<Potion, Integer> getKnownPotions(Wizard wizard) {
+        Map<Potion, Integer> knownPotions = new HashMap<>();
         for (Potion potion : potions) {
-            if (wizard.getPotions().contains(potion)) {
-                knownPotions.add(potion);
+            if (wizard.getPotions().containsKey(potion)) {
+                knownPotions.put(potion, knownPotions.getOrDefault(potion, 0) + 1);
             }
         }
         return knownPotions;
@@ -58,7 +56,7 @@ public class PotionController {
 
     public Potion getKnownPotionByName(String potionName, Wizard wizard) {
         for (Potion potion : potions) {
-            if (potion.getName().equalsIgnoreCase(potionName) && wizard.getPotions().contains(potion)) {
+            if (potion.getName().equalsIgnoreCase(potionName) && wizard.getPotions().containsKey(potion)) {
                 return potion;
             }
         }
@@ -76,13 +74,21 @@ public class PotionController {
 
     public void learnPotion(Potion potion, Wizard wizard){
         if (null != potion){
-            List<Potion> knownPotions = getKnownPotions(wizard);
-            knownPotions.add(potion);
-            wizard.setPotions(knownPotions);
+            Map<Potion, Integer> knownPotions = getKnownPotions(wizard);
+            wizard.setPotions(addPotionToMap(potion, knownPotions));
             outputManager.displayMessage("You have learned the " + potion.getName() +" potion!\n", wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You loose.... idk what", wizard.getDrunk());
         }
+    }
+
+    private Map<Potion, Integer> addPotionToMap(Potion potion, Map<Potion, Integer> map) {
+        Integer count = map.get(potion);
+        if (map.containsKey(potion)) {
+            map.put(potion, count + 1);
+        }
+        else map.put(potion, Objects.requireNonNullElse(count, 1));
+        return map;
     }
 }

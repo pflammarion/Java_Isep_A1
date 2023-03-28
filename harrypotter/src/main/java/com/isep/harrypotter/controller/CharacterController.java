@@ -1,5 +1,6 @@
 package com.isep.harrypotter.controller;
 
+import com.isep.harrypotter.model.Inventory;
 import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.AbstractEnemy;
 import com.isep.harrypotter.model.characters.Boss;
@@ -16,6 +17,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -107,7 +109,7 @@ public class CharacterController {
         boolean isActionPassed = false;
         boolean exit = false;
         //TODO parse a summary
-        List<Potion> potionList = wizard.getPotions();
+        Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         String message;
         do {
@@ -184,7 +186,7 @@ public class CharacterController {
             this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
             Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
             potionController.learnPotion(potion, wizard);
-            this.outputManager.showListElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
+            this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
@@ -303,9 +305,9 @@ public class CharacterController {
         return random1 == random2;
     }
     private void printWizardPotions(){
-        List<Potion> potionList = this.potionController.getKnownPotions(wizard);
+        Map<Potion, Integer> potionList = this.potionController.getKnownPotions(wizard);
         if (potionList.size() > 0) {
-            outputManager.showListElements("You know those potions:\n", potionList, wizard.getDrunk());
+            outputManager.showMapElements("You know those potions:\n", potionList, wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You don't have any potion", wizard.getDrunk());
