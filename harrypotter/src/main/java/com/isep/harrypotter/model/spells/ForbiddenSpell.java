@@ -1,7 +1,5 @@
 package com.isep.harrypotter.model.spells;
 
-import com.isep.harrypotter.model.characters.Wizard;
-import lombok.Getter;
 
 public class ForbiddenSpell extends AbstractSpell {
     private String effect;

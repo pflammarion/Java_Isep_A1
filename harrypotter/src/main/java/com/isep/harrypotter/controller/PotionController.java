@@ -47,6 +47,7 @@ public class PotionController {
 
     public List<Potion> getKnownPotions(Wizard wizard) {
         List<Potion> knownPotions = new ArrayList<>();
+        //TODO put number of potions known
         for (Potion potion : potions) {
             if (wizard.getPotions().contains(potion)) {
                 knownPotions.add(potion);

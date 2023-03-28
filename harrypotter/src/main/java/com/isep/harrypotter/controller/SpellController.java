@@ -33,7 +33,7 @@ public class SpellController {
         spells.add(new Spell("Expecto Patronum", "A charm that summons a guardian to protect against Dementors", 3, 10, 3));
         spells.add(new Spell("Expelliarmus", "A spell that disarms opponents by causing their wand to fly out of their hand", 4, 10, 4));
         spells.add(new Spell("Protego", "A charm that creates a shield to block spells and other attacks", 5, 5, 4));
-        spells.add(new Spell("Accio", "A charm that summons an object to the caster", 20, 5, 5));
+        spells.add(new Spell("Accio", "A charm that summons an object to the caster", 20, 5, 2));
         spells.add(new Spell("Stupefy", "A stunning spell that knocks out opponents", 8, 15, 5));
         spells.add(new Spell("Impedimenta", "A spell that slows down or immobilizes opponents", 15, 10, 6));
         spells.add(new Spell("Reducto", "A spell that blasts solid objects into pieces", 25, 20, 6));

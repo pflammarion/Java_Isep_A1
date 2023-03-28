@@ -2,10 +2,7 @@ package com.isep.harrypotter.controller;
 
 import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.Potion;
-import com.isep.harrypotter.model.characters.AbstractEnemy;
-import com.isep.harrypotter.model.characters.Enemy;
 import com.isep.harrypotter.model.characters.Wizard;
-import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;

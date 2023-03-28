@@ -6,7 +6,6 @@ import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.others.Pet;
 import com.isep.harrypotter.model.others.Wand;
 import com.isep.harrypotter.model.spells.AbstractSpell;
-import com.isep.harrypotter.model.spells.Spell;
 import lombok.*;
 
 import java.util.ArrayList;

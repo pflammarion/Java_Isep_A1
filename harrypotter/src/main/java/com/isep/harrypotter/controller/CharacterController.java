@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 @Getter
 @Setter
 public class CharacterController {
@@ -125,11 +126,11 @@ public class CharacterController {
                 outputManager.displayMessage(message, wizard.getDrunk());
                 outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
                 Object choice = battleChoice();
-                if (enemy instanceof Boss && (choice.equals(((Boss) enemy).getSpecialSpell()) || choice.equals(((Boss) enemy).getSpecialObject()))) {
-                    isActionPassed = true;
-                }
                 if (choice instanceof AbstractSpell spell) {
                     castSpell(spell, enemy);
+                    if (enemy instanceof Boss) {
+                        isActionPassed = checkSpecialSpellBoss((Boss) enemy, spell);
+                    }
                 } else if (choice instanceof Potion potion) {
                     drinkPotion(potion);
                 } else {
@@ -187,8 +188,12 @@ public class CharacterController {
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
-            //TODO random spell
-            spellController.learnSpell(new ForbiddenSpell("super forbidden spell","forbid desc", 20, 100, "Explose", 7), wizard);
+            List<ForbiddenSpell> forbiddenSpells = spellController.getSpells()
+                    .stream()
+                    .filter(p -> p instanceof ForbiddenSpell)
+                    .map(p -> (ForbiddenSpell) p)
+                    .toList();
+            spellController.learnSpell(forbiddenSpells.get(random.nextInt(forbiddenSpells.size())), wizard);
             this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
         if (randomProbability(5) && wizard.getKnownSpells().size() > 0){
@@ -259,7 +264,7 @@ public class CharacterController {
         if (knownSpell.contains(spell)){
             outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
             outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " points of damage to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
-            enemy.setCurrentHealth(enemy.getCurrentHealth() - spell.getDamage());
+            enemy.setCurrentHealth(enemy.getCurrentHealth() - (spell.getDamage() + 100 * (Math.log(wizard.getAccuracy() + 1))));
             if (enemy.getCurrentHealth()<0) enemy.setCurrentHealth(0);
         }
         else {
@@ -291,6 +296,7 @@ public class CharacterController {
     }
 
     private boolean randomProbability(int chance){
+        //Return 1/n chance
         Random random = new Random();
         int random1 = random.nextInt(chance);
         int random2 = random.nextInt(chance);
@@ -349,5 +355,13 @@ public class CharacterController {
             }
         }
         return false;
+    }
+
+    private boolean checkSpecialSpellBoss(Boss boss, AbstractSpell wizardSpell) {
+        String bossSpell = boss.getSpecialSpell();
+        if (null == bossSpell){
+            return true;
+        }
+        return wizardSpell.getName().equalsIgnoreCase(bossSpell);
     }
 }
