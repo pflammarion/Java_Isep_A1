@@ -15,10 +15,7 @@ import com.isep.harrypotter.view.OutputManager;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 @Getter
@@ -235,6 +232,7 @@ public class CharacterController {
                 int totalHealth = wizard.getTotalHealth();
                 double heal = Math.min(health, totalHealth);
                 if (randomProbability(10)) {
+                    outputManager.displayMessage("NOOO POISON.... ARRGGHHH", wizard.getDrunk());
                     wizard.setCurrentHealth(0);
                 } else wizard.setCurrentHealth(heal);
                 outputManager.displayMessage("You healed up, you have " + wizard.getCurrentHealth() + " HP", wizard.getDrunk());
@@ -259,6 +257,7 @@ public class CharacterController {
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
         outputManager.displayMessage("\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth(),wizard.getDrunk());
+        wizard.setPotions(potionController.removePotionFromMap(potion, wizard.getPotions()));
     }
 
     private void castSpell(AbstractSpell spell, AbstractEnemy enemy){

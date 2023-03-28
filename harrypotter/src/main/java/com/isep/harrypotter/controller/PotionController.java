@@ -48,7 +48,7 @@ public class PotionController {
         Map<Potion, Integer> knownPotions = new HashMap<>();
         for (Potion potion : potions) {
             if (wizard.getPotions().containsKey(potion)) {
-                knownPotions.put(potion, knownPotions.getOrDefault(potion, 0) + 1);
+                knownPotions.put(potion, wizard.getPotions().getOrDefault(potion, 0));
             }
         }
         return knownPotions;
@@ -83,12 +83,27 @@ public class PotionController {
         }
     }
 
-    private Map<Potion, Integer> addPotionToMap(Potion potion, Map<Potion, Integer> map) {
-        Integer count = map.get(potion);
-        if (map.containsKey(potion)) {
-            map.put(potion, count + 1);
+
+    private Map<Potion, Integer> addPotionToMap(Potion potion, Map<Potion, Integer> knownPotions){
+        if (knownPotions.containsKey(potion)) {
+            int count = knownPotions.get(potion);
+            knownPotions.put(potion, count + 1);
+        } else {
+            knownPotions.put(potion, 1);
         }
-        else map.put(potion, Objects.requireNonNullElse(count, 1));
+        return knownPotions;
+    }
+
+    public Map<Potion, Integer> removePotionFromMap(Potion potion, Map<Potion, Integer> map) {
+        Integer count = map.get(potion);
+        if (count != null) {
+            int newCount = count - 1;
+            if (newCount == 0) {
+                map.remove(potion);
+            } else {
+                map.put(potion, newCount);
+            }
+        }
         return map;
     }
 }
