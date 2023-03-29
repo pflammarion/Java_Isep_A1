@@ -7,24 +7,19 @@ import com.isep.harrypotter.view.OutputManager;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CharacterControllerTest {
 
     private CharacterController characterController;
-    private OutputManager outputManager;
-    private InputParser inputParser;
-    private SpellController spellController;
-    private PotionController potionController;
 
     @Before
     public void setUp() {
-        this.inputParser = new TestInputParser();
-        this.outputManager = new TestOutputManager();
-        this.spellController = new SpellController(inputParser, outputManager);
-        this.potionController = new PotionController(inputParser, outputManager);
+        InputParser inputParser = new TestInputParser();
+        OutputManager outputManager = new TestOutputManager();
+        SpellController spellController = new SpellController(inputParser, outputManager);
+        PotionController potionController = new PotionController(inputParser, outputManager);
         this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController);
     }
 
@@ -53,4 +48,5 @@ public class CharacterControllerTest {
     public void testSkippingSchool() {
         assertTrue(characterController.skippingSchool());
     }
+
 }

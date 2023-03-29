@@ -11,6 +11,4 @@ public class TestInputParser implements InputParser {
     public String getString(Wizard wizard) {
         return null;
     }
-
-    // Implement the other methods of InputParser interface as needed
 }
