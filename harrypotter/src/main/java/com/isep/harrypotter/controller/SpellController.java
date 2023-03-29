@@ -65,7 +65,7 @@ public class SpellController {
 
     public List<AbstractSpell> getAllKnownSpells(Wizard wizard) {
         List<AbstractSpell> knownSpells = new ArrayList<>();
-        for (AbstractSpell spell : spells) {
+        for (AbstractSpell spell : this.spells) {
             if (wizard.getKnownSpells().contains(spell)) {
                 knownSpells.add(spell);
             }
