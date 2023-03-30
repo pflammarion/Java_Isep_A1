@@ -8,27 +8,22 @@ import java.util.Scanner;
 
 public class ConsoleParser implements InputParser {
 
-    private Scanner scanner;
+    private final Scanner scanner;
 
-    public ConsoleParser()
-    {
+    public ConsoleParser() {
         this.scanner = new Scanner(System.in);
     }
 
-    public int getInt(String messageWhenMismatch)
-    {
+    public int getInt(String messageWhenMismatch) {
         boolean validInput = false;
         int value = 0;
 
         do {
-            try
-            {
+            try {
                 value = this.scanner.nextInt();
                 this.scanner.nextLine();
                 validInput = true;
-            }
-            catch (InputMismatchException e)
-            {
+            } catch (InputMismatchException e) {
                 System.out.printf("/!\\ Invalid value (not a number)%n%s: ", messageWhenMismatch);
                 scanner.nextLine();
             }
@@ -41,7 +36,6 @@ public class ConsoleParser implements InputParser {
     public String getString(Wizard wizard) {
         boolean validInput = false;
         String userInput = null;
-
         do {
             try {
                 userInput = this.scanner.nextLine();
@@ -55,5 +49,4 @@ public class ConsoleParser implements InputParser {
 
         return userInput;
     }
-
 }

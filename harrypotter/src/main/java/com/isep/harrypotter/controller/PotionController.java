@@ -18,7 +18,7 @@ public class PotionController {
     private OutputManager outputManager;
     private List<Potion> potions;
 
-    public PotionController(InputParser inputParser, OutputManager outputManager){
+    public PotionController(InputParser inputParser, OutputManager outputManager) {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
 
@@ -73,8 +73,8 @@ public class PotionController {
         return null;
     }
 
-    public void learnPotion(Potion potion, Wizard wizard){
-        if (null != potion){
+    public void learnPotion(Potion potion, Wizard wizard) {
+        if (null != potion) {
             Map<Potion, Integer> knownPotions = getKnownPotions(wizard);
             wizard.setPotions(addPotionToMap(potion, knownPotions));
             outputManager.displayMessage("You have learned the " + potion.getName() +" potion!\n", wizard.getDrunk());
@@ -85,7 +85,7 @@ public class PotionController {
     }
 
 
-    private Map<Potion, Integer> addPotionToMap(Potion potion, Map<Potion, Integer> knownPotions){
+    private Map<Potion, Integer> addPotionToMap(Potion potion, Map<Potion, Integer> knownPotions) {
         if (knownPotions.containsKey(potion)) {
             int count = knownPotions.get(potion);
             knownPotions.put(potion, count + 1);

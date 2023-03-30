@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class ConsoleOutput implements OutputManager{
+public class ConsoleOutput implements OutputManager {
 
-    public void displayMessage(String input, int drunkDays){
-        if (drunkDays > 0){
+    public void displayMessage(String input, int drunkDays) {
+        if (drunkDays > 0) {
             Random random = new Random();
             char[] characters = input.toCharArray();
             int rand = random.nextInt(input.length());
-            for(int i = 0; i < rand; i++){
+            for(int i = 0; i < rand; i++) {
                 int randChar = random.nextInt(input.length());
                 characters[randChar] = java.lang.Character.toUpperCase(characters[randChar]);
                 input = new String(characters);
@@ -25,7 +25,7 @@ public class ConsoleOutput implements OutputManager{
         }
     }
 
-    public void print(String input){
+    public void print(String input) {
         System.out.println(input);
     }
 
@@ -66,17 +66,13 @@ public class ConsoleOutput implements OutputManager{
     }
 
     public void progressPercentage(double current, int total, String choice) {
-        switch (choice){
+        switch (choice) {
             case "day"-> {
                 spacer(5);
                 System.out.println("\nYour year progress: \n");
             }
-            case "fightWizard"->{
-                System.out.println("\nYour life:\n");
-            }
-            case "fightEnemy"->{
-                System.out.println("\nEnemy's life:\n");
-            }
+            case "fightWizard"-> System.out.println("\nYour life:\n");
+            case "fightEnemy"-> System.out.println("\nEnemy's life:\n");
         }
 
         int percent = (int)(current / total * 100);
@@ -97,13 +93,13 @@ public class ConsoleOutput implements OutputManager{
         if (current == total) {
             System.out.println();
         }
-        if (choice.equals("days")){
+        if (choice.equals("days")) {
             spacer(2);
         }
         else spacer(1);
     }
 
-    private void spacer(int n){
+    private void spacer(int n) {
         System.out.println("\n".repeat(Math.max(0, n)));
     }
 }

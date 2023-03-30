@@ -7,8 +7,6 @@ import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 
-import java.util.List;
-import java.util.Random;
 
 public class Game {
     private final InputParser inputParser;
@@ -19,7 +17,7 @@ public class Game {
     private final SpellController spellController;
     private final PotionController potionController;
 
-    public Game(InputParser inputParser, OutputManager outputManager){
+    public Game(InputParser inputParser, OutputManager outputManager) {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.isGameFinished = false;
@@ -29,76 +27,116 @@ public class Game {
         this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
     }
 
-    public void play(){
+    public void play() {
+        //initializations of the game
         characterController.initWizard();
         chapterController.initChapter();
 
-        while (!isGameFinished){
+        //game loop
+        while (!isGameFinished) {
             isGameFinished = chapterController.newDay();
             characterController.soberUp();
-            //TODO pet wizard
 
-            if (chapterController.isChapterFinish()){
-                outputManager.displayMessage("Oh, what is happenning ...? A BOSS ???\n", characterController.getWizard().getDrunk());
+            if (this.characterController.getWizard().isNowPet()) {
+               isGameFinished = petWizardGame();
+            }
+
+            if (chapterController.isChapterFinish()) {
+                outputManager.displayMessage("Oh, what is happening ...? A BOSS ???\n", characterController.getWizard().getDrunk());
+
+                //check if the wizard defeat the boss or not
                 boolean victory = characterController.battleEnemy(chapterController.initBoss());
+
+                //switch to the next chapter
                 isGameFinished = chapterController.nextChapter(victory);
             }
             else {
-                switch (displayMenu()){
+                switch (displayMenu()) {
                     case 1 -> goToSchool();
+
+                    //If the wizard skip school he can find potions, object, learn new spell and fight against an enemy depending on probabilities
                     case 2 -> isGameFinished = !characterController.skippingSchool();
-                    //case 3 -> isGameFinished = !characterController.battleEnemy(new Enemy(100, 10, 10, 10, 0.1, "Cha"));
                 }
+
+                //display the progress bar of the chapter
                 outputManager.progressPercentage(chapterController.getChapter().getDay(), 365, "day");
             }
         }
+
+        //End of the game output
         outputManager.displayMessage("C'est fini sort de chez toi pour voir le dehors.", characterController.getWizard().getDrunk());
         System.exit(1);
     }
 
 
-    private void goToSchool(){
+    private void goToSchool() {
         Wizard wizard = characterController.getWizard();
         outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?", wizard.getDrunk());
         String choice = characterController.getString(wizard);
-        if (choice.equals("potion") || choice.equals("p") || choice.equals("potions")){
-            this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
-            this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
-            String input = characterController.getString(wizard);
-            Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
-            if (null != potion){
-                potionController.learnPotion(potion, wizard);
-                this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
-            }
-            else {
-                outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
-            }
+
+        //Choosing potion class
+        if (choice.equals("potion") || choice.equals("p") || choice.equals("potions")) {
+            potionClass(wizard);
         }
-        else if (choice.equals("s") || choice.equals("spell") || choice.equals("spells")){
-            this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
-            this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
-            String input = characterController.getString(wizard);
-            Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
-            if (null != spell){
-                spellController.learnSpell(spell, wizard);
-                this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
-            }
-            else {
-                outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
-            }
+
+        //Choosing spell class
+        else if (choice.equals("s") || choice.equals("spell") || choice.equals("spells")) {
+            spellClass(wizard);
         }
         else {
             outputManager.displayMessage("You haven't find any book today... Let's go to sleep then....", wizard.getDrunk());
-
         }
-
     }
 
-
-    private int displayMenu(){
+    private int displayMenu() {
         System.out.println("\nWhat a nice day, what are you going to do today ?");
         System.out.println("1. Go to school");
         System.out.println("2. Skipping school");
         return inputParser.getInt("Please enter an available proposition");
+    }
+
+    private void potionClass(Wizard wizard) {
+        this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
+        String input = characterController.getString(wizard);
+        Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
+        if (null != potion) {
+            potionController.learnPotion(potion, wizard);
+            this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+        }
+    }
+
+    private void spellClass(Wizard wizard) {
+        this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
+        String input = characterController.getString(wizard);
+        Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
+        if (null != spell) {
+            spellController.learnSpell(spell, wizard);
+            this.outputManager.showListElements("You know those spells:", wizard.getKnownSpells(), wizard.getDrunk());
+        }
+        else {
+            outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
+        }
+    }
+
+    private boolean petWizardGame() {
+        outputManager.displayMessage("You have to find another potion to unpet yourself\nType the potion name", characterController.getWizard().getDrunk());
+        String choice = characterController.getString(characterController.getWizard());
+        Potion potion = potionController.getKnownPotionByName(choice, characterController.getWizard());
+        if (null != potion) {
+            outputManager.displayMessage("WOW yes !!! You retrieve your original body, let's continue the aventure",
+                    characterController.getWizard().getDrunk());
+            characterController.getWizard().setNowPet(false);
+            return false;
+        }
+        else {
+            outputManager.displayMessage("Sorry, you can't continue the aventure like that... let's stop here...",
+                    characterController.getWizard().getDrunk());
+            return true;
+        }
     }
 }

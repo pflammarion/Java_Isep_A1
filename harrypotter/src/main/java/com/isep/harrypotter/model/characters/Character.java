@@ -17,9 +17,8 @@ public abstract class Character {
     private int defense;
     private int damage;
     private double accuracy;
-    public void attack(Character character){}
 
-    public void takeDamage(double damage){
+    public void takeDamage(double damage) {
         setCurrentHealth(getCurrentHealth() - damage);
     }
 }
