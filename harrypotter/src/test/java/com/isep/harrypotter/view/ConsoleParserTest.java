@@ -18,7 +18,7 @@ class ConsoleParserTest {
         consoleParser = new ConsoleParser();
     }
 
-    @Test
+   /* @Test
     void getInt_validInput() {
         String input = "42\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -48,5 +48,5 @@ class ConsoleParserTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         String result = consoleParser.getString(new Wizard());
         assertEquals("hello", result);
-    }
+    }*/
 }

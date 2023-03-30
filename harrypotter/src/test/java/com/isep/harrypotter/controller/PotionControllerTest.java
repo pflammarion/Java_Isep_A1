@@ -27,14 +27,9 @@ class PotionControllerTest {
         ConsoleOutput outputManager = new ConsoleOutput();
         potionController = new PotionController(inputParser, outputManager);
 
-        // Create a wizard with some known potions
-        List<Potion> potions = new ArrayList<>();
-        potions.add(new Potion("Elixir of Life", "Doubles the drinker's current health", "health", 0, 10, 2));
-        potions.add(new Potion("Healing Salve", "Restores a moderate amount of the drinker's health", "health", 50, 2, 1));
-
         wizard = new Wizard(Pet.CAT, new Wand(Core.DRAGON_HEARTSTRING, 20), House.GRYFFINDOR, new ArrayList<>(), new HashMap<>(), "Harry", "Potter", 1, false, 4, new Random(), new ArrayList<>());
-        Potion potion1 = potions.get(0);
-        Potion potion2 = potions.get(1);
+        Potion potion1 = potionController.getPotions().get(0);
+        Potion potion2 = potionController.getPotions().get(1);
         Map<Potion, Integer> knownPotions = potionController.getKnownPotions(wizard);
         knownPotions.put(potion1, 1);
         knownPotions.put(potion2, 1);
