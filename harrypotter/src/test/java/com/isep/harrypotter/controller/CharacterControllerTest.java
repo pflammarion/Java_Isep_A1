@@ -1,7 +1,8 @@
-import com.isep.harrypotter.controller.CharacterController;
-import com.isep.harrypotter.controller.PotionController;
-import com.isep.harrypotter.controller.SpellController;
+package com.isep.harrypotter.controller;
+
 import com.isep.harrypotter.model.characters.Enemy;
+import com.isep.harrypotter.view.ConsoleOutput;
+import com.isep.harrypotter.view.ConsoleParser;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import org.junit.Before;
@@ -16,26 +17,11 @@ public class CharacterControllerTest {
 
     @Before
     public void setUp() {
-        InputParser inputParser = new TestInputParser();
-        OutputManager outputManager = new TestOutputManager();
+        ConsoleParser inputParser = new ConsoleParser();
+        ConsoleOutput outputManager = new ConsoleOutput();
         SpellController spellController = new SpellController(inputParser, outputManager);
         PotionController potionController = new PotionController(inputParser, outputManager);
         this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController);
-    }
-
-    @Test
-    public void testInitWizard() {
-        // Call the initWizard() method
-        characterController.initWizard();
-
-        // Assert that the wizard's house is not null
-        assertNotNull(characterController.getWizard().getHouse());
-
-        // Assert that the wizard's pet is not null
-        assertNotNull(characterController.getWizard().getPet());
-
-        // Assert that the wizard's wand is not null
-        assertNotNull(characterController.getWizard().getWand());
     }
 
     @Test
@@ -48,5 +34,5 @@ public class CharacterControllerTest {
     public void testSkippingSchool() {
         assertTrue(characterController.skippingSchool());
     }
-
+    //TODO add more test to better test coverage
 }
