@@ -46,9 +46,10 @@ public class PotionController {
 
     public Map<Potion, Integer> getKnownPotions(Wizard wizard) {
         Map<Potion, Integer> knownPotions = new HashMap<>();
+        Map<Potion, Integer> wizardPotion = wizard.getPotions();
         for (Potion potion : potions) {
-            if (wizard.getPotions().containsKey(potion)) {
-                knownPotions.put(potion, wizard.getPotions().getOrDefault(potion, 0));
+            if (wizardPotion.containsKey(potion)) {
+                knownPotions.put(potion, wizardPotion.getOrDefault(potion, 0));
             }
         }
         return knownPotions;
@@ -65,7 +66,7 @@ public class PotionController {
 
     public Potion getAvailablePotionByName(String potionName, int chapter) {
         for (Potion potion : potions) {
-            if (potion.getName().equalsIgnoreCase(potionName) && potion.getMinimumChapter() >= chapter) {
+            if (potion.getName().equalsIgnoreCase(potionName) && potion.getMinimumChapter() <= chapter) {
                 return potion;
             }
         }

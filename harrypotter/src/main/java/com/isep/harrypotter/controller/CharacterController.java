@@ -59,6 +59,7 @@ public class CharacterController {
         enemyList.add(new Enemy(70, 70, 5, 20, 0.5, "The Destructive Cyclops"));
         enemyList.add(new Enemy(180, 180, 20, 16, 0.2, "The Savage Minotaur"));
     }
+
     public void initWizard(){
         outputManager.print("Enter your wizard firstname");
         String firstname = inputParser.getString(null);
@@ -240,7 +241,6 @@ public class CharacterController {
         }
     }
 
-
     private void drinkPotion(Potion potion){
         outputManager.displayMessage("You drunk the potion", wizard.getDrunk());
         int chance = 5;
@@ -321,6 +321,7 @@ public class CharacterController {
         int random2 = random.nextInt(chance);
         return random1 == random2;
     }
+
     private void printWizardPotions(){
         Map<Potion, Integer> potionList = this.potionController.getKnownPotions(wizard);
         if (potionList.size() > 0) {

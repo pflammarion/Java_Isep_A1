@@ -12,6 +12,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Wizard extends Character {
     private Pet pet;
     private Wand wand;

@@ -16,4 +16,5 @@ module com.isep.harrypotter {
     opens com.isep.harrypotter.controller to javafx.fxml;
     exports com.isep.harrypotter.model.others;
     opens com.isep.harrypotter.model.others to javafx.fxml;
+    exports com.isep.harrypotter.view;
 }
