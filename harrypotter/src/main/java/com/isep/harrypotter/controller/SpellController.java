@@ -115,7 +115,7 @@ public class SpellController {
 
     public Spell getAvailableSpellByName(String spellName, Wizard wizard, int chapter) {
         for (AbstractSpell spell : spells) {
-            if (spell instanceof Spell && spell.getName().equalsIgnoreCase(spellName) && !wizard.getKnownSpells().contains(spell) && spell.getMinimumChapter() >= chapter) {
+            if (spell instanceof Spell && spell.getName().equalsIgnoreCase(spellName) && !wizard.getKnownSpells().contains(spell) && spell.getMinimumChapter() <= chapter) {
                 return (Spell) spell;
             }
         }
