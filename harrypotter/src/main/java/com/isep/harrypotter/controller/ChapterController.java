@@ -17,11 +17,11 @@ public class ChapterController {
     private InputParser inputParser;
     private OutputManager outputManager;
     private Chapter chapter;
-    public void initChapter(){
+    public void initChapter() {
         this.chapter.setDay(0);
     }
-    public boolean newDay(){
-        if (!chapter.isChapterInit()){
+    public boolean newDay() {
+        if (!chapter.isChapterInit()) {
             outputManager.print(chapter.getName());
             chapter.setChapterInit(true);
         }
@@ -32,11 +32,11 @@ public class ChapterController {
         this.chapter.setDay(chapter.getDay() + new Random().nextInt(21) + 20);
         return false;
     }
-    public boolean isChapterFinish(){
+    public boolean isChapterFinish() {
         return !chapter.isBossPassed() && this.chapter.getDay() > 365.25;
     }
 
-    public boolean nextChapter(boolean victory){
+    public boolean nextChapter(boolean victory) {
         if (victory) {
             this.chapter = new Chapter(this.chapter.getNumber() + 1);
             return false;
@@ -46,7 +46,7 @@ public class ChapterController {
             return true;
         }
     }
-    public Boss initBoss(){
+    public Boss initBoss() {
         return this.chapter.getBoss();
     }
 }

@@ -122,7 +122,7 @@ public class SpellController {
         }
         return null;
     }
-    public void learnSpell(AbstractSpell spell, Wizard wizard){
+    public void learnSpell(AbstractSpell spell, Wizard wizard) {
         List<AbstractSpell> knownSpells = getAllKnownSpells(wizard);
         knownSpells.add(spell);
         wizard.setKnownSpells(knownSpells);

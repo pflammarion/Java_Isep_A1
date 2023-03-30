@@ -29,7 +29,8 @@ public class CharacterController {
     private Random random;
     private List<Enemy> enemyList;
 
-    public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController, PotionController potionController){
+    public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController,
+                               PotionController potionController) {
         this.inputParser = inputParser;
         this.outputManager = outputManager;
         this.spellController = spellController;
@@ -60,7 +61,7 @@ public class CharacterController {
         enemyList.add(new Enemy(180, 180, 20, 16, 0.2, "The Savage Minotaur"));
     }
 
-    public void initWizard(){
+    public void initWizard() {
         outputManager.print("Enter your wizard firstname");
         String firstname = inputParser.getString(null);
         outputManager.print("Enter your wizard lastname");
@@ -71,7 +72,6 @@ public class CharacterController {
         switch (wizard.getHouse()){
             case HUFFLEPUFF -> wizard.setPotionEfficiency(10);
             case SLYTHERIN -> wizard.setDamage(10);
-
             case GRYFFINDOR -> {
                 wizard.setDefense(10);
                 List<Stuff> inventory = this.wizard.getInventory();
@@ -85,17 +85,17 @@ public class CharacterController {
         outputManager.print("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
     }
 
-    private Object battleChoice(){
+    private Object battleChoice() {
         String input = this.getString(this.wizard);
         Spell spell = spellController.getKnownSpellByName(input, this.wizard);
         Potion potion = potionController.getKnownPotionByName(input, this.wizard);
-        if (null != spell){
+        if (null != spell) {
             return spell;
         }
-        else if (null != potion){
+        else if (null != potion) {
             return potion;
         }
-        else{
+        else {
             return input;
         }
     }
@@ -120,7 +120,7 @@ public class CharacterController {
                 } else if (choice instanceof Potion potion) {
                     drinkPotion(potion);
                 }
-                else if (choice instanceof String stuff){
+                else if (choice instanceof String stuff) {
                     Optional<Stuff> optionalStuff = inventory.stream()
                             .filter(obj -> obj.getName().equalsIgnoreCase(stuff))
                             .findFirst();
@@ -157,58 +157,22 @@ public class CharacterController {
             }
 
         } while(!exit);
-        //TODO end of the battle
-        if (wizard.getCurrentHealth() > 0){
-            outputManager.print("\n\nYOU WIN !!! \n\n");
-            if (enemy instanceof Boss){
-                wizard.setTotalHealth(wizard.getTotalHealth() + 50);
-                wizard.setCurrentHealth(wizard.getTotalHealth());
-                outputManager.displayMessage("You just became stronger, you now have " + wizard.getCurrentHealth() + " HP, congratulation !", wizard.getDrunk());
-            }
-            if (enemy instanceof Enemy){
-                wizard.setDamage(wizard.getDamage() + random.nextInt(10) + 1);
-                wizard.setAccuracy(wizard.getAccuracy() + random.nextInt(10) + 1);
-                wizard.setDefense(wizard.getDefense() + random.nextInt(10) + 1);
-                outputManager.displayMessage("You just became stronger, you have " + wizard.getDamage() + " points of damage and " + wizard.getAccuracy() + " points of accuracy and " + wizard.getDefense() + " points of defense.", wizard.getDrunk());
-            }
-            return true;
-        }
-        else {
-            outputManager.print("\n\nPaul Nuls\n\n");
-            return false;
-        }
+       return endBattleRewards(enemy);
     }
 
-    public boolean skippingSchool(){
-        this.outputManager.displayMessage("You decided to skip school.", this.wizard.getDrunk());
-        if (randomProbability(10)){
-            this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
-            Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
-            potionController.learnPotion(potion, wizard);
-            this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
+    public boolean skippingSchool() {
+        this.outputManager.displayMessage("You decided to skip school", this.wizard.getDrunk());
+        if (randomProbability(10)) {
+            findPotion();
         }
-        if (randomProbability(10)){
-            this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
-            List<ForbiddenSpell> forbiddenSpells = spellController.getForbiddenSpells();
-            spellController.learnSpell(forbiddenSpells.get(random.nextInt(forbiddenSpells.size())), wizard);
-            this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
+        if (randomProbability(10)) {
+            findSpell();
         }
-        if (randomProbability(5) && wizard.getKnownSpells().size() > 0){
-            Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
-            this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
-            return battleEnemy(enemy);
+        if (randomProbability(5) && wizard.getKnownSpells().size() > 0) {
+            return fightRandomEnemy();
         }
-        if (randomProbability(10)){
-            List<Stuff> inventory = wizard.getInventory();
-            for (Stuff stuff : inventory) {
-                if (!stuff.getName().equalsIgnoreCase("Fireworks")) {
-                    Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
-                   inventory.add(fireworks);
-                   wizard.setInventory(inventory);
-                   outputManager.displayMessage("Ho you juste found Fireworks. " + fireworks.getDescription(), wizard.getDrunk());
-                   break;
-                }
-            }
+        if (randomProbability(10)) {
+            findStuff();
         }
         return true;
     }
@@ -218,7 +182,7 @@ public class CharacterController {
             // boss attack succeeds
             double actualDamage = enemy.getDamage() - wizard.getDefense();
             if (actualDamage <= 0) {
-                actualDamage = 0; // ensure at least 1 damage is dealt
+                actualDamage = 0;
             }
             wizard.takeDamage(actualDamage);
             return enemy.getName() + " attacks you for " + enemy.getDamage() + " damage! But you have " + wizard.getDefense();
@@ -232,7 +196,7 @@ public class CharacterController {
         }
     }
 
-    private void drinkPotion(Potion potion){
+    private void drinkPotion(Potion potion) {
         outputManager.displayMessage("You drunk the potion", wizard.getDrunk());
         int chance = 5;
         switch (potion.getType()) {
@@ -257,11 +221,11 @@ public class CharacterController {
             default -> chance = 2;
         }
 
-        if (randomProbability(chance)){
+        if (randomProbability(chance)) {
             outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard.getDrunk());
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
-        if (randomProbability(chance * 3)){
+        if (randomProbability(chance * 3)) {
             wizard.setNowPet(true);
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
@@ -269,21 +233,21 @@ public class CharacterController {
         wizard.setPotions(potionController.removePotionFromMap(potion, wizard.getPotions()));
     }
 
-    private void castSpell(AbstractSpell spell, AbstractEnemy enemy){
+    private void castSpell(AbstractSpell spell, AbstractEnemy enemy) {
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
-        if (knownSpell.contains(spell)){
+        if (knownSpell.contains(spell)) {
             outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
             outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " points of damage to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
             enemy.setCurrentHealth(enemy.getCurrentHealth() - (spell.getDamage() + 100 * (Math.log(wizard.getAccuracy() + 1))));
-            if (enemy.getCurrentHealth()<0) enemy.setCurrentHealth(0);
+            if (enemy.getCurrentHealth() < 0) enemy.setCurrentHealth(0);
         }
         else {
             outputManager.displayMessage("You don't know the spell " + spell.getName() + "!", wizard.getDrunk());
         }
     }
 
-    public void soberUp(){
-        if (wizard.getDrunk() > 0){
+    public void soberUp() {
+        if (wizard.getDrunk() > 0) {
             wizard.setDrunk(wizard.getDrunk() - 1);
         }
     }
@@ -305,7 +269,7 @@ public class CharacterController {
         }
     }
 
-    private boolean randomProbability(int chance){
+    private boolean randomProbability(int chance) {
         //Return 1/n chance
         Random random = new Random();
         int random1 = random.nextInt(chance);
@@ -313,7 +277,7 @@ public class CharacterController {
         return random1 == random2;
     }
 
-    private void printWizardPotions(){
+    private void printWizardPotions() {
         Map<Potion, Integer> potionList = this.potionController.getKnownPotions(wizard);
         if (potionList.size() > 0) {
             outputManager.showMapElements("You know those potions:\n", potionList, wizard.getDrunk());
@@ -323,9 +287,9 @@ public class CharacterController {
         }
     }
 
-    private void printWizardSpells(){
+    private void printWizardSpells() {
         List<Spell> spellList = this.spellController.getKnownSpells(wizard);
-        if (spellList.size() > 0){
+        if (spellList.size() > 0) {
             outputManager.showListElements("You know those spells:\n", spellList, wizard.getDrunk());
         }
         else {
@@ -333,9 +297,9 @@ public class CharacterController {
         }
     }
 
-    private void printWizardInventory(){
+    private void printWizardInventory() {
         List<Stuff> inventory = wizard.getInventory();
-        if (inventory.size() > 0){
+        if (inventory.size() > 0) {
             outputManager.showListElements("Here is your inventory:\n", inventory, wizard.getDrunk());
         }
         else {
@@ -357,12 +321,11 @@ public class CharacterController {
         int firstSpaceIndex = userInput.indexOf(" ");
         if (firstSpaceIndex != -1) {
             String firstWord = userInput.substring(0, firstSpaceIndex);
-            if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
+            if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")) {
                 userInput = userInput.substring(firstSpaceIndex + 1);
                 switch (userInput) {
                     case "help" -> outputManager.readHelperFile();
-                    case "potions" ->
-                        printWizardPotions();
+                    case "potions" -> printWizardPotions();
                     case "spells" -> printWizardSpells();
                     case "inventory" -> printWizardInventory();
                     default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
@@ -374,9 +337,8 @@ public class CharacterController {
         return false;
     }
 
-    private void showWizardStuff(int numPotions, int numSpells, int numObjects){
+    private void showWizardStuff(int numPotions, int numSpells, int numObjects) {
         String message;
-
         if (numPotions == 0 && numSpells == 0 && numObjects == 0) {
             message = "You don't have any potions, spells, or objects...";
         } else if (numPotions > 0 && numSpells == 0 && numObjects == 0) {
@@ -423,9 +385,64 @@ public class CharacterController {
 
     private boolean checkSpecialSpellBoss(Boss boss, AbstractSpell wizardSpell) {
         String bossSpell = boss.getSpecialSpell();
-        if (null == bossSpell){
+        if (null == bossSpell) {
             return true;
         }
         return wizardSpell.getName().equalsIgnoreCase(bossSpell);
+    }
+
+    private boolean endBattleRewards(AbstractEnemy enemy) {
+        if (wizard.getCurrentHealth() > 0){
+            outputManager.print("\n\nYOU WIN !!! \n\n");
+            if (enemy instanceof Boss){
+                wizard.setTotalHealth(wizard.getTotalHealth() + 50);
+                wizard.setCurrentHealth(wizard.getTotalHealth());
+                outputManager.displayMessage("You just became stronger, you now have " + wizard.getCurrentHealth() + " HP, congratulation !", wizard.getDrunk());
+            }
+            if (enemy instanceof Enemy) {
+                wizard.setDamage(wizard.getDamage() + random.nextInt(10) + 1);
+                wizard.setAccuracy(wizard.getAccuracy() + random.nextInt(10) + 1);
+                wizard.setDefense(wizard.getDefense() + random.nextInt(10) + 1);
+                outputManager.displayMessage("You just became stronger, you have " + wizard.getDamage() + " points of damage and " + wizard.getAccuracy() + " points of accuracy and " + wizard.getDefense() + " points of defense.", wizard.getDrunk());
+            }
+            return true;
+        }
+        else {
+            outputManager.print("\n\nPaul Nuls\n\n");
+            return false;
+        }
+    }
+
+    private void findPotion() {
+        this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
+        Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
+        potionController.learnPotion(potion, wizard);
+        this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
+    }
+
+    private void findSpell() {
+        this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
+        List<ForbiddenSpell> forbiddenSpells = spellController.getForbiddenSpells();
+        spellController.learnSpell(forbiddenSpells.get(random.nextInt(forbiddenSpells.size())), wizard);
+        this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
+    }
+
+    private boolean fightRandomEnemy() {
+        Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
+        this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
+        return battleEnemy(enemy);
+    }
+
+    private void findStuff() {
+        List<Stuff> inventory = wizard.getInventory();
+        for (Stuff stuff : inventory) {
+            if (!stuff.getName().equalsIgnoreCase("Fireworks")) {
+                Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
+                inventory.add(fireworks);
+                wizard.setInventory(inventory);
+                outputManager.displayMessage("Ho you juste found Fireworks. " + fireworks.getDescription(), wizard.getDrunk());
+                break;
+            }
+        }
     }
 }
