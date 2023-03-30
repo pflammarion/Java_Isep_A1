@@ -103,7 +103,6 @@ public class CharacterController {
     public boolean battleEnemy(AbstractEnemy enemy) {
         boolean isActionPassed = false;
         boolean exit = false;
-        //TODO parse a summary
         Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         List<Stuff> inventory = wizard.getInventory();
@@ -114,49 +113,28 @@ public class CharacterController {
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell) {
                     castSpell(spell, enemy);
-                    if (enemy instanceof Boss) {
-                        isActionPassed = checkSpecialSpellBoss((Boss) enemy, spell);
-                    }
-                } else if (choice instanceof Potion potion) {
-                    drinkPotion(potion);
+                    if (enemy instanceof Boss) isActionPassed = checkSpecialSpellBoss((Boss) enemy, spell);
                 }
+                else if (choice instanceof Potion potion) drinkPotion(potion);
                 else if (choice instanceof String stuff) {
-                    Optional<Stuff> optionalStuff = inventory.stream()
-                            .filter(obj -> obj.getName().equalsIgnoreCase(stuff))
-                            .findFirst();
-
+                    Optional<Stuff> optionalStuff = inventory.stream().filter(obj -> obj.getName().equalsIgnoreCase(stuff)).findFirst();
                     if (optionalStuff.isPresent()) {
                         if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equalsIgnoreCase(stuff)) {
                             exit = true;
                             outputManager.displayMessage("You used the " + stuff + " and it defeated the " + enemy.getName(), wizard.getDrunk());
-                        } else {
-                            outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
-                        }
+                        } else outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
                     }
                 }
-                else {
-                    outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
-                }
+                else outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
             }
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
-
-            if (wizard.getCurrentHealth() < 0) {
-                wizard.setCurrentHealth(0);
-            }
+            if (wizard.getCurrentHealth() < 0) wizard.setCurrentHealth(0);
             outputManager.progressPercentage(wizard.getCurrentHealth(), wizard.getTotalHealth(), "fightWizard");
             outputManager.progressPercentage(enemy.getCurrentHealth(), enemy.getTotalHealth(), "fightEnemy");
-            if (enemy.getCurrentHealth() <= 0) {
-                if (enemy instanceof Boss) {
-                    exit = isActionPassed;
-                } else {
-                    exit = true;
-                }
-            }
-            if (wizard.getCurrentHealth() <= 0) {
-                exit = true;
-            }
-
+            if (enemy.getCurrentHealth() <= 0) exit = !(enemy instanceof Boss) || isActionPassed;
+            if (wizard.getCurrentHealth() <= 0) exit = true;
         } while(!exit);
+
        return endBattleRewards(enemy);
     }
 
