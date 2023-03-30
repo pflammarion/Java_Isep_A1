@@ -69,21 +69,16 @@ public class CharacterController {
         this.wizard.setLastname(lastname);
         this.wizard.setHouse(assignHouse());
         switch (wizard.getHouse()){
-            case HUFFLEPUFF ->{
-                wizard.setPotionEfficiency(10);
-            }
-            case SLYTHERIN -> {
-                wizard.setDamage(10);
-            }
+            case HUFFLEPUFF -> wizard.setPotionEfficiency(10);
+            case SLYTHERIN -> wizard.setDamage(10);
+
             case GRYFFINDOR -> {
                 wizard.setDefense(10);
                 List<Stuff> inventory = this.wizard.getInventory();
                 inventory.add(new Stuff("Sword", "The Gryffindor sword"));
                 this.wizard.setInventory(inventory);
             }
-            case RAVENCLAW -> {
-                wizard.setAccuracy(0.5);
-            }
+            case RAVENCLAW -> wizard.setAccuracy(0.5);
         }
         outputManager.print("Hello " + firstname + " " + lastname);
         outputManager.print("Welcome to Poudlard");
@@ -194,11 +189,7 @@ public class CharacterController {
         }
         if (randomProbability(10)){
             this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
-            List<ForbiddenSpell> forbiddenSpells = spellController.getSpells()
-                    .stream()
-                    .filter(p -> p instanceof ForbiddenSpell)
-                    .map(p -> (ForbiddenSpell) p)
-                    .toList();
+            List<ForbiddenSpell> forbiddenSpells = spellController.getForbiddenSpells();
             spellController.learnSpell(forbiddenSpells.get(random.nextInt(forbiddenSpells.size())), wizard);
             this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
         }
@@ -369,18 +360,11 @@ public class CharacterController {
             if((userInput.startsWith("s") && firstWord.length() == 1) || userInput.startsWith("show")){
                 userInput = userInput.substring(firstSpaceIndex + 1);
                 switch (userInput) {
-                    case "help" -> {
-                        outputManager.readHelperFile();
-                    }
-                    case "potions" -> {
+                    case "help" -> outputManager.readHelperFile();
+                    case "potions" ->
                         printWizardPotions();
-                    }
-                    case "spells" -> {
-                        printWizardSpells();
-                    }
-                    case "inventory" -> {
-                        printWizardInventory();
-                    }
+                    case "spells" -> printWizardSpells();
+                    case "inventory" -> printWizardInventory();
                     default -> outputManager.displayMessage("Nothing to see there", wizard.getDrunk());
                 }
                 outputManager.displayMessage("\nYou can continue your previous action", wizard.getDrunk());

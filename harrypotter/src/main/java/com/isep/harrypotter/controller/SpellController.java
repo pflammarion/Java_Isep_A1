@@ -84,6 +84,7 @@ public class SpellController {
         return knownSpells;
     }
 
+
     public List<ForbiddenSpell> getForbiddenSpells() {
         List<ForbiddenSpell> forbiddenSpells = new ArrayList<>();
         for (AbstractSpell spell : spells) {
