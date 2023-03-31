@@ -113,7 +113,7 @@ public class Game {
     }
 
     private void spellClass(Wizard wizard) {
-        this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
+        this.outputManager.showMapElements("All available spells are: " + Colors.WARNING + "(you already know the underlined ones)", spellController.getSpells(chapterController.getChapter().getNumber(), wizard), wizard.getDrunk());
         this.outputManager.displayMessage("Enter the name of the spell you want to learn. " + Colors.WARNING + "(ex: Lumos)"+ Colors.ANSI_RESET, wizard.getDrunk());
         String input = characterController.getString(wizard);
         Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
