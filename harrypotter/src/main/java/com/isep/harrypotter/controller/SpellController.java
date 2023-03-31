@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -96,11 +98,11 @@ public class SpellController {
         return forbiddenSpells;
     }
 
-    public List<Spell> getSpells(int chapter) {
-        List<Spell> spellList = new ArrayList<>();
+    public Map<Spell, Boolean> getSpells(int chapter, Wizard wizard) {
+        Map<Spell, Boolean> spellList = new HashMap<>();
         for (AbstractSpell spell : spells) {
             if (spell instanceof Spell && chapter >= spell.getMinimumChapter()) {
-                spellList.add((Spell) spell);
+                spellList.put((Spell) spell, wizard.getKnownSpells().contains(spell));
             }
         }
         return spellList;
@@ -129,5 +131,4 @@ public class SpellController {
         wizard.setKnownSpells(knownSpells);
         outputManager.displayMessage("You have learned the " + Colors.SPELL + spell.getName() + Colors.ANSI_RESET +" spell!\n", wizard.getDrunk());
     }
-
 }

@@ -9,5 +9,5 @@ public interface OutputManager {
     void print(String input);
     void progressPercentage(double current, int total, String choice);
     void readHelperFile();
-    void showMapElements(String introducer, Map<?, Integer> map, int drunkDays);
+    void showMapElements(String introducer, Map<?, ?> map, int drunkDays);
 }

@@ -32,11 +32,20 @@ public class ConsoleOutput implements OutputManager {
         }
     }
 
-    public void showMapElements(String introducer, Map<?, Integer> map, int drunkDays) {
+    public void showMapElements(String introducer, Map<?, ?> map, int drunkDays) {
         displayMessage(introducer, drunkDays);
-        for (Map.Entry<?, Integer> entry : map.entrySet()) {
-            displayMessage( entry.getValue().toString() + "* " + Colors.MAP  + entry.getKey().toString()  + Colors.ANSI_RESET,
-                    drunkDays);
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            if (entry.getValue() instanceof Integer){
+                displayMessage( entry.getValue() + "* " + Colors.MAP  + entry.getKey().toString()  + Colors.ANSI_RESET, drunkDays);
+            }
+            if (entry.getValue() instanceof Boolean){
+                //for spell know printing
+                if ((Boolean) entry.getValue()){
+                    displayMessage( Colors.SPELL + Colors.ANSI_BOLD + Colors.ANSI_UNDERLINE + entry.getKey().toString()  + Colors.ANSI_RESET, drunkDays);
+                } else {
+                    displayMessage( Colors.SPELL + entry.getKey().toString()  + Colors.ANSI_RESET, drunkDays);
+                }
+            }
         }
     }
 
