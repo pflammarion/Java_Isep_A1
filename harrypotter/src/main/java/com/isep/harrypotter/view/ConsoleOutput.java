@@ -28,14 +28,14 @@ public class ConsoleOutput implements OutputManager {
     public void showListElements(String introducer, List<?> list, int drunkDays) {
         displayMessage(introducer, drunkDays);
         for (Object element : list) {
-            displayMessage("- " + Colors.ANSI_CYAN  + element.toString() + Colors.ANSI_RESET, drunkDays);
+            displayMessage("- " + Colors.MAP  + element.toString() + Colors.ANSI_RESET, drunkDays);
         }
     }
 
     public void showMapElements(String introducer, Map<?, Integer> map, int drunkDays) {
         displayMessage(introducer, drunkDays);
         for (Map.Entry<?, Integer> entry : map.entrySet()) {
-            displayMessage( entry.getValue().toString() + "* " + Colors.ANSI_CYAN  + entry.getKey().toString()  + Colors.ANSI_RESET,
+            displayMessage( entry.getValue().toString() + "* " + Colors.MAP  + entry.getKey().toString()  + Colors.ANSI_RESET,
                     drunkDays);
         }
     }
@@ -63,11 +63,11 @@ public class ConsoleOutput implements OutputManager {
     public void progressPercentage(double current, int total, String choice) {
         switch (choice) {
             case "day"-> {
-                print("\n\n" + Colors.ANSI_BLACK + Colors.ANSI_WHITE_BACKGROUND + "New day :)" + Colors.ANSI_RESET);
-                System.out.println(Colors.ANSI_YELLOW + "\nYour year progress: \n" + Colors.ANSI_RESET);
+                print("\n\n" + Colors.DEFAULT + Colors.ANSI_WHITE_BACKGROUND + "New day :)" + Colors.ANSI_RESET);
+                System.out.println(Colors.WARNING + "\nYour year progress: \n" + Colors.ANSI_RESET);
             }
-            case "fightWizard"-> System.out.println(Colors.ANSI_YELLOW + "\nYour life:\n" + Colors.ANSI_RESET);
-            case "fightEnemy"-> System.out.println(Colors.ANSI_YELLOW + "\nEnemy's life:\n" + Colors.ANSI_RESET);
+            case "fightWizard"-> System.out.println(Colors.WARNING + "\nYour life:\n" + Colors.ANSI_RESET);
+            case "fightEnemy"-> System.out.println(Colors.WARNING + "\nEnemy's life:\n" + Colors.ANSI_RESET);
         }
 
         int percent = (int)(current / total * 100);
@@ -84,12 +84,12 @@ public class ConsoleOutput implements OutputManager {
         }
         sb.append("]");
         if (percent > 50){
-            sb.append(Colors.ANSI_GREEN);
+            sb.append(Colors.VALIDE);
         }
         else if (percent > 30){
-            sb.append(Colors.ANSI_YELLOW);
+            sb.append(Colors.WARNING);
         }
-        else sb.append(Colors.ANSI_RED);
+        else sb.append(Colors.ERROR);
         sb.append(String.format(" %d%%", percent));
         sb.append(Colors.ANSI_RESET);
         System.out.print(sb + "\r\n");

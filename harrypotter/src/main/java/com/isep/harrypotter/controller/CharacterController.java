@@ -63,9 +63,9 @@ public class CharacterController {
     }
 
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname. " + Colors.ANSI_YELLOW + "(ex: Harry)" + Colors.ANSI_RESET);
+        outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
         String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname. " + Colors.ANSI_YELLOW + "(ex: Potter)" + Colors.ANSI_RESET);
+        outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
         String lastname = inputParser.getString(null);
         this.wizard.setFirstname(firstname);
         this.wizard.setLastname(lastname);
@@ -83,9 +83,9 @@ public class CharacterController {
         }
         outputManager.print("Hello " + firstname + " " + lastname);
         outputManager.print("Welcome to Poudlard");
-        outputManager.print("Your pet is " + Colors.ANSI_GREEN + wizard.getPet() + Colors.ANSI_RESET + " and were " +
-                "assigned to " + Colors.ANSI_GREEN + wizard.getHouse() + Colors.ANSI_RESET +
-                " house with your nice " + Colors.ANSI_GREEN + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
+        outputManager.print("Your pet is " + Colors.VALIDE + wizard.getPet() + Colors.ANSI_RESET + " and were " +
+                "assigned to " + Colors.VALIDE + wizard.getHouse() + Colors.ANSI_RESET +
+                " house with your nice " + Colors.VALIDE + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
     }
 
     private Object battleChoice() {
@@ -112,8 +112,7 @@ public class CharacterController {
         do {
             showWizardStuff(potionList.size(), knownSpell.size(), inventory.size());
             if (potionList.size() > 0 || knownSpell.size() > 0 || inventory.size() > 0) {
-                outputManager.displayMessage("Type the name of what you want to use.\nYou can use a spell, a potion " +
-                                "or an object. (ex: Lumos)",
+                outputManager.displayMessage("Type the name of what you want to use.\nYou can use a " + Colors.SPELL + "spell" + Colors.ANSI_RESET + ", a " + Colors.POTION + "potion" + Colors.ANSI_RESET + " or an " + Colors.ANSI_BROWN +"object" + Colors.ANSI_RESET +". " + Colors.WARNING + "(ex: Lumos)" + Colors.ANSI_RESET,
                         wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell) {
@@ -126,13 +125,11 @@ public class CharacterController {
                     if (optionalStuff.isPresent()) {
                         if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equalsIgnoreCase(stuff)) {
                             exit = true;
-                            outputManager.displayMessage("You used the " + stuff + " and it defeated the " + enemy.getName(), wizard.getDrunk());
-                        } else outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
+                            outputManager.displayMessage("You used the " + Colors.ANSI_BROWN + stuff + Colors.ANSI_RESET + " and it defeated the " + enemy.getName(), wizard.getDrunk());
+                        } else outputManager.displayMessage("You used the " + Colors.ANSI_BROWN + stuff + Colors.ANSI_RESET + " but it does nothing...", wizard.getDrunk());
                     }
                 }
-                else outputManager.displayMessage("Huoohh... it seems to not exist. You only can use available " +
-                                    "potion, spell or object.\nYou can see the helper with 'show help'",
-                            wizard.getDrunk());
+                else outputManager.displayMessage("Huoohh... it seems to not exist. You only can use available " + Colors.SPELL + "spell" + Colors.ANSI_RESET + ", " + Colors.POTION + "potion" + Colors.ANSI_RESET + " or " + Colors.ANSI_BROWN + "object" + Colors.ANSI_RESET + ".\n" + Colors.WARNING +"You can see the helper with 'show help'" + Colors.ANSI_RESET, wizard.getDrunk());
             }
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
             if (wizard.getCurrentHealth() < 0) wizard.setCurrentHealth(0);
@@ -327,11 +324,11 @@ public class CharacterController {
         if (numPotions == 0 && numSpells == 0 && numObjects == 0) {
             message = "You don't have any potions, spells, or objects...";
         } else if (numPotions > 0 && numSpells == 0 && numObjects == 0) {
-            message = "You can use " + numPotions + " potion" + (numPotions > 1 ? "s" : "");
+            message = "You can use " + Colors.POTION + numPotions + " potion" + (numPotions > 1 ? "s" : "");
         } else if (numPotions == 0 && numSpells > 0 && numObjects == 0) {
-            message = "You can use " + numSpells + " spell" + (numSpells > 1 ? "s" : "");
+            message = "You can use " + Colors.SPELL + numSpells + " spell" + (numSpells > 1 ? "s" : "");
         } else if (numPotions == 0 && numSpells == 0 && numObjects > 0) {
-            message = "You can use " + numObjects + " object" + (numObjects > 1 ? "s" : "");
+            message = "You can use " + Colors.ANSI_BROWN + numObjects + " object" + (numObjects > 1 ? "s" : "");
         } else {
             StringBuilder sb = new StringBuilder("You can use ");
             boolean hasPotions = false;
@@ -399,7 +396,7 @@ public class CharacterController {
     }
 
     private void findPotion() {
-        this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
+        this.outputManager.displayMessage( Colors.VALIDE + "What a lucky day, you just found a new potion" + Colors.ANSI_RESET, this.wizard.getDrunk());
         Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
         potionController.learnPotion(potion, wizard);
         this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
@@ -414,7 +411,7 @@ public class CharacterController {
 
     private boolean fightRandomEnemy() {
         Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
-        this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
+        this.outputManager.displayMessage("Huho, you are in front of the enemy " + Colors.ERROR +  enemy.getName() + Colors.ANSI_RESET + ", you have to fight him !", wizard.getDrunk());
         return battleEnemy(enemy);
     }
 

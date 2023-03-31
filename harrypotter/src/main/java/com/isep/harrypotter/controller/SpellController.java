@@ -127,7 +127,7 @@ public class SpellController {
         List<AbstractSpell> knownSpells = getAllKnownSpells(wizard);
         knownSpells.add(spell);
         wizard.setKnownSpells(knownSpells);
-        outputManager.displayMessage("You have learned the " + Colors.ANSI_BLUE + spell.getName() + Colors.ANSI_RESET +" spell!\n", wizard.getDrunk());
+        outputManager.displayMessage("You have learned the " + Colors.SPELL + spell.getName() + Colors.ANSI_RESET +" spell!\n", wizard.getDrunk());
     }
 
 }

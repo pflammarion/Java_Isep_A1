@@ -78,7 +78,7 @@ public class PotionController {
         if (null != potion) {
             Map<Potion, Integer> knownPotions = getKnownPotions(wizard);
             wizard.setPotions(addPotionToMap(potion, knownPotions));
-            outputManager.displayMessage("You have learned the " + Colors.ANSI_PURPLE + potion.getName() + Colors.ANSI_RESET + " potion!\n", wizard.getDrunk());
+            outputManager.displayMessage("You have learned the " + Colors.POTION + potion.getName() + Colors.ANSI_RESET + " potion!\n", wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You loose.... idk what", wizard.getDrunk());
