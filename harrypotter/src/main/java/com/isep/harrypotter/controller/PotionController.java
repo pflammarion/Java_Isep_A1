@@ -2,6 +2,7 @@ package com.isep.harrypotter.controller;
 
 import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.Wizard;
+import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import lombok.Getter;
@@ -77,7 +78,7 @@ public class PotionController {
         if (null != potion) {
             Map<Potion, Integer> knownPotions = getKnownPotions(wizard);
             wizard.setPotions(addPotionToMap(potion, knownPotions));
-            outputManager.displayMessage("You have learned the " + potion.getName() +" potion!\n", wizard.getDrunk());
+            outputManager.displayMessage("You have learned the " + Colors.ANSI_PURPLE + potion.getName() + Colors.ANSI_RESET + " potion!\n", wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You loose.... idk what", wizard.getDrunk());

@@ -4,6 +4,7 @@ import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
+import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import lombok.Getter;
@@ -126,7 +127,7 @@ public class SpellController {
         List<AbstractSpell> knownSpells = getAllKnownSpells(wizard);
         knownSpells.add(spell);
         wizard.setKnownSpells(knownSpells);
-        outputManager.displayMessage("You have learned the " + spell.getName() +" spell!\n", wizard.getDrunk());
+        outputManager.displayMessage("You have learned the " + Colors.ANSI_BLUE + spell.getName() + Colors.ANSI_RESET +" spell!\n", wizard.getDrunk());
     }
 
 }

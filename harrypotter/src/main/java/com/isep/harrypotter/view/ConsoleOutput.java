@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class ConsoleOutput implements OutputManager {
-    private final String ANSI_YELLOW = "\u001B[33m";
-
     public void displayMessage(String input, int drunkDays) {
         if (drunkDays > 0) {
             Random random = new Random();
@@ -29,17 +27,15 @@ public class ConsoleOutput implements OutputManager {
 
     public void showListElements(String introducer, List<?> list, int drunkDays) {
         displayMessage(introducer, drunkDays);
-        int index = 1;
         for (Object element : list) {
-            displayMessage(Colors.ANSI_CYAN + index + ". " + element.toString() + Colors.ANSI_RESET, drunkDays);
-            index++;
+            displayMessage("- " + Colors.ANSI_CYAN  + element.toString() + Colors.ANSI_RESET, drunkDays);
         }
     }
 
     public void showMapElements(String introducer, Map<?, Integer> map, int drunkDays) {
         displayMessage(introducer, drunkDays);
         for (Map.Entry<?, Integer> entry : map.entrySet()) {
-            displayMessage(Colors.ANSI_CYAN + entry.getValue().toString() + "* " + entry.getKey().toString()  + Colors.ANSI_RESET,
+            displayMessage( entry.getValue().toString() + "* " + Colors.ANSI_CYAN  + entry.getKey().toString()  + Colors.ANSI_RESET,
                     drunkDays);
         }
     }
@@ -67,6 +63,7 @@ public class ConsoleOutput implements OutputManager {
     public void progressPercentage(double current, int total, String choice) {
         switch (choice) {
             case "day"-> {
+                print("\n\n" + Colors.ANSI_BLACK + Colors.ANSI_WHITE_BACKGROUND + "New day :)" + Colors.ANSI_RESET);
                 System.out.println(Colors.ANSI_YELLOW + "\nYour year progress: \n" + Colors.ANSI_RESET);
             }
             case "fightWizard"-> System.out.println(Colors.ANSI_YELLOW + "\nYour life:\n" + Colors.ANSI_RESET);

@@ -23,7 +23,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //set up console parser and output manager for the MVC structure as views
-        Game game = new Game(new ConsoleParser(), new ConsoleOutput());
+        Game game = new Game(new ConsoleParser(System.in), new ConsoleOutput());
 
         //run the console game
         game.play();

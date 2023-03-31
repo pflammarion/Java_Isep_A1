@@ -104,12 +104,12 @@ public class Game {
 
     private void potionClass(Wizard wizard) {
         this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the potion you want to learn." + Colors.ANSI_YELLOW + "(ex: Healing Salve) "+ Colors.ANSI_RESET, wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the potion you want to learn. " + Colors.ANSI_YELLOW + "(ex: Healing Salve) "+ Colors.ANSI_RESET, wizard.getDrunk());
         String input = characterController.getString(wizard);
         Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
         if (null != potion) {
             potionController.learnPotion(potion, wizard);
-            this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+            this.outputManager.showMapElements("You have those potions:" + Colors.ANSI_YELLOW + " (ex: number* potionName)" +  Colors.ANSI_RESET, wizard.getPotions(), wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You learned useless things today", wizard.getDrunk());

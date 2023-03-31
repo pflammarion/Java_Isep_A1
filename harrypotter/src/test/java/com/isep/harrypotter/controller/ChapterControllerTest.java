@@ -13,7 +13,7 @@ class ChapterControllerTest {
     private ChapterController controller;
     @BeforeEach
     void setUp() {
-        controller = new ChapterController(new ConsoleParser(), new ConsoleOutput(), new Chapter(1));
+        controller = new ChapterController(new ConsoleParser(System.in), new ConsoleOutput(), new Chapter(1));
     }
 
     @Test
