@@ -64,7 +64,7 @@ public class ConsoleOutput implements OutputManager {
         switch (choice) {
             case "day"-> {
                 print("\n\n" + Colors.DEFAULT + Colors.ANSI_WHITE_BACKGROUND + "New day :)" + Colors.ANSI_RESET);
-                System.out.println(Colors.WARNING + "\nYour year progress: \n" + Colors.ANSI_RESET);
+                System.out.println(Colors.ANSI_BOLD + "\nYour year progress: \n" + Colors.ANSI_RESET);
             }
             case "fightWizard"-> System.out.println(Colors.WARNING + "\nYour life:\n" + Colors.ANSI_RESET);
             case "fightEnemy"-> System.out.println(Colors.WARNING + "\nEnemy's life:\n" + Colors.ANSI_RESET);

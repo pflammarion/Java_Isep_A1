@@ -2,6 +2,8 @@ package com.isep.harrypotter.controller;
 
 import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.characters.Boss;
+import com.isep.harrypotter.view.Colors;
+import com.isep.harrypotter.view.ConsoleOutput;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import lombok.AllArgsConstructor;
@@ -42,7 +44,7 @@ public class ChapterController {
             return false;
         }
         else {
-            outputManager.print("END GAME");
+            outputManager.print(Colors.ERROR + "END GAME" + Colors.ANSI_RESET);
             return true;
         }
     }
