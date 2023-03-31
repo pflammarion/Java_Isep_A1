@@ -42,7 +42,11 @@ public class Game {
             }
 
             if (chapterController.isChapterFinish()) {
-                outputManager.displayMessage("Oh, what is happening ...? A BOSS ???\n", characterController.getWizard().getDrunk());
+                outputManager.displayMessage("""
+                                Oh, what is happening ...? A BOSS ???
+                                You have to fight him with your known spells. You can see them with 'show spells' command.
+                                 Boss can only be defeated with the good spell or object.""",
+                        characterController.getWizard().getDrunk());
 
                 //check if the wizard defeat the boss or not
                 boolean victory = characterController.battleEnemy(chapterController.initBoss());
@@ -71,7 +75,11 @@ public class Game {
 
     private void goToSchool() {
         Wizard wizard = characterController.getWizard();
-        outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?", wizard.getDrunk());
+        outputManager.displayMessage("""
+                        You can learn a spell or a potion, which book do you want to open?
+                        You can type 's' or 'spell' to open spell' book.
+                        You can 'type' 'p' or 'potion' to open potion' book.""",
+                wizard.getDrunk());
         String choice = characterController.getString(wizard);
 
         //Choosing potion class
@@ -89,15 +97,16 @@ public class Game {
     }
 
     private int displayMenu() {
-        System.out.println("\nWhat a nice day, what are you going to do today ?");
+        System.out.println("\nWhat a nice day, what are you going to do today ? (1 or 2)");
         System.out.println("1. Go to school");
         System.out.println("2. Skipping school");
-        return inputParser.getInt("Please enter an available proposition");
+        return inputParser.getInt("Please enter an available proposition (1 or 2)");
     }
 
     private void potionClass(Wizard wizard) {
         this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the potion you want to learn. (ex: Healing Salve) ",
+                wizard.getDrunk());
         String input = characterController.getString(wizard);
         Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
         if (null != potion) {
@@ -111,7 +120,7 @@ public class Game {
 
     private void spellClass(Wizard wizard) {
         this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the spell you want to learn. (ex: Lumos)", wizard.getDrunk());
         String input = characterController.getString(wizard);
         Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
         if (null != spell) {

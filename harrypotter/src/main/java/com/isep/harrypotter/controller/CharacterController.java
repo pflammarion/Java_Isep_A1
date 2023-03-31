@@ -62,9 +62,9 @@ public class CharacterController {
     }
 
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname");
+        outputManager.print("Enter your wizard firstname. (ex: Harry)");
         String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname");
+        outputManager.print("Enter your wizard lastname. (ex: Potter)");
         String lastname = inputParser.getString(null);
         this.wizard.setFirstname(firstname);
         this.wizard.setLastname(lastname);
@@ -109,7 +109,9 @@ public class CharacterController {
         do {
             showWizardStuff(potionList.size(), knownSpell.size(), inventory.size());
             if (potionList.size() > 0 || knownSpell.size() > 0 || inventory.size() > 0) {
-                outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
+                outputManager.displayMessage("Type the name of what you want to use.\nYou can use a spell, a potion " +
+                                "or an object. (ex: Lumos)",
+                        wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell) {
                     castSpell(spell, enemy);
@@ -125,7 +127,9 @@ public class CharacterController {
                         } else outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
                     }
                 }
-                else outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
+                else outputManager.displayMessage("Huoohh... it seems to not exist. You only can use available " +
+                                    "potion, spell or object.\nYou can see the helper with 'show help'",
+                            wizard.getDrunk());
             }
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
             if (wizard.getCurrentHealth() < 0) wizard.setCurrentHealth(0);
