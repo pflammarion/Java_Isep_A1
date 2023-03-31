@@ -3,6 +3,7 @@ package com.isep.harrypotter.view;
 
 import com.isep.harrypotter.model.characters.Wizard;
 
+import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,8 +11,8 @@ public class ConsoleParser implements InputParser {
 
     private final Scanner scanner;
 
-    public ConsoleParser() {
-        this.scanner = new Scanner(System.in);
+    public ConsoleParser(InputStream inputStream) {
+        this.scanner = new Scanner(inputStream);
     }
 
     public int getInt(String messageWhenMismatch) {
@@ -24,7 +25,7 @@ public class ConsoleParser implements InputParser {
                 this.scanner.nextLine();
                 validInput = true;
             } catch (InputMismatchException e) {
-                System.out.printf("/!\\ Invalid value (not a number)%n%s: ", messageWhenMismatch);
+                System.out.printf(Colors.ERROR +"/!\\ Invalid value (not a number)%n%s: ", Colors.VALIDE+ messageWhenMismatch + Colors.ANSI_RESET);
                 scanner.nextLine();
             }
         } while(!validInput);

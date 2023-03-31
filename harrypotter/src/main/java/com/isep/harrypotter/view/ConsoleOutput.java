@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class ConsoleOutput implements OutputManager {
-
     public void displayMessage(String input, int drunkDays) {
         if (drunkDays > 0) {
             Random random = new Random();
@@ -18,11 +17,8 @@ public class ConsoleOutput implements OutputManager {
                 characters[randChar] = java.lang.Character.toUpperCase(characters[randChar]);
                 input = new String(characters);
             }
-            System.out.println(input);
         }
-        else {
-            System.out.println(input);
-        }
+        System.out.println(input);
     }
 
     public void print(String input) {
@@ -31,17 +27,16 @@ public class ConsoleOutput implements OutputManager {
 
     public void showListElements(String introducer, List<?> list, int drunkDays) {
         displayMessage(introducer, drunkDays);
-        int index = 1;
         for (Object element : list) {
-            displayMessage(index + ". " + element.toString(), drunkDays);
-            index++;
+            displayMessage("- " + Colors.MAP  + element.toString() + Colors.ANSI_RESET, drunkDays);
         }
     }
 
     public void showMapElements(String introducer, Map<?, Integer> map, int drunkDays) {
         displayMessage(introducer, drunkDays);
         for (Map.Entry<?, Integer> entry : map.entrySet()) {
-            displayMessage(entry.getValue().toString() + "* " + entry.getKey().toString(), drunkDays);
+            displayMessage( entry.getValue().toString() + "* " + Colors.MAP  + entry.getKey().toString()  + Colors.ANSI_RESET,
+                    drunkDays);
         }
     }
 
@@ -68,11 +63,11 @@ public class ConsoleOutput implements OutputManager {
     public void progressPercentage(double current, int total, String choice) {
         switch (choice) {
             case "day"-> {
-                spacer(5);
-                System.out.println("\nYour year progress: \n");
+                print("\n\n" + Colors.DEFAULT + Colors.ANSI_WHITE_BACKGROUND + "New day :)" + Colors.ANSI_RESET);
+                System.out.println(Colors.ANSI_BOLD + "\nYour year progress: \n" + Colors.ANSI_RESET);
             }
-            case "fightWizard"-> System.out.println("\nYour life:\n");
-            case "fightEnemy"-> System.out.println("\nEnemy's life:\n");
+            case "fightWizard"-> System.out.println(Colors.WARNING + "\nYour life:\n" + Colors.ANSI_RESET);
+            case "fightEnemy"-> System.out.println(Colors.WARNING + "\nEnemy's life:\n" + Colors.ANSI_RESET);
         }
 
         int percent = (int)(current / total * 100);
@@ -82,24 +77,24 @@ public class ConsoleOutput implements OutputManager {
         sb.append("[");
         for (int i = 0; i < length; i++) {
             if (i < progress) {
-                sb.append("=");
+                sb.append(Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET);
             } else {
-                sb.append(" ");
+                sb.append(Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET);
             }
         }
         sb.append("]");
+        if (percent > 50){
+            sb.append(Colors.VALIDE);
+        }
+        else if (percent > 30){
+            sb.append(Colors.WARNING);
+        }
+        else sb.append(Colors.ERROR);
         sb.append(String.format(" %d%%", percent));
-        System.out.print(sb + "\r");
+        sb.append(Colors.ANSI_RESET);
+        System.out.print(sb + "\r\n");
         if (current == total) {
             System.out.println();
         }
-        if (choice.equals("days")) {
-            spacer(2);
-        }
-        else spacer(1);
-    }
-
-    private void spacer(int n) {
-        System.out.println("\n".repeat(Math.max(0, n)));
     }
 }

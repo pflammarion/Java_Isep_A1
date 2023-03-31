@@ -4,6 +4,7 @@ import com.isep.harrypotter.model.Chapter;
 import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.spells.Spell;
+import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 
@@ -42,7 +43,7 @@ public class Game {
             }
 
             if (chapterController.isChapterFinish()) {
-                outputManager.displayMessage("Oh, what is happening ...? A BOSS ???\n", characterController.getWizard().getDrunk());
+                outputManager.displayMessage(Colors.ERROR + "\nOh, what is happening ...? A BOSS ???\n\n" + Colors.ANSI_RESET + "You have to fight him with your known spells.\n" + Colors.WARNING +"You can see them with 'show spells' command. Boss can only be defeated with the good spell or object.\n" + Colors.ANSI_RESET, characterController.getWizard().getDrunk());
 
                 //check if the wizard defeat the boss or not
                 boolean victory = characterController.battleEnemy(chapterController.initBoss());
@@ -71,7 +72,9 @@ public class Game {
 
     private void goToSchool() {
         Wizard wizard = characterController.getWizard();
-        outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?", wizard.getDrunk());
+        outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?"  + Colors.WARNING +
+                        "\nYou can type " + Colors.SPELL + "'s'" + Colors.WARNING + " or " + Colors.SPELL + "'spell'" + Colors.WARNING + " to open spell book." +
+                        "\nYou can type" + Colors.POTION + " 'p' " + Colors.WARNING + " or " + Colors.POTION + "'potion' " + Colors.WARNING + " to open " + "potion book."  + Colors.ANSI_RESET, wizard.getDrunk());
         String choice = characterController.getString(wizard);
 
         //Choosing potion class
@@ -89,20 +92,20 @@ public class Game {
     }
 
     private int displayMenu() {
-        System.out.println("\nWhat a nice day, what are you going to do today ?");
+        System.out.println("\nWhat a nice day, what are you going to do today ?" + Colors.WARNING +  " (1 or 2)" + Colors.ANSI_RESET);
         System.out.println("1. Go to school");
         System.out.println("2. Skipping school");
-        return inputParser.getInt("Please enter an available proposition");
+        return inputParser.getInt("Please enter an available proposition (1 or 2)");
     }
 
     private void potionClass(Wizard wizard) {
         this.outputManager.showListElements("All available potions are:", potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the potion you want to learn", wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the potion you want to learn. " + Colors.WARNING + "(ex: Healing Salve) "+ Colors.ANSI_RESET, wizard.getDrunk());
         String input = characterController.getString(wizard);
         Potion potion = potionController.getAvailablePotionByName(input, chapterController.getChapter().getNumber());
         if (null != potion) {
             potionController.learnPotion(potion, wizard);
-            this.outputManager.showMapElements("You have those potions:", wizard.getPotions(), wizard.getDrunk());
+            this.outputManager.showMapElements("You have those potions:" + Colors.WARNING + " (ex: number* potionName)" +  Colors.ANSI_RESET, wizard.getPotions(), wizard.getDrunk());
         }
         else {
             outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
@@ -111,7 +114,7 @@ public class Game {
 
     private void spellClass(Wizard wizard) {
         this.outputManager.showListElements("All available spells are:", spellController.getSpells(chapterController.getChapter().getNumber()), wizard.getDrunk());
-        this.outputManager.displayMessage("Enter the name of the spell you want to learn", wizard.getDrunk());
+        this.outputManager.displayMessage("Enter the name of the spell you want to learn. " + Colors.WARNING + "(ex: Lumos)"+ Colors.ANSI_RESET, wizard.getDrunk());
         String input = characterController.getString(wizard);
         Spell spell = spellController.getAvailableSpellByName(input, wizard, chapterController.getChapter().getNumber());
         if (null != spell) {

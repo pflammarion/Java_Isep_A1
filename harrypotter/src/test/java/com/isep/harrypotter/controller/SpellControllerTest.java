@@ -27,7 +27,7 @@ class SpellControllerTest {
 
     @BeforeEach
     void setUp() {
-        ConsoleParser inputParser = new ConsoleParser();
+        ConsoleParser inputParser = new ConsoleParser(System.in);
         ConsoleOutput outputManager = new ConsoleOutput();
         spellController = new SpellController(inputParser, outputManager);
         wizard = new Wizard(Pet.CAT, new Wand(Core.DRAGON_HEARTSTRING, 20), House.GRYFFINDOR, new ArrayList<>(), new HashMap<>(), "Harry", "Potter", 1, false, 4, new Random(), new ArrayList<>());

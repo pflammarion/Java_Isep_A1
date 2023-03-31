@@ -10,6 +10,7 @@ import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
+import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import lombok.Getter;
@@ -62,9 +63,9 @@ public class CharacterController {
     }
 
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname");
+        outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
         String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname");
+        outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
         String lastname = inputParser.getString(null);
         this.wizard.setFirstname(firstname);
         this.wizard.setLastname(lastname);
@@ -82,7 +83,9 @@ public class CharacterController {
         }
         outputManager.print("Hello " + firstname + " " + lastname);
         outputManager.print("Welcome to Poudlard");
-        outputManager.print("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
+        outputManager.print("Your pet is " + Colors.VALIDE + wizard.getPet() + Colors.ANSI_RESET + " and were " +
+                "assigned to " + Colors.VALIDE + wizard.getHouse() + Colors.ANSI_RESET +
+                " house with your nice " + Colors.VALIDE + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
     }
 
     private Object battleChoice() {
@@ -106,10 +109,12 @@ public class CharacterController {
         Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         List<Stuff> inventory = wizard.getInventory();
+        outputManager.displayMessage(Colors.ERROR + Colors.ANSI_BOLD + "\n\nYou have to fight " + enemy.getName() + "\n\n" + Colors.ANSI_RESET, wizard.getDrunk());
         do {
             showWizardStuff(potionList.size(), knownSpell.size(), inventory.size());
             if (potionList.size() > 0 || knownSpell.size() > 0 || inventory.size() > 0) {
-                outputManager.displayMessage("Type the name of what you want to use", wizard.getDrunk());
+                outputManager.displayMessage("Type the name of what you want to use.\nYou can use a " + Colors.SPELL + "spell" + Colors.ANSI_RESET + ", a " + Colors.POTION + "potion" + Colors.ANSI_RESET + " or an " + Colors.ANSI_BROWN +"object" + Colors.ANSI_RESET +". " + Colors.WARNING + "(ex: Lumos)" + Colors.ANSI_RESET,
+                        wizard.getDrunk());
                 Object choice = battleChoice();
                 if (choice instanceof AbstractSpell spell) {
                     castSpell(spell, enemy);
@@ -121,11 +126,11 @@ public class CharacterController {
                     if (optionalStuff.isPresent()) {
                         if (enemy instanceof Boss && ((Boss) enemy).getSpecialObject().equalsIgnoreCase(stuff)) {
                             exit = true;
-                            outputManager.displayMessage("You used the " + stuff + " and it defeated the " + enemy.getName(), wizard.getDrunk());
-                        } else outputManager.displayMessage("You used the " + stuff + " but it does nothing...", wizard.getDrunk());
+                            outputManager.displayMessage("You used the " + Colors.ANSI_BROWN + stuff + Colors.ANSI_RESET + " and it defeated the " + enemy.getName(), wizard.getDrunk());
+                        } else outputManager.displayMessage("You used the " + Colors.ANSI_BROWN + stuff + Colors.ANSI_RESET + " but it does nothing...", wizard.getDrunk());
                     }
                 }
-                else outputManager.displayMessage("Huoohh... it seems to not exist", wizard.getDrunk());
+                else outputManager.displayMessage("Huoohh... it seems to not exist. You only can use available " + Colors.SPELL + "spell" + Colors.ANSI_RESET + ", " + Colors.POTION + "potion" + Colors.ANSI_RESET + " or " + Colors.ANSI_BROWN + "object" + Colors.ANSI_RESET + ".\n" + Colors.WARNING +"You can see the helper with 'show help'" + Colors.ANSI_RESET, wizard.getDrunk());
             }
             outputManager.displayMessage(takeTurn(enemy), wizard.getDrunk());
             if (wizard.getCurrentHealth() < 0) wizard.setCurrentHealth(0);
@@ -163,14 +168,14 @@ public class CharacterController {
                 actualDamage = 0;
             }
             wizard.takeDamage(actualDamage);
-            return enemy.getName() + " attacks you for " + enemy.getDamage() + " damage! But you have " + wizard.getDefense();
+            return Colors.ERROR +  enemy.getName() + Colors.ANSI_RESET + " attacks you for " + enemy.getDamage() + " damage! But you have " + wizard.getDefense() + " defense points";
         } else {
             // boss attack fails, deal linear damage
             double attack = enemy.getDamage() * enemy.getAccuracy() *  random.nextDouble();
             double actualDamage = Math.max(attack, enemy.getAccuracy());
             actualDamage = (double) Math.round(actualDamage * 100) / 100;
             wizard.takeDamage(actualDamage);
-            return enemy.getName() + " misses, but deals " + actualDamage + " damage due to the backlash!";
+            return Colors.ERROR + enemy.getName() + Colors.ANSI_RESET + " misses, but deals " + actualDamage + " damage due to the backlash!";
         }
     }
 
@@ -183,44 +188,45 @@ public class CharacterController {
                 int totalHealth = wizard.getTotalHealth();
                 double heal = Math.min(health, totalHealth);
                 if (randomProbability(10)) {
-                    outputManager.displayMessage("NOOO POISON.... ARRGGHHH", wizard.getDrunk());
+                    outputManager.displayMessage(Colors.ERROR + "NOOO POISON.... ARRGGHHH" + Colors.ANSI_RESET, wizard.getDrunk());
                     wizard.setCurrentHealth(0);
                 } else wizard.setCurrentHealth(heal);
-                outputManager.displayMessage("You healed up, you have " + wizard.getCurrentHealth() + " HP", wizard.getDrunk());
+                outputManager.displayMessage("You healed up, you have " + Colors.VALIDE + wizard.getCurrentHealth() + " HP" + Colors.ANSI_RESET, wizard.getDrunk());
             }
             case "damage" -> {
                 wizard.setDamage((int) (wizard.getDamage() + (potion.getPoint() * wizard.getPotionEfficiency())));
-                outputManager.displayMessage("You are now stronger, you have " + wizard.getDamage() + " points of damage", wizard.getDrunk());
+                outputManager.displayMessage("You are now stronger, you have " + Colors.VALIDE + wizard.getDamage() + " points of damage" + Colors.ANSI_RESET, wizard.getDrunk());
             }
             case "accuracy" -> {
                 wizard.setAccuracy(wizard.getAccuracy() + potion.getPoint() * wizard.getPotionEfficiency());
-                outputManager.displayMessage("You are now more accurate, you have " + wizard.getAccuracy() + " points of Accuracy", wizard.getDrunk());
+                outputManager.displayMessage("You are now more accurate, you have " + Colors.VALIDE + wizard.getAccuracy() + " points of Accuracy" + Colors.ANSI_RESET, wizard.getDrunk());
             }
             default -> chance = 2;
         }
 
         if (randomProbability(chance)) {
-            outputManager.displayMessage("HUHOOO there was super alcohol in your super potion, gloups....", wizard.getDrunk());
+            outputManager.displayMessage("HUHOOO there was " + Colors.ERROR +  "super alcohol" + Colors.ANSI_RESET + " in your super potion, gloups....", wizard.getDrunk());
             wizard.setDrunk(wizard.getDrunk() + 3);
         }
         if (randomProbability(chance * 3)) {
             wizard.setNowPet(true);
             outputManager.displayMessage("Bahahhah you just became a pet lol and you are " + wizard.getPet(), wizard.getDrunk());
         }
-        outputManager.displayMessage("\nYour current health is : " + wizard.getCurrentHealth() + "/" + wizard.getTotalHealth(),wizard.getDrunk());
+        outputManager.progressPercentage(wizard.getCurrentHealth(), wizard.getTotalHealth(), "fightWizard");
         wizard.setPotions(potionController.removePotionFromMap(potion, wizard.getPotions()));
     }
 
     private void castSpell(AbstractSpell spell, AbstractEnemy enemy) {
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         if (knownSpell.contains(spell)) {
-            outputManager.displayMessage("You cast the spell " + spell.getName(), wizard.getDrunk());
-            outputManager.displayMessage(spell.getDescription() + " It gave " + spell.getDamage() + " points of damage to " + enemy.getName() + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
-            enemy.setCurrentHealth(enemy.getCurrentHealth() - (spell.getDamage() + 100 * (Math.log(wizard.getAccuracy() + 1))));
+            outputManager.displayMessage("You cast the spell " + Colors.SPELL + spell.getName() + Colors.ANSI_RESET, wizard.getDrunk());
+            double damagePoints = spell.getDamage() + 10 * (Math.log(wizard.getAccuracy() + 1));
+            outputManager.displayMessage(spell.getDescription() + " It gave " + Colors.SPELL + (int) damagePoints + " points of damage" + Colors.ANSI_RESET +" to " + Colors.ERROR + enemy.getName() + Colors.ANSI_RESET + " and it cost you " + spell.getEnergyCost() + " points of energy", wizard.getDrunk());
+            enemy.setCurrentHealth(enemy.getCurrentHealth() - damagePoints);
             if (enemy.getCurrentHealth() < 0) enemy.setCurrentHealth(0);
         }
         else {
-            outputManager.displayMessage("You don't know the spell " + spell.getName() + "!", wizard.getDrunk());
+            outputManager.displayMessage("You don't know the spell " + Colors.SPELL + spell.getName() + Colors.ANSI_RESET + "!", wizard.getDrunk());
         }
     }
 
@@ -320,11 +326,11 @@ public class CharacterController {
         if (numPotions == 0 && numSpells == 0 && numObjects == 0) {
             message = "You don't have any potions, spells, or objects...";
         } else if (numPotions > 0 && numSpells == 0 && numObjects == 0) {
-            message = "You can use " + numPotions + " potion" + (numPotions > 1 ? "s" : "");
+            message = "You can use " + Colors.POTION + numPotions + " potion" + (numPotions > 1 ? "s" : "") + Colors.ANSI_RESET;
         } else if (numPotions == 0 && numSpells > 0 && numObjects == 0) {
-            message = "You can use " + numSpells + " spell" + (numSpells > 1 ? "s" : "");
+            message = "You can use " + Colors.SPELL + numSpells + " spell" + (numSpells > 1 ? "s" : "") + Colors.ANSI_RESET;
         } else if (numPotions == 0 && numSpells == 0 && numObjects > 0) {
-            message = "You can use " + numObjects + " object" + (numObjects > 1 ? "s" : "");
+            message = "You can use " + Colors.ANSI_BROWN + numObjects + " object" + (numObjects > 1 ? "s" : "") + Colors.ANSI_RESET;
         } else {
             StringBuilder sb = new StringBuilder("You can use ");
             boolean hasPotions = false;
@@ -332,7 +338,7 @@ public class CharacterController {
             boolean hasObjects = false;
 
             if (numPotions > 0) {
-                sb.append(numPotions).append(" potion").append(numPotions > 1 ? "s" : "");
+                sb.append(Colors.POTION).append(numPotions).append(" potion").append(numPotions > 1 ? "s" : "").append(Colors.ANSI_RESET);
                 hasPotions = true;
             }
 
@@ -340,7 +346,7 @@ public class CharacterController {
                 if (hasPotions) {
                     sb.append(" and ");
                 }
-                sb.append(numSpells).append(" spell").append(numSpells > 1 ? "s" : "");
+                sb.append(Colors.SPELL).append(numSpells).append(" spell").append(numSpells > 1 ? "s" : "").append(Colors.ANSI_RESET);
                 hasSpells = true;
             }
 
@@ -348,7 +354,7 @@ public class CharacterController {
                 if (hasPotions || hasSpells) {
                     sb.append(" and ");
                 }
-                sb.append(numObjects).append(" object").append(numObjects > 1 ? "s" : "").append(" from your inventory");
+                sb.append(Colors.ANSI_BROWN).append(numObjects).append(" object").append(numObjects > 1 ? "s" : "").append(" from your inventory").append(Colors.ANSI_RESET);
                 hasObjects = true;
             }
 
@@ -375,13 +381,13 @@ public class CharacterController {
             if (enemy instanceof Boss){
                 wizard.setTotalHealth(wizard.getTotalHealth() + 50);
                 wizard.setCurrentHealth(wizard.getTotalHealth());
-                outputManager.displayMessage("You just became stronger, you now have " + wizard.getCurrentHealth() + " HP, congratulation !", wizard.getDrunk());
+                outputManager.displayMessage("You just became stronger, you now have " + Colors.VALIDE + wizard.getCurrentHealth() + " HP, "+ Colors.ANSI_RESET +" congratulation !", wizard.getDrunk());
             }
             if (enemy instanceof Enemy) {
                 wizard.setDamage(wizard.getDamage() + random.nextInt(10) + 1);
                 wizard.setAccuracy(wizard.getAccuracy() + random.nextInt(10) + 1);
                 wizard.setDefense(wizard.getDefense() + random.nextInt(10) + 1);
-                outputManager.displayMessage("You just became stronger, you have " + wizard.getDamage() + " points of damage and " + wizard.getAccuracy() + " points of accuracy and " + wizard.getDefense() + " points of defense.", wizard.getDrunk());
+                outputManager.displayMessage("You just became stronger, you have " + Colors.VALIDE + wizard.getDamage() + " points of damage and " + wizard.getAccuracy() + " points of accuracy and " + wizard.getDefense() + " points of defense." + Colors.ANSI_RESET, wizard.getDrunk());
             }
             return true;
         }
@@ -392,7 +398,7 @@ public class CharacterController {
     }
 
     private void findPotion() {
-        this.outputManager.displayMessage("What a lucky day, you just found a new potion", this.wizard.getDrunk());
+        this.outputManager.displayMessage( Colors.VALIDE + "What a lucky day, you just found a new potion" + Colors.ANSI_RESET, this.wizard.getDrunk());
         Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
         potionController.learnPotion(potion, wizard);
         this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
@@ -407,7 +413,7 @@ public class CharacterController {
 
     private boolean fightRandomEnemy() {
         Enemy enemy = this.enemyList.get(random.nextInt(this.enemyList.size()));
-        this.outputManager.displayMessage("Huho, you are in front of the enemy " + enemy.getName() + ", you have to fight him !", wizard.getDrunk());
+        this.outputManager.displayMessage("Huho, you are in front of the enemy " + Colors.ERROR + Colors.ANSI_BOLD +  enemy.getName() + Colors.ANSI_RESET + ", you have to fight him !", wizard.getDrunk());
         return battleEnemy(enemy);
     }
 
@@ -418,7 +424,7 @@ public class CharacterController {
                 Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
                 inventory.add(fireworks);
                 wizard.setInventory(inventory);
-                outputManager.displayMessage("Ho you juste found Fireworks. " + fireworks.getDescription(), wizard.getDrunk());
+                outputManager.displayMessage("Ho you juste found" + Colors.ANSI_BROWN + " Fireworks. " + fireworks.getDescription() + Colors.ANSI_RESET, wizard.getDrunk());
                 break;
             }
         }

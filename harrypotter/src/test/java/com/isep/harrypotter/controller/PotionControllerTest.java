@@ -23,7 +23,7 @@ class PotionControllerTest {
 
     @BeforeEach
     void setUp() {
-        ConsoleParser inputParser = new ConsoleParser();
+        ConsoleParser inputParser = new ConsoleParser(System.in);
         ConsoleOutput outputManager = new ConsoleOutput();
         potionController = new PotionController(inputParser, outputManager);
 
