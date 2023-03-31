@@ -24,7 +24,8 @@ public class ConsoleParser implements InputParser {
                 this.scanner.nextLine();
                 validInput = true;
             } catch (InputMismatchException e) {
-                System.out.printf("/!\\ Invalid value (not a number)%n%s: ", messageWhenMismatch);
+                System.out.printf(Colors.ANSI_CYAN +"/!\\ Invalid value (not a number)%n%s: ",
+                        Colors.ANSI_RED + messageWhenMismatch + Colors.ANSI_RESET);
                 scanner.nextLine();
             }
         } while(!validInput);

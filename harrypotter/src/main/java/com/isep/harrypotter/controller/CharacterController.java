@@ -10,6 +10,7 @@ import com.isep.harrypotter.model.others.House;
 import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
+import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import lombok.Getter;
@@ -62,9 +63,9 @@ public class CharacterController {
     }
 
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname. (ex: Harry)");
+        outputManager.print("Enter your wizard firstname. " + Colors.ANSI_YELLOW + "(ex: Harry)" + Colors.ANSI_RESET);
         String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname. (ex: Potter)");
+        outputManager.print("Enter your wizard lastname. " + Colors.ANSI_YELLOW + "(ex: Potter)" + Colors.ANSI_RESET);
         String lastname = inputParser.getString(null);
         this.wizard.setFirstname(firstname);
         this.wizard.setLastname(lastname);
@@ -82,7 +83,9 @@ public class CharacterController {
         }
         outputManager.print("Hello " + firstname + " " + lastname);
         outputManager.print("Welcome to Poudlard");
-        outputManager.print("Your pet is " + wizard.getPet() + " and were assigned to " + wizard.getHouse() + " house with your nice " + wizard.getWand().getCore() + " wand core");
+        outputManager.print("Your pet is " + Colors.ANSI_GREEN + wizard.getPet() + Colors.ANSI_RESET + " and were " +
+                "assigned to " + Colors.ANSI_GREEN + wizard.getHouse() + Colors.ANSI_RESET +
+                " house with your nice " + Colors.ANSI_GREEN + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
     }
 
     private Object battleChoice() {
