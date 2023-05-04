@@ -28,6 +28,7 @@ public class GUIParser extends Application implements InputParser
     public void changeScene(String sceneName) {
         if (sceneName.equalsIgnoreCase("game")){
             this.game.gameChecker();
+            this.game.wizardGUIUpdate();
         }
         this.sceneManager.switchToScene(sceneName);
     }

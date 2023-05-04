@@ -1,13 +1,23 @@
 package com.isep.harrypotter.view.scene;
 
+import com.isep.harrypotter.model.Potion;
+import com.isep.harrypotter.model.Stuff;
+import com.isep.harrypotter.model.spells.AbstractSpell;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -15,11 +25,26 @@ public class GameView {
 
     private final Button buttonSkipSchool;
     private final Button buttonGoToSchool;
+    private ListView<String> spellList;
+    private ListView<String> potionList;
+    private ListView<String> inventoryList;
     private final Scene scene;
     public GameView() {
 
         // Create ImageView with Image
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/background/game_background.jpg"))));
+
+
+        this.spellList = new ListView<>();
+        spellList.setMaxSize(200, 200);
+        this.potionList = new ListView<>();
+        potionList.setMaxSize(200, 200);
+        this.inventoryList = new ListView<>();
+        inventoryList.setMaxSize(200, 200);
+
+        HBox recapHBox = new HBox(spellList, potionList, inventoryList);
+        recapHBox.setSpacing(10);
+        recapHBox.setAlignment(Pos.CENTER);
 
         // Create Buttons
         buttonGoToSchool = new Button("Go to school");
@@ -31,7 +56,7 @@ public class GameView {
         buttonSkipSchool.setPrefSize(200, 50);
 
         // Create VBox to hold Buttons
-        VBox vbox = new VBox(buttonGoToSchool, buttonSkipSchool);
+        VBox vbox = new VBox(recapHBox, buttonGoToSchool, buttonSkipSchool);
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
 
@@ -60,5 +85,35 @@ public class GameView {
 
     public Button getButtonSkipSchool() {
         return buttonSkipSchool;
+    }
+
+    public void setSpellList(List<AbstractSpell> list){
+        List<String> strings = list.stream()
+                .map(AbstractSpell::toString)
+                .toList();
+        ObservableList<String> observableList = FXCollections.observableArrayList(strings);
+        this.spellList.setItems(observableList);
+    }
+
+    public void setInventoryList(List<Stuff> list) {
+        List<String> strings = list.stream()
+                .map(Stuff::toString)
+                .toList();
+        ObservableList<String> observableList = FXCollections.observableArrayList(strings);
+        this.inventoryList.setItems(observableList);
+    }
+
+    public void setPotionList(Map<Potion, Integer> potionMap){
+        List<String> strings = new ArrayList<>();
+        for (Map.Entry<Potion, Integer> entry : potionMap.entrySet()) {
+            Potion potion = entry.getKey();
+            int number = entry.getValue();
+            String spellString = number + "* " + potion.toString();
+            strings.add(spellString);
+        }
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(strings);
+
+        this.potionList.setItems(observableList);
     }
 }

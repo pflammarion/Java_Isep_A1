@@ -103,6 +103,12 @@ public class Game {
         });
     }
 
+    public void wizardGUIUpdate(){
+        gameView.setSpellList(characterController.getWizard().getKnownSpells());
+        gameView.setPotionList(characterController.getWizard().getPotions());
+        gameView.setInventoryList(characterController.getWizard().getInventory());
+    }
+
     private void initGame(){
         characterController.initWizard();
         chapterController.initChapter();
