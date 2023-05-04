@@ -13,9 +13,10 @@ public class GUIParser extends Application implements InputParser
     @Override
     public void start(Stage stage) {
         this.sceneManager = new SceneManager(stage);
-        new Game(this, new ConsoleOutput());
+        Game game = new Game(this, new ConsoleOutput());
         this.sceneManager.switchToScene("welcome");
         stage.show();
+        game.test();
     }
 
     public void launchInterface(String[] args)

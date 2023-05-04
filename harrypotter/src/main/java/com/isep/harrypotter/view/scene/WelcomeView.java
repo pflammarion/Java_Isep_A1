@@ -1,7 +1,5 @@
 package com.isep.harrypotter.view.scene;
 
-import com.isep.harrypotter.Main;
-import com.isep.harrypotter.controller.Game;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

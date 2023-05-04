@@ -8,3 +8,8 @@ Button{
 Button:hover{
     -fx-background-color: black;
 }
+
+.grey-bg{
+    -fx-background-color: darkgrey;
+    -fx-font-size: 16px;
+}

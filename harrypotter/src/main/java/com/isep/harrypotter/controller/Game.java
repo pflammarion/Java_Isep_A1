@@ -10,6 +10,7 @@ import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
 import com.isep.harrypotter.view.scene.GameView;
 import com.isep.harrypotter.view.scene.WelcomeView;
+import com.isep.harrypotter.view.scene.WizardView;
 import javafx.application.Platform;
 
 
@@ -33,16 +34,18 @@ public class Game {
         this.potionController= new PotionController(inputParser, outputManager);
         this.characterController = new CharacterController(inputParser, outputManager, spellController, potionController);
         this.chapterController = new ChapterController(inputParser, outputManager, new Chapter(1));
-        this.welcomeView = new WelcomeView();
-        this.gameView = new GameView();
-        eventListener();
+        if (inputParser instanceof GUIParser){
+            this.welcomeView = new WelcomeView();
+            this.gameView = new GameView();
+            eventListener();
+        }
     }
 
     private void eventListener(){
         ((GUIParser) this.inputParser).addScene("welcome", welcomeView.getScene());
         ((GUIParser) this.inputParser).addScene("game", gameView.getScene());
 
-        welcomeView.getButtonPlay().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
+        welcomeView.getButtonPlay().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("wizard"));
         welcomeView.getButtonQuit().setOnAction(event -> {
             Platform.exit();
             System.exit(0);
@@ -50,7 +53,9 @@ public class Game {
 
         gameView.getButtonGoToSchool().setOnAction(event -> System.out.println("go to school"));
         gameView.getButtonSkipSchool().setOnAction(event -> System.out.println("skip school"));
-
+    }
+    public void test(){
+        characterController.initWizard();
     }
 
     public void play() {
