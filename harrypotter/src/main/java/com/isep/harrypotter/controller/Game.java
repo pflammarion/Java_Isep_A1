@@ -85,6 +85,10 @@ public class Game {
             }
         });
 
+        potionClassView.getBackButton().setOnAction(event -> {
+            ((GUIParser) this.inputParser).changeScene("game");
+        });
+
         spellClassView.getLearnButton().setOnAction(event -> {
             System.out.println(spellClassView.getSelectedItem());
             Spell spell = spellController.getAvailableSpellByName(spellClassView.getSelectedItem(), characterController.getWizard(), chapterController.getChapter().getNumber());
@@ -92,6 +96,10 @@ public class Game {
                 spellController.learnSpell(spell, characterController.getWizard());
                 ((GUIParser) this.inputParser).changeScene("game");
             }
+        });
+
+        spellClassView.getBackButton().setOnAction(event -> {
+            ((GUIParser) this.inputParser).changeScene("game");
         });
     }
 

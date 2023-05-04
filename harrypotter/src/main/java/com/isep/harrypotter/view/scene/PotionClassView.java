@@ -23,6 +23,7 @@ public class PotionClassView {
 
     private final ListView<String> listView;
     private final Button learnButton;
+    private final Button backButton;
     private final Scene scene;
 
     public PotionClassView() {
@@ -37,8 +38,16 @@ public class PotionClassView {
         learnButton.setAlignment(Pos.CENTER);
         learnButton.setPrefSize(200, 50);
 
+        backButton = new Button("Leave...");
+        backButton.setAlignment(Pos.CENTER);
+        backButton.setPrefSize(200, 50);
+
+        VBox vBox = new VBox(learnButton, backButton);
+        vBox.setSpacing(20);
+        vBox.setAlignment(Pos.CENTER);
+
         // Create VBox to hold Buttons
-        HBox hbox = new HBox(listView, learnButton);
+        HBox hbox = new HBox(listView, vBox);
         hbox.setSpacing(50);
         hbox.setAlignment(Pos.CENTER);
 
@@ -72,6 +81,10 @@ public class PotionClassView {
 
     public Button getLearnButton() {
         return learnButton;
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 
     public String getSelectedItem() {
