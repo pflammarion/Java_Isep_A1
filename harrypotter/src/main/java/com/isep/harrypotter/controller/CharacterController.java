@@ -81,7 +81,6 @@ public class CharacterController {
         wizardView.getButtonValidate().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
     }
     public void initWizard() {
-        System.out.println("mais aussi " + wizard.getFirstname());
         this.wizard.setHouse(assignHouse());
         switch (wizard.getHouse()){
             case HUFFLEPUFF -> wizard.setPotionEfficiency(10);

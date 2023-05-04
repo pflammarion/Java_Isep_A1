@@ -16,11 +16,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         boolean c = false;
-        int choice = 0;
+        int choice = 2;
         while(!c)
         {
             System.out.print("Please enter your choice : ");
-            choice = scanner.nextInt();
+            //choice = scanner.nextInt();
 
             if(choice == 1 || choice == 2)
             {

@@ -8,10 +8,9 @@ import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.GUIParser;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
-import com.isep.harrypotter.view.scene.GameView;
-import com.isep.harrypotter.view.scene.WelcomeView;
-import com.isep.harrypotter.view.scene.WizardView;
+import com.isep.harrypotter.view.scene.*;
 import javafx.application.Platform;
+import javafx.scene.control.MultipleSelectionModel;
 
 
 public class Game {
@@ -25,6 +24,9 @@ public class Game {
 
     private WelcomeView welcomeView;
     private GameView gameView;
+    private SchoolView schoolView;
+    private PotionClassView potionClassView;
+    private SpellClassView spellClassView;
 
     public Game(InputParser inputParser, OutputManager outputManager) {
         this.inputParser = inputParser;
@@ -37,6 +39,9 @@ public class Game {
         if (inputParser instanceof GUIParser){
             this.welcomeView = new WelcomeView();
             this.gameView = new GameView();
+            this.schoolView = new SchoolView();
+            this.potionClassView = new PotionClassView();
+            this.spellClassView = new SpellClassView();
             eventListener();
         }
     }
@@ -44,55 +49,100 @@ public class Game {
     private void eventListener(){
         ((GUIParser) this.inputParser).addScene("welcome", welcomeView.getScene());
         ((GUIParser) this.inputParser).addScene("game", gameView.getScene());
+        ((GUIParser) this.inputParser).addScene("school", schoolView.getScene());
+        ((GUIParser) this.inputParser).addScene("potionClass", potionClassView.getScene());
+        ((GUIParser) this.inputParser).addScene("spellClass", spellClassView.getScene());
 
         welcomeView.getButtonPlay().setOnAction(event -> {
             ((GUIParser) this.inputParser).changeScene("wizard");
             characterController.getWizard().setFirstname(welcomeView.getFirstNameField());
             characterController.getWizard().setLastname(welcomeView.getLastNameField());
-            characterController.initWizard();
+            initGame();
         });
         welcomeView.getButtonQuit().setOnAction(event -> {
             Platform.exit();
             System.exit(0);
         });
 
-        gameView.getButtonGoToSchool().setOnAction(event -> System.out.println("go to school"));
-        gameView.getButtonSkipSchool().setOnAction(event -> System.out.println("skip school"));
+        gameView.getButtonGoToSchool().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("school"));
+        gameView.getButtonSkipSchool().setOnAction(event -> isGameFinished = !characterController.skippingSchool());
+
+        schoolView.getSpellClass().setOnAction(event -> {
+            ((GUIParser) this.inputParser).changeScene("spellClass");
+            spellClassGUI(characterController.getWizard());
+        });
+
+        schoolView.getPotionClass().setOnAction(event -> {
+            ((GUIParser) this.inputParser).changeScene("potionClass");
+            potionClassGUI();
+        });
+
+        potionClassView.getLearnButton().setOnAction(event -> {
+            Potion potion = potionController.getAvailablePotionByName(potionClassView.getSelectedItem(), chapterController.getChapter().getNumber());
+            if (null != potion){
+                potionController.learnPotion(potion, characterController.getWizard());
+                ((GUIParser) this.inputParser).changeScene("game");
+            }
+        });
+
+        spellClassView.getLearnButton().setOnAction(event -> {
+            System.out.println(spellClassView.getSelectedItem());
+            Spell spell = spellController.getAvailableSpellByName(spellClassView.getSelectedItem(), characterController.getWizard(), chapterController.getChapter().getNumber());
+            if (null != spell) {
+                spellController.learnSpell(spell, characterController.getWizard());
+                ((GUIParser) this.inputParser).changeScene("game");
+            }
+        });
     }
-    public void play() {
-        //initializations of the game
+
+    private void initGame(){
         characterController.initWizard();
         chapterController.initChapter();
+    }
+
+    public boolean gameChecker(){
+        isGameFinished = chapterController.newDay();
+        characterController.soberUp();
+
+        if (this.characterController.getWizard().isNowPet()) {
+            isGameFinished = petWizardGame();
+            return false;
+        }
+
+        if (chapterController.isChapterFinish()) {
+            outputManager.displayMessage(Colors.ERROR + "\nOh, what is happening ...? A BOSS ???\n\n" + Colors.ANSI_RESET + "You have to fight him with your known spells.\n" + Colors.WARNING +"You can see them with 'show spells' command. Boss can only be defeated with the good spell or object.\n" + Colors.ANSI_RESET, characterController.getWizard().getDrunk());
+
+            //check if the wizard defeat the boss or not
+            boolean victory = characterController.battleEnemy(chapterController.initBoss());
+
+            //switch to the next chapter
+            isGameFinished = chapterController.nextChapter(victory);
+            return false;
+        }
+        return true;
+    }
+
+    private void gameLoop(){
+        if (gameChecker()) {
+            switch (displayMenu()) {
+                case 1 -> goToSchool();
+
+                //If the wizard skip school he can find potions, object, learn new spell and fight against an enemy depending on probabilities
+                case 2 -> isGameFinished = !characterController.skippingSchool();
+            }
+
+            //display the progress bar of the chapter
+            outputManager.progressPercentage(chapterController.getChapter().getDay(), 365, "day");
+        }
+    }
+
+    public void play() {
+        //initializations of the game
+        initGame();
 
         //game loop
         while (!isGameFinished) {
-            isGameFinished = chapterController.newDay();
-            characterController.soberUp();
-
-            if (this.characterController.getWizard().isNowPet()) {
-               isGameFinished = petWizardGame();
-            }
-
-            if (chapterController.isChapterFinish()) {
-                outputManager.displayMessage(Colors.ERROR + "\nOh, what is happening ...? A BOSS ???\n\n" + Colors.ANSI_RESET + "You have to fight him with your known spells.\n" + Colors.WARNING +"You can see them with 'show spells' command. Boss can only be defeated with the good spell or object.\n" + Colors.ANSI_RESET, characterController.getWizard().getDrunk());
-
-                //check if the wizard defeat the boss or not
-                boolean victory = characterController.battleEnemy(chapterController.initBoss());
-
-                //switch to the next chapter
-                isGameFinished = chapterController.nextChapter(victory);
-            }
-            else {
-                switch (displayMenu()) {
-                    case 1 -> goToSchool();
-
-                    //If the wizard skip school he can find potions, object, learn new spell and fight against an enemy depending on probabilities
-                    case 2 -> isGameFinished = !characterController.skippingSchool();
-                }
-
-                //display the progress bar of the chapter
-                outputManager.progressPercentage(chapterController.getChapter().getDay(), 365, "day");
-            }
+            gameLoop();
         }
 
         //End of the game output
@@ -104,8 +154,8 @@ public class Game {
     private void goToSchool() {
         Wizard wizard = characterController.getWizard();
         outputManager.displayMessage("You can learn a spell or a potion, which book do you want to open?"  + Colors.WARNING +
-                        "\nYou can type " + Colors.SPELL + "'s'" + Colors.WARNING + " or " + Colors.SPELL + "'spell'" + Colors.WARNING + " to open spell book." +
-                        "\nYou can type" + Colors.POTION + " 'p' " + Colors.WARNING + " or " + Colors.POTION + "'potion' " + Colors.WARNING + " to open " + "potion book."  + Colors.ANSI_RESET, wizard.getDrunk());
+                "\nYou can type " + Colors.SPELL + "'s'" + Colors.WARNING + " or " + Colors.SPELL + "'spell'" + Colors.WARNING + " to open spell book." +
+                "\nYou can type" + Colors.POTION + " 'p' " + Colors.WARNING + " or " + Colors.POTION + "'potion' " + Colors.WARNING + " to open " + "potion book."  + Colors.ANSI_RESET, wizard.getDrunk());
         String choice = characterController.getString(wizard);
 
         //Choosing potion class
@@ -141,6 +191,14 @@ public class Game {
         else {
             outputManager.displayMessage("You learned useless things today", wizard.getDrunk());
         }
+    }
+
+    private void potionClassGUI(){
+       potionClassView.setListView(potionController.getAllAvailablePotions(chapterController.getChapter().getNumber()));
+    }
+
+    private void spellClassGUI(Wizard wizard){
+        spellClassView.setListView(spellController.getSpells(chapterController.getChapter().getNumber(), wizard));
     }
 
     private void spellClass(Wizard wizard) {

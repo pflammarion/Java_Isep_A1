@@ -10,10 +10,12 @@ import javafx.stage.Stage;
 public class GUIParser extends Application implements InputParser
 {
     private SceneManager sceneManager;
+
+    private Game game;
     @Override
     public void start(Stage stage) {
         this.sceneManager = new SceneManager(stage);
-        Game game = new Game(this, new ConsoleOutput());
+        this.game = new Game(this, new ConsoleOutput());
         this.sceneManager.switchToScene("welcome");
         stage.show();
     }
@@ -24,7 +26,14 @@ public class GUIParser extends Application implements InputParser
     }
 
     public void changeScene(String sceneName) {
+        if (sceneName.equalsIgnoreCase("game")){
+            this.game.gameChecker();
+        }
         this.sceneManager.switchToScene(sceneName);
+    }
+
+    public String getSceneName(){
+        return this.sceneManager.getCurrentSceneName();
     }
 
     public void addScene(String sceneName, Scene scene) {
