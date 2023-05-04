@@ -50,6 +50,10 @@ public class WelcomeView {
         AnchorPane.setRightAnchor(vbox, 300.0);
 
         this.scene = new Scene(anchorPane);
+
+        // Resize the image to fit the background without cropping
+        imageView.fitWidthProperty().bind(scene.widthProperty());
+        imageView.fitHeightProperty().bind(scene.heightProperty());
     }
 
     public Scene getScene() {

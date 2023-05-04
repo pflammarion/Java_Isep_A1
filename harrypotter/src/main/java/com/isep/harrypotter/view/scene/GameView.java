@@ -21,11 +21,6 @@ public class GameView {
         // Create ImageView with Image
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/game_background.jpg"))));
 
-        imageView.setFitHeight(468.0);
-        imageView.setFitWidth(800.0);
-        imageView.setPreserveRatio(true);
-        imageView.setPickOnBounds(true);
-
         // Create Buttons
         buttonGoToSchool = new Button("Go to school");
         buttonGoToSchool.setAlignment(Pos.CENTER);
@@ -51,6 +46,10 @@ public class GameView {
         imageView.fitHeightProperty().bind(anchorPane.heightProperty());
 
         this.scene = new Scene(anchorPane);
+
+        // Resize the image to fit the background without cropping
+        imageView.fitWidthProperty().bind(scene.widthProperty());
+        imageView.fitHeightProperty().bind(scene.heightProperty());
     }
 
     public Scene getScene() {
