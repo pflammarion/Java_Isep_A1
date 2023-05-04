@@ -19,7 +19,7 @@ public class GameView {
     public GameView() {
 
         // Create ImageView with Image
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/game_background.jpg"))));
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/background/game_background.jpg"))));
 
         // Create Buttons
         buttonGoToSchool = new Button("Go to school");
@@ -37,13 +37,11 @@ public class GameView {
 
         // Create AnchorPane to hold ImageView and VBox
         AnchorPane anchorPane = new AnchorPane(imageView, vbox);
-        anchorPane.setPrefSize(800, 468);
+        anchorPane.setPrefSize(1200, 600);
         AnchorPane.setBottomAnchor(vbox, 100.0);
         AnchorPane.setLeftAnchor(vbox, 300.0);
         AnchorPane.setRightAnchor(vbox, 300.0);
 
-        imageView.fitWidthProperty().bind(anchorPane.widthProperty());
-        imageView.fitHeightProperty().bind(anchorPane.heightProperty());
 
         this.scene = new Scene(anchorPane);
 

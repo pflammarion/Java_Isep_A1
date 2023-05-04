@@ -19,12 +19,8 @@ public class WelcomeView {
     public WelcomeView() {
 
     // Create ImageView with Image
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/home-background.jpg"))));
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/background/home-background.jpg"))));
 
-        imageView.setFitHeight(468.0);
-        imageView.setFitWidth(800.0);
-        imageView.setPreserveRatio(true);
-        imageView.setPickOnBounds(true);
 
     // Create Buttons
         buttonPlay = new Button("New Game");
@@ -42,7 +38,7 @@ public class WelcomeView {
 
     // Create AnchorPane to hold ImageView and VBox
     AnchorPane anchorPane = new AnchorPane(imageView, vbox);
-        anchorPane.setPrefSize(800, 468);
+        anchorPane.setPrefSize(1200, 600);
         AnchorPane.setBottomAnchor(vbox, 100.0);
         AnchorPane.setLeftAnchor(vbox, 300.0);
         AnchorPane.setRightAnchor(vbox, 300.0);
