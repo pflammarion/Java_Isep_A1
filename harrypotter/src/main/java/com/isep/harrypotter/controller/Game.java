@@ -45,7 +45,12 @@ public class Game {
         ((GUIParser) this.inputParser).addScene("welcome", welcomeView.getScene());
         ((GUIParser) this.inputParser).addScene("game", gameView.getScene());
 
-        welcomeView.getButtonPlay().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("wizard"));
+        welcomeView.getButtonPlay().setOnAction(event -> {
+            ((GUIParser) this.inputParser).changeScene("wizard");
+            characterController.getWizard().setFirstname(welcomeView.getFirstNameField());
+            characterController.getWizard().setLastname(welcomeView.getLastNameField());
+            characterController.initWizard();
+        });
         welcomeView.getButtonQuit().setOnAction(event -> {
             Platform.exit();
             System.exit(0);
@@ -54,10 +59,6 @@ public class Game {
         gameView.getButtonGoToSchool().setOnAction(event -> System.out.println("go to school"));
         gameView.getButtonSkipSchool().setOnAction(event -> System.out.println("skip school"));
     }
-    public void test(){
-        characterController.initWizard();
-    }
-
     public void play() {
         //initializations of the game
         characterController.initWizard();

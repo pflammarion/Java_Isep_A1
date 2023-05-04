@@ -81,12 +81,7 @@ public class CharacterController {
         wizardView.getButtonValidate().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
     }
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
-        String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
-        String lastname = inputParser.getString(null);
-        this.wizard.setFirstname(firstname);
-        this.wizard.setLastname(lastname);
+        System.out.println("mais aussi " + wizard.getFirstname());
         this.wizard.setHouse(assignHouse());
         switch (wizard.getHouse()){
             case HUFFLEPUFF -> wizard.setPotionEfficiency(10);
@@ -100,13 +95,19 @@ public class CharacterController {
             case RAVENCLAW -> wizard.setAccuracy(0.5);
         }
         if (inputParser instanceof GUIParser){
-           wizardView.updateWizardFirstname("Paul");
-           wizardView.updateWizardLastname("Nuls");
+           wizardView.updateWizardFirstname(String.valueOf(wizard.getFirstname()));
+           wizardView.updateWizardLastname(String.valueOf(wizard.getLastname()));
            wizardView.updateHouse(String.valueOf(wizard.getHouse()));
            wizardView.updatePet(String.valueOf(wizard.getPet()));
            wizardView.updateWand(String.valueOf(wizard.getWand().getCore()));
         }
         else {
+            outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
+            String firstname = inputParser.getString(null);
+            outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
+            String lastname = inputParser.getString(null);
+            this.wizard.setFirstname(firstname);
+            this.wizard.setLastname(lastname);
             outputManager.print("Hello " + firstname + " " + lastname);
             outputManager.print("Welcome to Poudlard");
             outputManager.print("Your pet is " + Colors.VALIDE + wizard.getPet() + Colors.ANSI_RESET + " and were " +

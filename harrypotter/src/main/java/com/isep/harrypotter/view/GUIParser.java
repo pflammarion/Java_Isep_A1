@@ -16,7 +16,6 @@ public class GUIParser extends Application implements InputParser
         Game game = new Game(this, new ConsoleOutput());
         this.sceneManager.switchToScene("welcome");
         stage.show();
-        game.test();
     }
 
     public void launchInterface(String[] args)
@@ -36,16 +35,6 @@ public class GUIParser extends Application implements InputParser
     //TODO faire pas de retour, ou revoir la structure pour pas que ça demande et que ça fasse tout d'un coup
     @Override
     public int getInt(String messageWhenMismatch) {
-        /*if (button instanceof Button) {
-            String buttonText = ((Button) button).getText();
-            try {
-                return Integer.parseInt(buttonText);
-            } catch (NumberFormatException ex) {
-                // handle the exception here, e.g. print an error message or throw a custom exception
-                ex.printStackTrace();
-            }
-        }
-        return null;*/
         return 0;
     }
 

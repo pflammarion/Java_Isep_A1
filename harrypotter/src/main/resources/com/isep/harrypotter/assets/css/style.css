@@ -13,3 +13,7 @@ Button:hover{
     -fx-background-color: darkgrey;
     -fx-font-size: 16px;
 }
+
+.white-text{
+    -fx-text-fill: #FFFFFFFF
+}
