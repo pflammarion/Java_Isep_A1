@@ -77,6 +77,7 @@ public class PotionClassView {
                 .toList();
         ObservableList<String> observableList = FXCollections.observableArrayList(strings);
         this.listView.setItems(observableList);
+        this.listView.getStyleClass().add("potion-list");
     }
 
     public Button getLearnButton() {

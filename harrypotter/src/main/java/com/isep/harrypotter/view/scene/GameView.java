@@ -25,9 +25,9 @@ public class GameView {
 
     private final Button buttonSkipSchool;
     private final Button buttonGoToSchool;
-    private ListView<String> spellList;
-    private ListView<String> potionList;
-    private ListView<String> inventoryList;
+    private final ListView<String> spellList;
+    private final ListView<String> potionList;
+    private final ListView<String> inventoryList;
     private final Scene scene;
     public GameView() {
 
@@ -93,6 +93,8 @@ public class GameView {
                 .toList();
         ObservableList<String> observableList = FXCollections.observableArrayList(strings);
         this.spellList.setItems(observableList);
+        this.spellList.setSelectionModel(null);
+        this.spellList.getStyleClass().add("spell-list");
     }
 
     public void setInventoryList(List<Stuff> list) {
@@ -101,6 +103,8 @@ public class GameView {
                 .toList();
         ObservableList<String> observableList = FXCollections.observableArrayList(strings);
         this.inventoryList.setItems(observableList);
+        this.inventoryList.setSelectionModel(null);
+        this.inventoryList.getStyleClass().add("inventory-list");
     }
 
     public void setPotionList(Map<Potion, Integer> potionMap){
@@ -115,5 +119,7 @@ public class GameView {
         ObservableList<String> observableList = FXCollections.observableArrayList(strings);
 
         this.potionList.setItems(observableList);
+        this.potionList.setSelectionModel(null);
+        this.potionList.getStyleClass().add("potion-list");
     }
 }

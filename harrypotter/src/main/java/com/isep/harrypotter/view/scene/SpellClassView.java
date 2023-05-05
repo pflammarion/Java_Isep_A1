@@ -83,6 +83,8 @@ public class SpellClassView {
         ObservableList<String> observableList = FXCollections.observableArrayList(strings);
         this.listView.setItems(observableList);
 
+        this.listView.getStyleClass().add("spell-list");
+
         // Set the cell factory to customize the appearance of the items
         this.listView.setCellFactory(list -> new ListCell<>() {
             @Override
@@ -97,10 +99,10 @@ public class SpellClassView {
 
                     // Set the text color based on whether the spell is known or not
                     if (item.endsWith("(Known)")) {
-                        setStyle("-fx-text-fill: green;");
+                        getStyleClass().add("spell-known");
                         setDisable(true);
                     } else {
-                        setStyle("");
+                        getStyleClass().add("spell-unknown");
                         setDisable(false);
                     }
                 }
