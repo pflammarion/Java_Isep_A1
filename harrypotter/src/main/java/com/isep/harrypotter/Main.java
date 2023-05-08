@@ -2,25 +2,21 @@ package com.isep.harrypotter;
 
 import com.isep.harrypotter.controller.Game;
 import com.isep.harrypotter.view.*;
-import com.isep.harrypotter.view.scene.WelcomeView;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
 
-    private WelcomeView view;
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         InputParser parser;
         Scanner scanner = new Scanner(System.in);
 
         boolean c = false;
-        int choice = 2;
+        int choice = 0;
         while(!c)
         {
             System.out.print("Please enter your choice : ");
-            //choice = scanner.nextInt();
+            choice = scanner.nextInt();
 
             if(choice == 1 || choice == 2)
             {
