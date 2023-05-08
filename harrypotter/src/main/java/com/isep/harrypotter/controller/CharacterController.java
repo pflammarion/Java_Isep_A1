@@ -14,6 +14,7 @@ import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.GUIParser;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
+import com.isep.harrypotter.view.scene.FindObjectView;
 import com.isep.harrypotter.view.scene.GameView;
 import com.isep.harrypotter.view.scene.WelcomeView;
 import com.isep.harrypotter.view.scene.WizardView;
@@ -36,6 +37,7 @@ public class CharacterController {
     private List<Enemy> enemyList;
 
     private WizardView wizardView;
+    private FindObjectView findObjectView;
 
     public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController,
                                PotionController potionController) {
@@ -70,6 +72,7 @@ public class CharacterController {
 
         if (inputParser instanceof GUIParser){
             this.wizardView = new WizardView();
+            this.findObjectView = new FindObjectView();
             eventListener();
         }
     }
@@ -77,8 +80,15 @@ public class CharacterController {
 
     private void eventListener(){
         ((GUIParser) this.inputParser).addScene("wizard", wizardView.getScene());
+        ((GUIParser) this.inputParser).addScene("findObject", findObjectView.getScene());
 
         wizardView.getButtonValidate().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
+
+        findObjectView.getButtonValidate().setOnAction(event -> {
+            //TODO faire l'histoire des listes de scene qui se suivent
+            ((GUIParser) this.inputParser).changeScene("game");
+        });
+
     }
     public void initWizard() {
         this.wizard.setHouse(assignHouse());
@@ -425,17 +435,31 @@ public class CharacterController {
     }
 
     private void findPotion() {
-        this.outputManager.displayMessage( Colors.VALIDE + "What a lucky day, you just found a new potion" + Colors.ANSI_RESET, this.wizard.getDrunk());
         Potion potion = potionController.getPotions().get(random.nextInt(potionController.getPotions().size()));
         potionController.learnPotion(potion, wizard);
-        this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
+        if (inputParser instanceof GUIParser){
+            this.findObjectView.setObject(potion);
+            ((GUIParser) this.inputParser).changeScene("findObject");
+        }
+        else {
+            this.outputManager.displayMessage( Colors.VALIDE + "What a lucky day, you just found a new potion" + Colors.ANSI_RESET, this.wizard.getDrunk());
+            this.outputManager.showMapElements("You have those potions:", this.wizard.getPotions(), this.wizard.getDrunk());
+        }
     }
 
     private void findSpell() {
-        this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
         List<ForbiddenSpell> forbiddenSpells = spellController.getForbiddenSpells();
-        spellController.learnSpell(forbiddenSpells.get(random.nextInt(forbiddenSpells.size())), wizard);
-        this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
+        ForbiddenSpell spell = forbiddenSpells.get(random.nextInt(forbiddenSpells.size()));
+        spellController.learnSpell(spell, wizard);
+        if (inputParser instanceof GUIParser){
+            this.findObjectView.setObject(spell);
+            ((GUIParser) this.inputParser).changeScene("findObject");
+        }
+        else {
+            this.outputManager.displayMessage("What a lucky day, you just learned a new spell", this.wizard.getDrunk());
+            this.outputManager.showListElements("You know those spells:", this.wizard.getKnownSpells(), this.wizard.getDrunk());
+        }
+
     }
 
     private boolean fightRandomEnemy() {
@@ -445,14 +469,26 @@ public class CharacterController {
     }
 
     private void findStuff() {
+        boolean foundFireworks = false;
         List<Stuff> inventory = wizard.getInventory();
+
         for (Stuff stuff : inventory) {
-            if (!stuff.getName().equalsIgnoreCase("Fireworks")) {
-                Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
-                inventory.add(fireworks);
-                wizard.setInventory(inventory);
-                outputManager.displayMessage("Ho you juste found" + Colors.ANSI_BROWN + " Fireworks. " + fireworks.getDescription() + Colors.ANSI_RESET, wizard.getDrunk());
+            if (stuff.getName().equalsIgnoreCase("Fireworks")) {
+                foundFireworks = true;
                 break;
+            }
+        }
+
+        if (!foundFireworks) {
+            Stuff fireworks = new Stuff("Fireworks", "Use this to defeat the Dolores Ombrage enemy");
+            inventory.add(fireworks);
+            wizard.setInventory(inventory);
+
+            if (inputParser instanceof GUIParser) {
+                this.findObjectView.setObject(fireworks);
+                ((GUIParser) this.inputParser).changeScene("findObject");
+            } else {
+                outputManager.displayMessage("Ho you just found" + Colors.ANSI_BROWN + " Fireworks. " + fireworks.getDescription() + Colors.ANSI_RESET, wizard.getDrunk());
             }
         }
     }
