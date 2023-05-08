@@ -11,8 +11,13 @@ import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.ForbiddenSpell;
 import com.isep.harrypotter.model.spells.Spell;
 import com.isep.harrypotter.view.Colors;
+import com.isep.harrypotter.view.GUIParser;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
+import com.isep.harrypotter.view.scene.GameView;
+import com.isep.harrypotter.view.scene.WelcomeView;
+import com.isep.harrypotter.view.scene.WizardView;
+import javafx.application.Platform;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +34,8 @@ public class CharacterController {
     private Wizard wizard;
     private Random random;
     private List<Enemy> enemyList;
+
+    private WizardView wizardView;
 
     public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController,
                                PotionController potionController) {
@@ -60,15 +67,20 @@ public class CharacterController {
         enemyList.add(new Enemy(110, 110, 12, 10, 0.3, "The Venomous Scorpion"));
         enemyList.add(new Enemy(70, 70, 5, 20, 0.5, "The Destructive Cyclops"));
         enemyList.add(new Enemy(180, 180, 20, 16, 0.2, "The Savage Minotaur"));
+
+        if (inputParser instanceof GUIParser){
+            this.wizardView = new WizardView();
+            eventListener();
+        }
     }
 
+
+    private void eventListener(){
+        ((GUIParser) this.inputParser).addScene("wizard", wizardView.getScene());
+
+        wizardView.getButtonValidate().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
+    }
     public void initWizard() {
-        outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
-        String firstname = inputParser.getString(null);
-        outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
-        String lastname = inputParser.getString(null);
-        this.wizard.setFirstname(firstname);
-        this.wizard.setLastname(lastname);
         this.wizard.setHouse(assignHouse());
         switch (wizard.getHouse()){
             case HUFFLEPUFF -> wizard.setPotionEfficiency(10);
@@ -81,11 +93,26 @@ public class CharacterController {
             }
             case RAVENCLAW -> wizard.setAccuracy(0.5);
         }
-        outputManager.print("Hello " + firstname + " " + lastname);
-        outputManager.print("Welcome to Poudlard");
-        outputManager.print("Your pet is " + Colors.VALIDE + wizard.getPet() + Colors.ANSI_RESET + " and were " +
-                "assigned to " + Colors.VALIDE + wizard.getHouse() + Colors.ANSI_RESET +
-                " house with your nice " + Colors.VALIDE + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
+        if (inputParser instanceof GUIParser){
+           wizardView.updateWizardFirstname(String.valueOf(wizard.getFirstname()));
+           wizardView.updateWizardLastname(String.valueOf(wizard.getLastname()));
+           wizardView.updateHouse(String.valueOf(wizard.getHouse()));
+           wizardView.updatePet(String.valueOf(wizard.getPet()));
+           wizardView.updateWand(String.valueOf(wizard.getWand().getCore()));
+        }
+        else {
+            outputManager.print("Enter your wizard firstname. " + Colors.WARNING + "(ex: Harry)" + Colors.ANSI_RESET);
+            String firstname = inputParser.getString(null);
+            outputManager.print("Enter your wizard lastname. " + Colors.WARNING + "(ex: Potter)" + Colors.ANSI_RESET);
+            String lastname = inputParser.getString(null);
+            this.wizard.setFirstname(firstname);
+            this.wizard.setLastname(lastname);
+            outputManager.print("Hello " + firstname + " " + lastname);
+            outputManager.print("Welcome to Poudlard");
+            outputManager.print("Your pet is " + Colors.VALIDE + wizard.getPet() + Colors.ANSI_RESET + " and were " +
+                    "assigned to " + Colors.VALIDE + wizard.getHouse() + Colors.ANSI_RESET +
+                    " house with your nice " + Colors.VALIDE + wizard.getWand().getCore() + Colors.ANSI_RESET + " wand core");
+        }
     }
 
     private Object battleChoice() {

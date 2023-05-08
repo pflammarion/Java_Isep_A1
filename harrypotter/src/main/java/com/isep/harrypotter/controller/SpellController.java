@@ -1,5 +1,6 @@
 package com.isep.harrypotter.controller;
 
+import com.isep.harrypotter.model.Potion;
 import com.isep.harrypotter.model.characters.Wizard;
 import com.isep.harrypotter.model.spells.AbstractSpell;
 import com.isep.harrypotter.model.spells.ForbiddenSpell;

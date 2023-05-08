@@ -52,7 +52,7 @@ public class ConsoleOutput implements OutputManager {
 
     public void readHelperFile() {
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/com/isep/harrypotter/helper.txt");
+            InputStream inputStream = getClass().getResourceAsStream("/com/isep/harrypotter/assets/helper.txt");
             if (inputStream == null) {
                 throw new IllegalArgumentException("file not found!");
             } else {

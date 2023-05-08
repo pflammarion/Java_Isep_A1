@@ -1,0 +1,145 @@
+Button {
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-background-color: #00000000;
+    -fx-text-fill: #FFFFFFFF
+}
+
+Button:hover {
+    -fx-background-color: black;
+}
+
+.grey-bg {
+    -fx-background-color: darkgrey;
+    -fx-font-size: 16px;
+}
+
+.white-text {
+    -fx-text-fill: #FFFFFFFF
+}
+
+.list-cell.spell-unknown {
+    -fx-text-fill: white;
+}
+
+.list-cell.spell-known {
+    -fx-text-fill: #cccccc;
+}
+
+.list-cell:hover.spell-unknown {
+    -fx-text-fill: #999999;
+}
+
+
+.list-view {
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.potion-list {
+    -fx-background-color: #2d132c;
+}
+
+.potion-list .list-cell {
+    -fx-background-color: #2d132c;
+    -fx-border-color: #5e3c6f;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.potion-list .list-cell:odd {
+    -fx-background-color: #5e3c6f;
+}
+
+.potion-list .list-cell:selected {
+    -fx-background-color: #f72585;
+    -fx-text-fill: white;
+}
+
+.potion-list .list-cell:filled:selected:focused {
+    -fx-background-color: #e6b8e4;
+    -fx-border-color: #a36eb6;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
+
+.potion-list .list-cell:filled:selected:focused:hover {
+    -fx-background-color: #e6b8e4;
+    -fx-border-color: #a36eb6;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
+
+.spell-list {
+    -fx-background-color: #0c2340;
+}
+
+.spell-list .list-cell {
+    -fx-background-color: #0c2340;
+    -fx-border-color: #1d3557;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.spell-list .list-cell:odd {
+    -fx-background-color: #1d3557;
+}
+
+.spell-list .list-cell:selected {
+    -fx-background-color: #e63946;
+    -fx-text-fill: white;
+}
+
+.spell-list .list-cell:filled:selected:focused {
+    -fx-background-color: #f1faee;
+    -fx-border-color: #a8dadc;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
+
+.spell-list .list-cell:filled:selected:focused:hover {
+    -fx-background-color: #f1faee;
+    -fx-border-color: #a8dadc;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
+
+.inventory-list {
+    -fx-background-color: #9c7248;
+}
+
+.inventory-list .list-cell {
+    -fx-background-color: #9c7248;
+    -fx-border-color: #42342a;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.inventory-list .list-cell:odd {
+    -fx-background-color: #7c5b3f;
+}
+
+.inventory-list .list-cell:selected {
+    -fx-background-color: #3b2935;
+    -fx-text-fill: white;
+}
+
+.inventory-list .list-cell:filled:selected:focused {
+    -fx-background-color: #f9d56e;
+    -fx-border-color: #b2853c;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
+
+.inventory-list .list-cell:filled:selected:focused:hover {
+    -fx-background-color: #f9d56e;
+    -fx-border-color: #b2853c;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+}
