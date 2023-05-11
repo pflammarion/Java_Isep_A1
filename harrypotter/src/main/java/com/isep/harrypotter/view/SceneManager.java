@@ -58,8 +58,6 @@ public class SceneManager {
         switchToScene(currentView);
     }
 
-
-
     public String getCurrentSceneName() {
         return viewQueue.get(currentViewIndex);
     }
