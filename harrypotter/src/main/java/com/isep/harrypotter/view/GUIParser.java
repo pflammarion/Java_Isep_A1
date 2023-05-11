@@ -42,6 +42,19 @@ public class GUIParser extends Application implements InputParser
     }
 
 
+    public void addViewInQueue(String viewName) {
+        this.sceneManager.addViewToQueue(viewName);
+    }
+
+    public void nextView() {
+        if (sceneManager.getNextSceneName().equalsIgnoreCase("game")){
+            this.game.gameChecker();
+            this.game.wizardGUIUpdate();
+        }
+        this.sceneManager.switchToNextScene();
+    }
+
+
     //TODO faire pas de retour, ou revoir la structure pour pas que ça demande et que ça fasse tout d'un coup
     @Override
     public int getInt(String messageWhenMismatch) {
