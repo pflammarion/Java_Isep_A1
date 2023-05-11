@@ -65,7 +65,7 @@ public class Game {
         });
 
         gameView.getButtonGoToSchool().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("school"));
-        gameView.getButtonSkipSchool().setOnAction(event -> isGameFinished = !characterController.skippingSchool());
+        gameView.getButtonSkipSchool().setOnAction(event -> this.isGameFinished = !this.characterController.skippingSchool());
 
         schoolView.getSpellClass().setOnAction(event -> {
             ((GUIParser) this.inputParser).changeScene("spellClass");

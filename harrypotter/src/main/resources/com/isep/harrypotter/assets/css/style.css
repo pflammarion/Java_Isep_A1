@@ -143,3 +143,20 @@ Button:hover {
     -fx-border-width: 2px;
     -fx-text-fill: black;
 }
+
+.object-title {
+    -fx-font-size: 40px;
+    -fx-font-weight: 900;
+}
+
+.potion-text {
+    -fx-text-fill: #5e3c6f;
+}
+
+.spell-text {
+    -fx-text-fill: #1d3557;
+}
+
+.inventory-text {
+    -fx-text-fill: #42342a;
+}
