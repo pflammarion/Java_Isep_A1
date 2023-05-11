@@ -192,16 +192,16 @@ public class CharacterController {
 
     public boolean skippingSchool() {
         this.outputManager.displayMessage("You decided to skip school", this.wizard.getDrunk());
-        if (randomProbability(1)) {
+        if (randomProbability(10)) {
             findPotion();
         }
-        if (randomProbability(1)) {
+        if (randomProbability(10)) {
             findSpell();
         }
-        if (randomProbability(1000000) && wizard.getKnownSpells().size() > 0) {
+        if (randomProbability(5) && wizard.getKnownSpells().size() > 0) {
             return fightRandomEnemy();
         }
-        if (randomProbability(1)) {
+        if (randomProbability(10)) {
             findStuff();
         }
         ((GUIParser) this.inputParser).addViewInQueue("game");
