@@ -14,6 +14,7 @@ import com.isep.harrypotter.view.Colors;
 import com.isep.harrypotter.view.GUIParser;
 import com.isep.harrypotter.view.InputParser;
 import com.isep.harrypotter.view.OutputManager;
+import com.isep.harrypotter.view.scene.FightView;
 import com.isep.harrypotter.view.scene.FindObjectView;
 import com.isep.harrypotter.view.scene.WizardView;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class CharacterController {
     private FindObjectView findStuffView;
     private FindObjectView findPotionView;
     private FindObjectView findSpellView;
+    private FightView fightView;
 
     public CharacterController(InputParser inputParser, OutputManager outputManager, SpellController spellController,
                                PotionController potionController) {
@@ -74,6 +76,7 @@ public class CharacterController {
             this.findStuffView = new FindObjectView();
             this.findPotionView = new FindObjectView();
             this.findSpellView = new FindObjectView();
+            this.fightView = new FightView();
             eventListener();
         }
     }
@@ -84,6 +87,7 @@ public class CharacterController {
         ((GUIParser) this.inputParser).addScene("findStuff", findStuffView.getScene());
         ((GUIParser) this.inputParser).addScene("findPotion", findPotionView.getScene());
         ((GUIParser) this.inputParser).addScene("findSpell", findSpellView.getScene());
+        ((GUIParser) this.inputParser).addScene("fight", fightView.getScene());
 
         wizardView.getButtonValidate().setOnAction(event -> ((GUIParser) this.inputParser).changeScene("game"));
 
@@ -98,6 +102,8 @@ public class CharacterController {
         findSpellView.getButtonValidate().setOnAction(event -> {
             ((GUIParser) this.inputParser).nextView();
         });
+
+
 
     }
     public void initWizard() {
@@ -156,6 +162,10 @@ public class CharacterController {
         Map<Potion, Integer> potionList = wizard.getPotions();
         List<AbstractSpell> knownSpell = spellController.getAllKnownSpells(wizard);
         List<Stuff> inventory = wizard.getInventory();
+        fightView.setLists(potionList, knownSpell, inventory);
+        fightView.updateEnemyName(enemy.getName());
+        fightView.updateWizardName(wizard.getFirstname(), wizard.getFirstname());
+        //TODO ici il faut super coder
         outputManager.displayMessage(Colors.ERROR + Colors.ANSI_BOLD + "\n\nYou have to fight " + enemy.getName() + "\n\n" + Colors.ANSI_RESET, wizard.getDrunk());
         do {
             showWizardStuff(potionList.size(), knownSpell.size(), inventory.size());
@@ -192,16 +202,17 @@ public class CharacterController {
 
     public boolean skippingSchool() {
         this.outputManager.displayMessage("You decided to skip school", this.wizard.getDrunk());
-        if (randomProbability(10)) {
+        if (randomProbability(1)) {
             findPotion();
         }
-        if (randomProbability(10)) {
+        if (randomProbability(1)) {
             findSpell();
         }
-        if (randomProbability(5) && wizard.getKnownSpells().size() > 0) {
+        if (randomProbability(100000) && wizard.getKnownSpells().size() > 0) {
+            ((GUIParser) this.inputParser).changeScene("fight");
             return fightRandomEnemy();
         }
-        if (randomProbability(10)) {
+        if (randomProbability(1)) {
             findStuff();
         }
         ((GUIParser) this.inputParser).addViewInQueue("game");

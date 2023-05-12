@@ -17,10 +17,8 @@ public class SchoolView {
     private final Scene scene;
     public SchoolView() {
 
-        // Create ImageView with Image
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/isep/harrypotter/assets/img/background/class_bg.jpg"))));
 
-        // Create Buttons
         potionClass = new Button("Potion Class");
         potionClass.setAlignment(Pos.CENTER);
         potionClass.setPrefSize(200, 50);
@@ -36,12 +34,10 @@ public class SchoolView {
 
 
 
-        // Create VBox to hold Buttons
         HBox hbox = new HBox(spellClass, potionClass);
         hbox.setSpacing(50);
         hbox.setAlignment(Pos.CENTER);
 
-        // Create AnchorPane to hold ImageView and VBox
         AnchorPane anchorPane = new AnchorPane(imageView, hbox);
         anchorPane.setPrefSize(1200, 600);
         AnchorPane.setTopAnchor(hbox, 100.0);
@@ -52,7 +48,6 @@ public class SchoolView {
 
         this.scene = new Scene(anchorPane);
 
-        // Resize the image to fit the background without cropping
         imageView.fitWidthProperty().bind(scene.widthProperty());
         imageView.fitHeightProperty().bind(scene.heightProperty());
     }

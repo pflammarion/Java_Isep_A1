@@ -15,7 +15,11 @@ Button:hover {
 }
 
 .white-text {
-    -fx-text-fill: #FFFFFFFF
+    -fx-text-fill: #FFFFFFFF;
+}
+
+Label {
+    -fx-text-fill: #FFFFFFFF;
 }
 
 .list-cell.spell-unknown {
